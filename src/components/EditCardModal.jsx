@@ -190,6 +190,13 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
+    // If not on last step, go to next step instead of submitting
+    // This handles the case when user presses Enter in an input field
+    if (!isLastStep) {
+      handleNext()
+      return
+    }
+
     // Transform channel data back to correct format
     if (isEditingChannel) {
       const channelData = {
