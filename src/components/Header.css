@@ -5,6 +5,11 @@
   z-index: 100;
 }
 
+/* Hide header when modal is open */
+body.modal-open .header {
+  display: none;
+}
+
 .header-content {
   max-width: 1400px;
   margin: 0 auto;
