@@ -1,0 +1,164 @@
+.channel-badges {
+  padding: 4rem 3rem;
+  width: 100%;
+}
+
+.channel-badges-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.channel-badge {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.channel-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.channel-badge:hover::before {
+  opacity: 1;
+}
+
+.channel-badge:hover {
+  transform: scale(1.05) rotate(5deg);
+}
+
+.channel-badge.dark {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.channel-badge.red {
+  background: linear-gradient(135deg, #cc0000 0%, #ff0000 100%);
+}
+
+.channel-badge.white {
+  background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+}
+
+.channel-badge.blue {
+  background: linear-gradient(135deg, #1565c0 0%, #2196f3 100%);
+}
+
+.badge-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.badge-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge-name {
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.channel-badge.dark .badge-name,
+.channel-badge.red .badge-name,
+.channel-badge.blue .badge-name {
+  color: #fff;
+}
+
+.channel-badge.white .badge-name {
+  color: #000;
+}
+
+.badge-subtitle {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.channel-badge.dark .badge-subtitle,
+.channel-badge.red .badge-subtitle,
+.channel-badge.blue .badge-subtitle {
+  color: #fff;
+}
+
+.channel-badge.white .badge-subtitle {
+  color: #000;
+}
+
+@media (max-width: 1024px) {
+  .channel-badges-container {
+    gap: 1.5rem;
+  }
+
+  .badge-content {
+    padding: 1.5rem;
+  }
+
+  .badge-name {
+    font-size: 1.5rem;
+  }
+
+  .badge-subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .channel-badges {
+    padding: 3rem 1.5rem;
+  }
+
+  .channel-badges-container {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+
+  .badge-content {
+    padding: 1rem;
+  }
+
+  .badge-name {
+    font-size: 1rem;
+  }
+
+  .badge-subtitle {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .channel-badges-container {
+    gap: 0.5rem;
+  }
+
+  .badge-content {
+    padding: 0.75rem;
+  }
+
+  .badge-name {
+    font-size: 0.875rem;
+  }
+
+  .badge-subtitle {
+    font-size: 0.6rem;
+  }
+}

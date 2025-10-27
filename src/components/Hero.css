@@ -1,0 +1,353 @@
+.hero {
+  padding: 0 3rem 4rem;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.hero.hero-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1.5fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.hero-left-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.logo-box {
+  background: #000;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  overflow: hidden;
+  position: relative;
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #fff;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.logo-subtitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 1.5rem;
+  font-style: italic;
+}
+
+.social-box {
+  background: #000;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: 1 / -1;
+  min-height: 120px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.social-icon {
+  width: 28px;
+  height: 28px;
+  color: #fff;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-icon:hover {
+  color: #666;
+  transform: scale(1.1);
+}
+
+.social-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-middle {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  min-height: 320px;
+}
+
+.tagline {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: #fff;
+  font-weight: 300;
+}
+
+.tagline strong {
+  font-weight: 700;
+}
+
+.hero-right {
+  width: 100%;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1rem;
+  height: 100%;
+  min-height: 460px;
+}
+
+.featured-card {
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  min-height: 140px;
+}
+
+.featured-card:hover {
+  transform: scale(1.02);
+}
+
+.featured-card.full-width {
+  grid-column: 1 / -1;
+  min-height: 280px;
+}
+
+.work-card {
+  background-image: url('https://github.com/Mrfocused1/trimline-barbershop/blob/main/work%20with%20us.jpg?raw=true');
+  background-size: cover;
+  background-position: center;
+}
+
+.touch-card {
+  background-image: url('https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-37.jpg?raw=true');
+  background-size: cover;
+  background-position: center;
+}
+
+.clothing-card {
+  background-image: url('https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-39.jpg?raw=true');
+  background-size: cover;
+  background-position: center;
+}
+
+.card-overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 1.5rem;
+}
+
+.card-overlay h3 {
+  font-size: 0.875rem;
+  font-weight: 900;
+  color: #fff;
+  text-align: left;
+  letter-spacing: 0.05em;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.tshirt-placeholder {
+  width: 80%;
+  height: 80%;
+  background: #fff;
+  border-radius: 8px;
+  position: relative;
+}
+
+.card-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.75rem;
+}
+
+.card-label span {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 1200px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-left-section {
+    grid-template-columns: 1fr 120px;
+    gap: 1rem;
+  }
+
+  .logo-box {
+    display: none;
+  }
+
+  .hero-middle {
+    grid-column: 1;
+    min-height: 300px;
+  }
+
+  .social-box {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 1rem;
+    min-height: 300px;
+  }
+
+  .social-icons {
+    flex-direction: column;
+    gap: 2rem;
+    height: 100%;
+    justify-content: space-evenly;
+  }
+
+  .social-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 0 1.5rem 3rem;
+  }
+
+  .hero-left-section {
+    grid-template-columns: 1fr 100px;
+    gap: 0.75rem;
+  }
+
+  .hero-middle {
+    min-height: 280px;
+    padding: 2rem 1.5rem;
+  }
+
+  .tagline {
+    font-size: 1.1rem;
+  }
+
+  .social-box {
+    padding: 1rem 0.75rem;
+    min-height: 280px;
+  }
+
+  .social-icons {
+    gap: 1.5rem;
+  }
+
+  .social-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .featured-grid {
+    gap: 0.75rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .featured-card {
+    min-height: 150px;
+  }
+
+  .featured-card.full-width {
+    min-height: 250px;
+    grid-column: 1 / -1;
+  }
+
+  .card-overlay h3 {
+    font-size: 0.875rem;
+  }
+
+  .card-label span {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-left-section {
+    grid-template-columns: 1fr 80px;
+  }
+
+  .hero-middle {
+    min-height: 250px;
+    padding: 1.5rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .social-box {
+    padding: 0.75rem 0.5rem;
+    min-height: 250px;
+  }
+
+  .social-icons {
+    gap: 1.25rem;
+  }
+
+  .social-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
