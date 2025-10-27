@@ -15,12 +15,12 @@ const initialData = {
     mainImage: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/hero%20image.jpg?raw=true',
     tagline: 'A group of friends with a few videos online, over 100 million fans and billions of views',
     socialIcons: {
-      youtube: '#',
-      instagram: '#',
-      twitter: '#',
-      facebook: '#',
-      snapchat: '#',
-      tiktok: '#'
+      youtube: '',
+      instagram: '',
+      twitter: '',
+      facebook: '',
+      snapchat: '',
+      tiktok: ''
     }
   },
   heroCards: [
@@ -49,10 +49,10 @@ const initialData = {
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true',
         description: 'Tobi is a member of the Sidemen, known for his energetic personality and gaming content. He creates videos across multiple channels with millions of subscribers.',
         socials: {
-          youtube: 'https://youtube.com',
-          instagram: 'https://instagram.com',
-          twitter: 'https://twitter.com',
-          twitch: 'https://twitch.tv'
+          youtube: '',
+          instagram: '',
+          twitter: '',
+          twitch: ''
         }
       },
       {
@@ -61,10 +61,10 @@ const initialData = {
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true',
         description: 'Captain of Sidemen FC and \'What\'s Good\' co-host, Simon creates content across his 3 main channels, with over 3 billion views and over 15 million subs.',
         socials: {
-          youtube: 'https://youtube.com',
-          instagram: 'https://instagram.com',
-          twitter: 'https://twitter.com',
-          facebook: 'https://facebook.com'
+          youtube: '',
+          instagram: '',
+          twitter: '',
+          facebook: ''
         }
       },
       {
@@ -74,8 +74,8 @@ const initialData = {
         special: true,
         description: 'Vik is a founding member of the Sidemen, known for his FIFA and gaming content.',
         socials: {
-          youtube: 'https://youtube.com',
-          instagram: 'https://instagram.com'
+          youtube: '',
+          instagram: ''
         }
       },
       {
@@ -84,9 +84,9 @@ const initialData = {
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%204.jpg?raw=true',
         description: 'Josh is the oldest member of the Sidemen and helps manage the group\'s business ventures.',
         socials: {
-          youtube: 'https://youtube.com',
-          instagram: 'https://instagram.com',
-          twitter: 'https://twitter.com'
+          youtube: '',
+          instagram: '',
+          twitter: ''
         }
       },
       {
@@ -95,9 +95,9 @@ const initialData = {
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/5.jpg?raw=true',
         description: 'Ethan brings energy and humor to the Sidemen with his unique personality and content style.',
         socials: {
-          youtube: 'https://youtube.com',
-          instagram: 'https://instagram.com',
-          twitter: 'https://twitter.com'
+          youtube: '',
+          instagram: '',
+          twitter: ''
         }
       },
       {
@@ -107,8 +107,8 @@ const initialData = {
         special: true,
         description: 'Learn more about all the Sidemen members and their incredible journey together.',
         socials: {
-          youtube: 'https://youtube.com',
-          instagram: 'https://instagram.com'
+          youtube: '',
+          instagram: ''
         }
       }
     ]
@@ -121,9 +121,9 @@ const initialData = {
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-36.jpg?raw=true',
         description: 'Harry brings humor and creativity to the Sidemen with his unique content style and entertaining videos.',
         socials: {
-          youtube: 'https://youtube.com',
-          instagram: 'https://instagram.com',
-          twitter: 'https://twitter.com'
+          youtube: '',
+          instagram: '',
+          twitter: ''
         }
       },
       {
@@ -132,10 +132,10 @@ const initialData = {
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%208.jpg?raw=true',
         description: 'JJ is a founding member of the Sidemen, known for his music career and entertaining content.',
         socials: {
-          youtube: 'https://youtube.com',
-          instagram: 'https://instagram.com',
-          twitter: 'https://twitter.com',
-          twitch: 'https://twitch.tv'
+          youtube: '',
+          instagram: '',
+          twitter: '',
+          twitch: ''
         }
       }
     ]
