@@ -1,0 +1,126 @@
+/* Import existing component styles */
+@import '../components/Hero.css';
+@import '../components/ContentGrid.css';
+@import '../components/TwoCardSection.css';
+
+.admin-page {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  padding-bottom: 4rem;
+}
+
+.admin-header {
+  padding: 2rem 3rem;
+  border-bottom: 2px solid #333;
+  background: #0a0a0a;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.admin-header h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.admin-header p {
+  color: #999;
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+}
+
+.back-to-site {
+  display: inline-block;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+.back-to-site:hover {
+  color: #3b82f6;
+}
+
+.admin-hero,
+.admin-content-grid,
+.admin-two-card-section {
+  padding: 2rem 3rem;
+  position: relative;
+}
+
+/* Edit Icon Styling */
+.admin-card {
+  position: relative;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #fff;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.edit-icon:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+  transform: scale(1.1);
+}
+
+/* Make sure overlays don't hide edit button */
+.admin-card .member-overlay,
+.admin-card .two-card-overlay,
+.admin-card .card-overlay {
+  z-index: 5;
+}
+
+/* Expanded card adjustments */
+.admin-card.expanded .edit-icon {
+  top: 1rem;
+  right: 4rem;
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 1.5rem;
+  }
+
+  .admin-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .admin-hero,
+  .admin-content-grid,
+  .admin-two-card-section {
+    padding: 2rem 1.5rem;
+  }
+
+  .edit-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .admin-card.expanded .edit-icon {
+    right: 3rem;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import LoadingScreen from './components/LoadingScreen'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -6,9 +7,10 @@ import ContentGrid from './components/ContentGrid'
 import TwoCardSection from './components/TwoCardSection'
 import ChannelBadges from './components/ChannelBadges'
 import Footer from './components/Footer'
+import AdminPage from './pages/AdminPage'
 import './App.css'
 
-function App() {
+function HomePage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -75,6 +77,15 @@ function App() {
         </div>
       )}
     </>
+  )
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/admin" element={<AdminPage />} />
+    </Routes>
   )
 }
 

@@ -1,37 +1,15 @@
 import React, { useState } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { useData } from '../context/DataContext'
 import './TwoCardSection.css'
 
 const TwoCardSection = () => {
+  const { data } = useData()
   const sectionRef = useScrollAnimation({ threshold: 0.1 })
   const [hoveredCard, setHoveredCard] = useState(null)
   const [expandedCard, setExpandedCard] = useState(null)
 
-  const cards = [
-    {
-      id: 'card7',
-      name: 'HARRY',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-36.jpg?raw=true',
-      description: 'Harry brings humor and creativity to the Sidemen with his unique content style and entertaining videos.',
-      socials: {
-        youtube: 'https://youtube.com',
-        instagram: 'https://instagram.com',
-        twitter: 'https://twitter.com'
-      }
-    },
-    {
-      id: 'card8',
-      name: 'JJ',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%208.jpg?raw=true',
-      description: 'JJ is a founding member of the Sidemen, known for his music career and entertaining content.',
-      socials: {
-        youtube: 'https://youtube.com',
-        instagram: 'https://instagram.com',
-        twitter: 'https://twitter.com',
-        twitch: 'https://twitch.tv'
-      }
-    }
-  ]
+  const cards = data.twoCardSection.cards
 
   return (
     <section ref={sectionRef} className="two-card-section-wrapper scroll-animate">
