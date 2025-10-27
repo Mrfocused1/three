@@ -56,14 +56,59 @@
   position: relative;
 }
 
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
 .admin-section-title {
   font-size: 1.75rem;
   font-weight: 900;
   font-style: italic;
   letter-spacing: 0.1em;
-  margin: 0 0 2rem;
+  margin: 0;
   text-transform: uppercase;
   color: #fff;
+}
+
+.section-edit-icon {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.section-edit-icon svg {
+  width: 20px;
+  height: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-edit-icon:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.section-edit-icon:hover svg {
+  stroke: #000;
+  transform: rotate(-15deg) scale(1.1);
+}
+
+.section-edit-icon:active {
+  transform: translateY(0);
 }
 
 .admin-channels-container {
