@@ -87,6 +87,18 @@
   justify-content: center;
   width: 100%;
   max-width: 600px;
+  position: relative;
+}
+
+.social-icons::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%;
+  bottom: 10%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  display: none;
 }
 
 .social-icon {
@@ -259,6 +271,16 @@
     gap: 2rem;
     height: 100%;
     justify-content: space-evenly;
+  }
+
+  .social-icons::before {
+    display: block;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 1px;
+    transform: translateX(-50%);
   }
 
   .social-icon {

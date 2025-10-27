@@ -48,7 +48,18 @@
   color: #3b82f6;
 }
 
-.admin-hero,
+.admin-hero {
+  padding: 2rem 3rem;
+  position: relative;
+}
+
+.admin-hero > .edit-icon {
+  position: absolute;
+  top: 2rem;
+  right: 3rem;
+  z-index: 100;
+}
+
 .admin-content-grid,
 .admin-channels-section,
 .admin-two-card-section {
