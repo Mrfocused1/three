@@ -7,6 +7,11 @@ const ChannelBadges = () => {
   const { data } = useData()
   const sectionRef = useScrollAnimation({ threshold: 0.2 })
 
+  // Return null if no channels data
+  if (!data.channels || data.channels.length === 0) {
+    return null
+  }
+
   return (
     <section ref={sectionRef} className="channel-badges scroll-animate-fade">
       <div className="channel-badges-container">

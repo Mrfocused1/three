@@ -337,10 +337,11 @@ const AdminPage = () => {
       </section>
 
       {/* YouTube Channels Section */}
-      <section className="admin-channels-section">
-        <h2 className="admin-section-title">YouTube Channels</h2>
-        <div className="admin-channels-container">
-          {data.channels.map((channel) => (
+      {data.channels && data.channels.length > 0 && (
+        <section className="admin-channels-section">
+          <h2 className="admin-section-title">YouTube Channels</h2>
+          <div className="admin-channels-container">
+            {data.channels.map((channel) => (
             <div
               key={channel.id}
               className="admin-channel-badge"
@@ -365,6 +366,7 @@ const AdminPage = () => {
           ))}
         </div>
       </section>
+      )}
 
       {/* Two Card Section */}
       <section className="admin-two-card-section">

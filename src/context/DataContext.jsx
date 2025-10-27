@@ -175,7 +175,17 @@ const initialData = {
 export const DataProvider = ({ children }) => {
   const [data, setData] = useState(() => {
     const saved = localStorage.getItem('siteData')
-    return saved ? JSON.parse(saved) : initialData
+    if (saved) {
+      const savedData = JSON.parse(saved)
+      // Merge saved data with initialData to ensure new properties are added
+      return {
+        ...initialData,
+        ...savedData,
+        // Ensure channels array exists
+        channels: savedData.channels || initialData.channels
+      }
+    }
+    return initialData
   })
 
   useEffect(() => {
