@@ -1,14 +1,50 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useData } from '../context/DataContext'
+import LoadingScreen from '../components/LoadingScreen'
 import EditCardModal from '../components/EditCardModal'
 import './AdminPage.css'
 
 const AdminPage = () => {
   const { data, updateCard } = useData()
+  const [loading, setLoading] = useState(true)
   const [editingCard, setEditingCard] = useState(null)
   const [editingSection, setEditingSection] = useState(null)
   const [hoveredCard, setHoveredCard] = useState(null)
   const [expandedCard, setExpandedCard] = useState(null)
+
+  useEffect(() => {
+    // Collect all images from data
+    const imageUrls = [
+      data.hero.mainImage,
+      ...data.contentGrid.members.map(m => m.image).filter(Boolean),
+      ...data.twoCardSection.cards.map(c => c.image).filter(Boolean)
+    ]
+
+    let loadedCount = 0
+    const totalImages = imageUrls.length
+
+    const checkAllLoaded = () => {
+      loadedCount++
+      if (loadedCount === totalImages) {
+        setTimeout(() => setLoading(false), 300)
+      }
+    }
+
+    // Preload all images
+    imageUrls.forEach(url => {
+      const img = new Image()
+      img.onload = checkAllLoaded
+      img.onerror = checkAllLoaded
+      img.src = url
+    })
+
+    // Fallback timeout
+    const fallbackTimer = setTimeout(() => {
+      setLoading(false)
+    }, 10000)
+
+    return () => clearTimeout(fallbackTimer)
+  }, [data])
 
   const handleEditClick = (card, section) => {
     setEditingCard(card)
@@ -21,6 +57,10 @@ const AdminPage = () => {
     }
     setEditingCard(null)
     setEditingSection(null)
+  }
+
+  if (loading) {
+    return <LoadingScreen />
   }
 
   return (
@@ -45,7 +85,10 @@ const AdminPage = () => {
             <div className="featured-grid">
               <div className="featured-card work-card admin-card">
                 <button className="edit-icon" onClick={() => handleEditClick(data.heroCards[0], 'heroCards')}>
-                  ✏️
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
                 </button>
                 <div className="card-overlay">
                   <h3>{data.heroCards[0].title}</h3>
@@ -53,7 +96,10 @@ const AdminPage = () => {
               </div>
               <div className="featured-card touch-card admin-card">
                 <button className="edit-icon" onClick={() => handleEditClick(data.heroCards[1], 'heroCards')}>
-                  ✏️
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
                 </button>
                 <div className="card-overlay">
                   <h3>{data.heroCards[1].title}</h3>
@@ -61,7 +107,10 @@ const AdminPage = () => {
               </div>
               <div className="featured-card clothing-card full-width admin-card">
                 <button className="edit-icon" onClick={() => handleEditClick(data.heroCards[2], 'heroCards')}>
-                  ✏️
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
                 </button>
                 <div className="card-label">
                   <span>{data.heroCards[2].title}</span>
@@ -112,7 +161,10 @@ const AdminPage = () => {
                       handleEditClick(member, 'contentGrid')
                     }}
                   >
-                    ✏️
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
                   </button>
                   {isExpanded ? (
                     <div className="expanded-content">
@@ -219,7 +271,10 @@ const AdminPage = () => {
                       handleEditClick(card, 'twoCardSection')
                     }}
                   >
-                    ✏️
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
                   </button>
                   <div className="card-image-wrapper">
                     <div
