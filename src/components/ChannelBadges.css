@@ -14,48 +14,47 @@
 .channel-badge {
   aspect-ratio: 1;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   transition: all 0.4s ease;
   text-decoration: none;
   position: relative;
   overflow: hidden;
-}
-
-.channel-badge::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.channel-badge:hover::before {
-  opacity: 1;
+  display: block;
 }
 
 .channel-badge:hover {
-  transform: scale(1.05) rotate(5deg);
+  transform: scale(1.05);
 }
 
-.channel-badge.dark {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+.channel-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.channel-badge.red {
-  background: linear-gradient(135deg, #cc0000 0%, #ff0000 100%);
+.channel-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.channel-badge.white {
-  background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+.channel-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
-.channel-badge.blue {
-  background: linear-gradient(135deg, #1565c0 0%, #2196f3 100%);
+.channel-badge:hover .channel-overlay {
+  opacity: 1;
 }
 
 .badge-content {
@@ -76,32 +75,14 @@
   letter-spacing: 0.05em;
   font-style: italic;
   text-transform: uppercase;
-}
-
-.channel-badge.dark .badge-name,
-.channel-badge.red .badge-name,
-.channel-badge.blue .badge-name {
   color: #fff;
-}
-
-.channel-badge.white .badge-name {
-  color: #000;
 }
 
 .badge-subtitle {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-}
-
-.channel-badge.dark .badge-subtitle,
-.channel-badge.red .badge-subtitle,
-.channel-badge.blue .badge-subtitle {
   color: #fff;
-}
-
-.channel-badge.white .badge-subtitle {
-  color: #000;
 }
 
 @media (max-width: 1024px) {

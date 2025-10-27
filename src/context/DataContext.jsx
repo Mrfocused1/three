@@ -139,7 +139,37 @@ const initialData = {
         }
       }
     ]
-  }
+  },
+  channels: [
+    {
+      id: 'channel1',
+      name: 'SIDEMEN',
+      subtitle: 'XIX',
+      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true',
+      youtubeUrl: ''
+    },
+    {
+      id: 'channel2',
+      name: 'SIDEMEN',
+      subtitle: 'Reacts',
+      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true',
+      youtubeUrl: ''
+    },
+    {
+      id: 'channel3',
+      name: 'More SIDEMEN',
+      subtitle: 'XIX',
+      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true',
+      youtubeUrl: ''
+    },
+    {
+      id: 'channel4',
+      name: 'SIDEMEN',
+      subtitle: 'Shorts',
+      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%204.jpg?raw=true',
+      youtubeUrl: ''
+    }
+  ]
 }
 
 export const DataProvider = ({ children }) => {
@@ -190,6 +220,13 @@ export const DataProvider = ({ children }) => {
               card.id === cardId ? { ...card, ...updatedCard } : card
             )
           }
+        }
+      } else if (section === 'channels') {
+        return {
+          ...prev,
+          channels: prev.channels.map(channel =>
+            channel.id === cardId ? { ...channel, ...updatedCard } : channel
+          )
         }
       }
       return prev

@@ -28,6 +28,16 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
   const [imagePreview, setImagePreview] = useState('')
   const [currentStep, setCurrentStep] = useState(0)
 
+  // Check if editing a channel
+  const isEditingChannel = card?.subtitle !== undefined && card?.youtubeUrl !== undefined
+
+  // Define steps for channels
+  const channelSteps = [
+    { title: 'Channel Info', fields: ['channelName', 'channelSubtitle'] },
+    { title: 'Upload Image', fields: ['image'] },
+    { title: 'YouTube URL', fields: ['channelYoutubeUrl'] }
+  ]
+
   // Define steps for non-hero cards
   const nonHeroSteps = [
     { title: 'Basic Info', fields: ['name', 'description'] },
@@ -44,7 +54,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     { title: 'Social Media (2/2)', fields: ['snapchat', 'tiktok'] }
   ]
 
-  const steps = isHeroSection ? heroSteps : nonHeroSteps
+  const steps = isEditingChannel ? channelSteps : (isHeroSection ? heroSteps : nonHeroSteps)
   const totalSteps = steps.length
   const isFirstStep = currentStep === 0
   const isLastStep = currentStep === totalSteps - 1
@@ -53,10 +63,19 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     if (isOpen && card) {
       setCurrentStep(0)
       // Check if editing video URL
-      if (card.videoUrl !== undefined) {
+      if (card.videoUrl !== undefined && card.subtitle === undefined) {
         setFormData({
           videoUrl: card.videoUrl || ''
         })
+      } else if (isEditingChannel) {
+        // Editing a channel
+        setFormData({
+          channelName: card.name || '',
+          channelSubtitle: card.subtitle || '',
+          image: card.image || '',
+          channelYoutubeUrl: card.youtubeUrl || ''
+        })
+        setImagePreview(card.image || '')
       } else if (isHeroSection) {
         setFormData({
           mainImage: card.mainImage || '',
@@ -89,7 +108,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
         setImagePreview(card.image || '')
       }
     }
-  }, [isOpen, card, isHeroSection])
+  }, [isOpen, card, isHeroSection, isEditingChannel])
 
   useEffect(() => {
     if (isOpen) {
@@ -170,7 +189,20 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSave(formData)
+
+    // Transform channel data back to correct format
+    if (isEditingChannel) {
+      const channelData = {
+        name: formData.channelName,
+        subtitle: formData.channelSubtitle,
+        image: formData.image,
+        youtubeUrl: formData.channelYoutubeUrl
+      }
+      onSave(channelData)
+    } else {
+      onSave(formData)
+    }
+
     onClose()
     setCurrentStep(0)
   }
@@ -223,6 +255,57 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
   }
 
   const renderField = (fieldName) => {
+    // Channel fields
+    if (fieldName === 'channelName') {
+      return (
+        <div className="form-field" key="channelName">
+          <label htmlFor="channelName">Channel Name</label>
+          <input
+            type="text"
+            id="channelName"
+            name="channelName"
+            value={formData.channelName || ''}
+            onChange={handleChange}
+            placeholder="e.g., SIDEMEN"
+            required
+          />
+        </div>
+      )
+    }
+
+    if (fieldName === 'channelSubtitle') {
+      return (
+        <div className="form-field" key="channelSubtitle">
+          <label htmlFor="channelSubtitle">Channel Subtitle</label>
+          <input
+            type="text"
+            id="channelSubtitle"
+            name="channelSubtitle"
+            value={formData.channelSubtitle || ''}
+            onChange={handleChange}
+            placeholder="e.g., XIX, Reacts, Shorts"
+          />
+        </div>
+      )
+    }
+
+    if (fieldName === 'channelYoutubeUrl') {
+      return (
+        <div className="form-field" key="channelYoutubeUrl">
+          <label htmlFor="channelYoutubeUrl">YouTube Channel URL</label>
+          <p className="image-dimension-guide">Paste the full YouTube channel URL</p>
+          <input
+            type="url"
+            id="channelYoutubeUrl"
+            name="channelYoutubeUrl"
+            value={formData.channelYoutubeUrl || ''}
+            onChange={handleChange}
+            placeholder="https://www.youtube.com/@channelname"
+          />
+        </div>
+      )
+    }
+
     // Basic info fields
     if (fieldName === 'name') {
       return (
