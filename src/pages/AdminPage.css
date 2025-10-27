@@ -109,6 +109,27 @@
   z-index: 5;
 }
 
+/* Video overlay to prevent interaction */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: transparent;
+  pointer-events: auto;
+}
+
+.large-video-card {
+  position: relative;
+}
+
+.large-video-card iframe {
+  position: relative;
+  z-index: 0;
+}
+
 /* Expanded card adjustments */
 .admin-card.expanded .edit-icon {
   top: 1rem;

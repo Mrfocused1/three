@@ -26,11 +26,38 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     }
   })
   const [imagePreview, setImagePreview] = useState('')
+  const [currentStep, setCurrentStep] = useState(0)
+
+  // Define steps for non-hero cards
+  const nonHeroSteps = [
+    { title: 'Basic Info', fields: ['name', 'description'] },
+    { title: 'Upload Image', fields: ['image'] },
+    { title: 'Social Media (1/2)', fields: ['youtube', 'instagram', 'twitter', 'facebook'] },
+    { title: 'Social Media (2/2)', fields: ['twitch'] }
+  ]
+
+  // Define steps for hero section
+  const heroSteps = [
+    { title: 'Hero Tagline', fields: ['tagline'] },
+    { title: 'Upload Image', fields: ['mainImage'] },
+    { title: 'Social Media (1/2)', fields: ['youtube', 'instagram', 'twitter', 'facebook'] },
+    { title: 'Social Media (2/2)', fields: ['snapchat', 'tiktok'] }
+  ]
+
+  const steps = isHeroSection ? heroSteps : nonHeroSteps
+  const totalSteps = steps.length
+  const isFirstStep = currentStep === 0
+  const isLastStep = currentStep === totalSteps - 1
 
   useEffect(() => {
     if (isOpen && card) {
-      if (isHeroSection) {
-        // Hero section has different structure
+      setCurrentStep(0)
+      // Check if editing video URL
+      if (card.videoUrl !== undefined) {
+        setFormData({
+          videoUrl: card.videoUrl || ''
+        })
+      } else if (isHeroSection) {
         setFormData({
           mainImage: card.mainImage || '',
           tagline: card.tagline || '',
@@ -129,13 +156,180 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     }
   }
 
+  const handleNext = () => {
+    if (currentStep < totalSteps - 1) {
+      setCurrentStep(prev => prev + 1)
+    }
+  }
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1)
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     onSave(formData)
     onClose()
+    setCurrentStep(0)
   }
 
   if (!isOpen) return null
+
+  // Check if editing video URL
+  const isEditingVideo = card?.videoUrl !== undefined
+
+  // If editing video, render simple form
+  if (isEditingVideo) {
+    return (
+      <div className="edit-modal-overlay" onClick={onClose}>
+        <div className="edit-modal-content" onClick={(e) => e.stopPropagation()}>
+          <button className="edit-modal-close" onClick={onClose}>
+            ×
+          </button>
+          <div className="edit-modal-header">
+            <h2>Edit YouTube Video</h2>
+            <p>Update the YouTube video URL</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="edit-modal-form">
+            <div className="form-field">
+              <label htmlFor="videoUrl">YouTube Video URL</label>
+              <p className="image-dimension-guide">Paste the YouTube embed URL (e.g., https://www.youtube.com/embed/VIDEO_ID)</p>
+              <input
+                type="url"
+                id="videoUrl"
+                name="videoUrl"
+                value={formData.videoUrl || ''}
+                onChange={handleChange}
+                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                required
+              />
+            </div>
+
+            <div className="edit-modal-actions">
+              <button type="button" onClick={onClose} className="btn-cancel-edit">
+                Cancel
+              </button>
+              <button type="submit" className="btn-save-edit">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
+  const renderField = (fieldName) => {
+    // Basic info fields
+    if (fieldName === 'name') {
+      return (
+        <div className="form-field" key="name">
+          <label htmlFor="name">Title/Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name || ''}
+            onChange={handleChange}
+            required
+          />
+        </div>
+      )
+    }
+
+    if (fieldName === 'description') {
+      return (
+        <div className="form-field" key="description">
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description || ''}
+            onChange={handleChange}
+            rows="4"
+          />
+        </div>
+      )
+    }
+
+    if (fieldName === 'tagline') {
+      return (
+        <div className="form-field" key="tagline">
+          <label htmlFor="tagline">Hero Tagline</label>
+          <textarea
+            id="tagline"
+            name="tagline"
+            value={formData.tagline || ''}
+            onChange={handleChange}
+            rows="4"
+            placeholder="A group of friends with a few videos online..."
+          />
+        </div>
+      )
+    }
+
+    // Image upload
+    if (fieldName === 'image' || fieldName === 'mainImage') {
+      return (
+        <div className="form-field" key={fieldName}>
+          <label htmlFor="image">Upload Image</label>
+          <p className="image-dimension-guide">Recommended dimensions: 1920x1080px (16:9 ratio)</p>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="file-input"
+          />
+          {imagePreview && (
+            <div className="image-preview">
+              <img src={imagePreview} alt="Preview" />
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    // Social media fields
+    const socialPlatforms = {
+      youtube: { label: 'YouTube URL', placeholder: 'Paste YouTube URL (e.g., https://youtube.com/@username)' },
+      instagram: { label: 'Instagram URL', placeholder: 'Paste Instagram URL (e.g., https://instagram.com/username)' },
+      twitter: { label: 'Twitter/X URL', placeholder: 'Paste Twitter URL (e.g., https://twitter.com/username)' },
+      facebook: { label: 'Facebook URL', placeholder: 'Paste Facebook URL (e.g., https://facebook.com/username)' },
+      twitch: { label: 'Twitch URL', placeholder: 'Paste Twitch URL (e.g., https://twitch.tv/username)' },
+      snapchat: { label: 'Snapchat URL', placeholder: 'Paste Snapchat URL (e.g., https://snapchat.com/add/username)' },
+      tiktok: { label: 'TikTok URL', placeholder: 'Paste TikTok URL (e.g., https://tiktok.com/@username)' }
+    }
+
+    if (socialPlatforms[fieldName]) {
+      const platform = socialPlatforms[fieldName]
+      const inputName = isHeroSection ? `socialIcon-${fieldName}` : `social-${fieldName}`
+      const value = isHeroSection
+        ? (formData.socialIcons?.[fieldName] || '')
+        : (formData.socials?.[fieldName] || '')
+
+      return (
+        <div className="form-field" key={fieldName}>
+          <label htmlFor={inputName}>{platform.label}</label>
+          <input
+            type="url"
+            id={inputName}
+            name={inputName}
+            value={value}
+            onChange={handleChange}
+            placeholder={platform.placeholder}
+          />
+        </div>
+      )
+    }
+
+    return null
+  }
+
+  const currentStepData = steps[currentStep]
 
   return (
     <div className="edit-modal-overlay" onClick={onClose}>
@@ -144,169 +338,58 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
           ×
         </button>
         <div className="edit-modal-header">
-          <h2>Edit Card</h2>
-          <p>Update the card details below</p>
+          <h2>Edit Card - {currentStepData.title}</h2>
+          <p>Step {currentStep + 1} of {totalSteps}</p>
         </div>
-        <form onSubmit={handleSubmit} className="edit-modal-form">
-          {!isHeroSection && (
-            <>
-              <div className="form-field">
-                <label htmlFor="name">Title/Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name || ''}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
 
-              <div className="form-field">
-                <label htmlFor="description">Description</label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={formData.description || ''}
-                  onChange={handleChange}
-                  rows="4"
-                />
-              </div>
-            </>
-          )}
-
-          {isHeroSection && (
-            <div className="form-field">
-              <label htmlFor="tagline">Hero Tagline</label>
-              <textarea
-                id="tagline"
-                name="tagline"
-                value={formData.tagline || ''}
-                onChange={handleChange}
-                rows="3"
-                placeholder="A group of friends with a few videos online..."
-              />
-            </div>
-          )}
-
-          <div className="form-field">
-            <label htmlFor="image">Upload Image</label>
-            <input
-              type="file"
-              id="image"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="file-input"
+        {/* Progress Bar */}
+        <div className="progress-container">
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
             />
-            {imagePreview && (
-              <div className="image-preview">
-                <img src={imagePreview} alt="Preview" />
-              </div>
-            )}
           </div>
-
-          <div className="social-fields-section">
-            <h3>Social Media Links</h3>
-            <p className="social-hint">Leave blank to hide the icon</p>
-
-            <div className="form-field">
-              <label htmlFor={isHeroSection ? "socialIcon-youtube" : "social-youtube"}>YouTube URL</label>
-              <input
-                type="url"
-                id={isHeroSection ? "socialIcon-youtube" : "social-youtube"}
-                name={isHeroSection ? "socialIcon-youtube" : "social-youtube"}
-                value={isHeroSection ? (formData.socialIcons?.youtube || '') : (formData.socials?.youtube || '')}
-                onChange={handleChange}
-                placeholder="https://youtube.com/@username"
-              />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor={isHeroSection ? "socialIcon-instagram" : "social-instagram"}>Instagram URL</label>
-              <input
-                type="url"
-                id={isHeroSection ? "socialIcon-instagram" : "social-instagram"}
-                name={isHeroSection ? "socialIcon-instagram" : "social-instagram"}
-                value={isHeroSection ? (formData.socialIcons?.instagram || '') : (formData.socials?.instagram || '')}
-                onChange={handleChange}
-                placeholder="https://instagram.com/username"
-              />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor={isHeroSection ? "socialIcon-twitter" : "social-twitter"}>Twitter/X URL</label>
-              <input
-                type="url"
-                id={isHeroSection ? "socialIcon-twitter" : "social-twitter"}
-                name={isHeroSection ? "socialIcon-twitter" : "social-twitter"}
-                value={isHeroSection ? (formData.socialIcons?.twitter || '') : (formData.socials?.twitter || '')}
-                onChange={handleChange}
-                placeholder="https://twitter.com/username"
-              />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor={isHeroSection ? "socialIcon-facebook" : "social-facebook"}>Facebook URL</label>
-              <input
-                type="url"
-                id={isHeroSection ? "socialIcon-facebook" : "social-facebook"}
-                name={isHeroSection ? "socialIcon-facebook" : "social-facebook"}
-                value={isHeroSection ? (formData.socialIcons?.facebook || '') : (formData.socials?.facebook || '')}
-                onChange={handleChange}
-                placeholder="https://facebook.com/username"
-              />
-            </div>
-
-            {isHeroSection && (
-              <>
-                <div className="form-field">
-                  <label htmlFor="socialIcon-snapchat">Snapchat URL</label>
-                  <input
-                    type="url"
-                    id="socialIcon-snapchat"
-                    name="socialIcon-snapchat"
-                    value={formData.socialIcons?.snapchat || ''}
-                    onChange={handleChange}
-                    placeholder="https://snapchat.com/add/username"
-                  />
-                </div>
-
-                <div className="form-field">
-                  <label htmlFor="socialIcon-tiktok">TikTok URL</label>
-                  <input
-                    type="url"
-                    id="socialIcon-tiktok"
-                    name="socialIcon-tiktok"
-                    value={formData.socialIcons?.tiktok || ''}
-                    onChange={handleChange}
-                    placeholder="https://tiktok.com/@username"
-                  />
-                </div>
-              </>
-            )}
-
-            {!isHeroSection && (
-              <div className="form-field">
-                <label htmlFor="social-twitch">Twitch URL</label>
-                <input
-                  type="url"
-                  id="social-twitch"
-                  name="social-twitch"
-                  value={formData.socials?.twitch || ''}
-                  onChange={handleChange}
-                  placeholder="https://twitch.tv/username"
-                />
+          <div className="progress-steps">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className={`progress-step ${index <= currentStep ? 'active' : ''}`}
+              >
+                {index + 1}
               </div>
-            )}
+            ))}
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="edit-modal-form">
+          <div className="form-step">
+            {currentStepData.fields.map(field => renderField(field))}
           </div>
 
           <div className="edit-modal-actions">
-            <button type="button" onClick={onClose} className="btn-cancel-edit">
-              Cancel
-            </button>
-            <button type="submit" className="btn-save-edit">
-              Save Changes
-            </button>
+            {!isFirstStep && (
+              <button
+                type="button"
+                onClick={handleBack}
+                className="btn-back"
+              >
+                Back
+              </button>
+            )}
+            {!isLastStep ? (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="btn-next"
+              >
+                Next
+              </button>
+            ) : (
+              <button type="submit" className="btn-save-edit">
+                Save Changes
+              </button>
+            )}
           </div>
         </form>
       </div>
