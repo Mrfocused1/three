@@ -175,13 +175,21 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     }
   }
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     if (currentStep < totalSteps - 1) {
       setCurrentStep(prev => prev + 1)
     }
   }
 
-  const handleBack = () => {
+  const handleBack = (e) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     if (currentStep > 0) {
       setCurrentStep(prev => prev - 1)
     }
@@ -453,7 +461,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
             {!isFirstStep && (
               <button
                 type="button"
-                onClick={handleBack}
+                onClick={(e) => handleBack(e)}
                 className="btn-back"
               >
                 Back
@@ -462,7 +470,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
             {!isLastStep ? (
               <button
                 type="button"
-                onClick={handleNext}
+                onClick={(e) => handleNext(e)}
                 className="btn-next"
               >
                 Next
