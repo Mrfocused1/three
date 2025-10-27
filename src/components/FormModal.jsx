@@ -3,11 +3,13 @@ import './FormModal.css'
 
 const FormModal = ({ isOpen, onClose, formType }) => {
   const [formData, setFormData] = useState({})
+  const [currentStep, setCurrentStep] = useState(0)
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
       document.body.classList.add('modal-open')
+      setCurrentStep(0) // Reset to first step when modal opens
     } else {
       document.body.style.overflow = ''
       document.body.classList.remove('modal-open')
@@ -41,47 +43,89 @@ const FormModal = ({ isOpen, onClose, formType }) => {
         return {
           title: 'Work With Us',
           description: 'Interested in collaborating? Fill out the form below and we\'ll get back to you.',
-          fields: [
-            { name: 'name', label: 'Full Name', type: 'text', required: true },
-            { name: 'email', label: 'Email Address', type: 'email', required: true },
-            { name: 'company', label: 'Company/Organization', type: 'text', required: false },
-            { name: 'phone', label: 'Phone Number', type: 'tel', required: false },
-            { name: 'project', label: 'Project Type', type: 'select', required: true, options: ['Sponsorship', 'Partnership', 'Brand Collaboration', 'Content Creation', 'Other'] },
-            { name: 'message', label: 'Tell us about your project', type: 'textarea', required: true }
+          steps: [
+            {
+              fields: [
+                { name: 'name', label: 'Full Name', type: 'text', required: true },
+                { name: 'email', label: 'Email Address', type: 'email', required: true },
+                { name: 'company', label: 'Company/Organization', type: 'text', required: false },
+                { name: 'phone', label: 'Phone Number', type: 'tel', required: false }
+              ]
+            },
+            {
+              fields: [
+                { name: 'project', label: 'Project Type', type: 'select', required: true, options: ['Sponsorship', 'Partnership', 'Brand Collaboration', 'Content Creation', 'Other'] },
+                { name: 'message', label: 'Tell us about your project', type: 'textarea', required: true }
+              ]
+            }
           ]
         }
       case 'studio':
         return {
           title: 'Book Our Studio',
           description: 'Reserve our studio space for your next project.',
-          fields: [
-            { name: 'name', label: 'Full Name', type: 'text', required: true },
-            { name: 'email', label: 'Email Address', type: 'email', required: true },
-            { name: 'phone', label: 'Phone Number', type: 'tel', required: true },
-            { name: 'date', label: 'Preferred Date', type: 'date', required: true },
-            { name: 'time', label: 'Preferred Time', type: 'time', required: true },
-            { name: 'duration', label: 'Duration', type: 'select', required: true, options: ['1-2 hours', '3-4 hours', '5-8 hours', 'Full day', 'Multiple days'] },
-            { name: 'type', label: 'Project Type', type: 'select', required: true, options: ['Video Production', 'Photography', 'Podcast Recording', 'Live Streaming', 'Other'] },
-            { name: 'details', label: 'Additional Details', type: 'textarea', required: false }
+          steps: [
+            {
+              fields: [
+                { name: 'name', label: 'Full Name', type: 'text', required: true },
+                { name: 'email', label: 'Email Address', type: 'email', required: true },
+                { name: 'phone', label: 'Phone Number', type: 'tel', required: true },
+                { name: 'date', label: 'Preferred Date', type: 'date', required: true }
+              ]
+            },
+            {
+              fields: [
+                { name: 'time', label: 'Preferred Time', type: 'time', required: true },
+                { name: 'duration', label: 'Duration', type: 'select', required: true, options: ['1-2 hours', '3-4 hours', '5-8 hours', 'Full day', 'Multiple days'] },
+                { name: 'type', label: 'Project Type', type: 'select', required: true, options: ['Video Production', 'Photography', 'Podcast Recording', 'Live Streaming', 'Other'] },
+                { name: 'details', label: 'Additional Details', type: 'textarea', required: false }
+              ]
+            }
           ]
         }
       case 'contact':
         return {
           title: 'Get In Touch',
           description: 'Have a question or want to reach out? Send us a message.',
-          fields: [
-            { name: 'name', label: 'Full Name', type: 'text', required: true },
-            { name: 'email', label: 'Email Address', type: 'email', required: true },
-            { name: 'subject', label: 'Subject', type: 'text', required: true },
-            { name: 'message', label: 'Your Message', type: 'textarea', required: true }
+          steps: [
+            {
+              fields: [
+                { name: 'name', label: 'Full Name', type: 'text', required: true },
+                { name: 'email', label: 'Email Address', type: 'email', required: true },
+                { name: 'subject', label: 'Subject', type: 'text', required: true },
+                { name: 'message', label: 'Your Message', type: 'textarea', required: true }
+              ]
+            }
           ]
         }
       default:
-        return { title: '', description: '', fields: [] }
+        return { title: '', description: '', steps: [] }
     }
   }
 
   const content = getFormContent()
+  const totalSteps = content.steps.length
+  const isFirstStep = currentStep === 0
+  const isLastStep = currentStep === totalSteps - 1
+  const currentFields = content.steps[currentStep]?.fields || []
+
+  const handleNext = () => {
+    if (currentStep < totalSteps - 1) {
+      setCurrentStep(currentStep + 1)
+    }
+  }
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1)
+    }
+  }
+
+  const validateCurrentStep = () => {
+    // Check if all required fields in current step are filled
+    const requiredFields = currentFields.filter(field => field.required)
+    return requiredFields.every(field => formData[field.name]?.toString().trim())
+  }
 
   return (
     <div className="form-modal-overlay" onClick={onClose}>
@@ -92,9 +136,22 @@ const FormModal = ({ isOpen, onClose, formType }) => {
         <div className="form-modal-header">
           <h2>{content.title}</h2>
           <p>{content.description}</p>
+          {totalSteps > 1 && (
+            <div className="form-progress">
+              <div className="form-progress-bar">
+                <div
+                  className="form-progress-fill"
+                  style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
+                />
+              </div>
+              <div className="form-progress-text">
+                Step {currentStep + 1} of {totalSteps}
+              </div>
+            </div>
+          )}
         </div>
         <form onSubmit={handleSubmit} className="form-modal-form">
-          {content.fields.map((field) => (
+          {currentFields.map((field) => (
             <div key={field.name} className="form-field">
               <label htmlFor={field.name}>
                 {field.label}
@@ -136,12 +193,25 @@ const FormModal = ({ isOpen, onClose, formType }) => {
             </div>
           ))}
           <div className="form-modal-actions">
-            <button type="button" onClick={onClose} className="btn-cancel">
-              Cancel
-            </button>
-            <button type="submit" className="btn-submit">
-              Submit
-            </button>
+            {!isFirstStep && (
+              <button type="button" onClick={handleBack} className="btn-back">
+                Back
+              </button>
+            )}
+            {!isLastStep ? (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="btn-next"
+                disabled={!validateCurrentStep()}
+              >
+                Next
+              </button>
+            ) : (
+              <button type="submit" className="btn-submit">
+                Submit
+              </button>
+            )}
           </div>
         </form>
       </div>

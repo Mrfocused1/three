@@ -190,6 +190,10 @@
     max-width: 90px;
   }
 
+  .newsletter-input {
+    font-size: 16px;
+  }
+
   .footer-bottom {
     flex-direction: column;
     gap: 1rem;
