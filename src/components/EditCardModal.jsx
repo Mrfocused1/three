@@ -302,7 +302,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
           <label htmlFor="channelYoutubeUrl">YouTube Channel URL</label>
           <p className="image-dimension-guide">Paste the full YouTube channel URL</p>
           <input
-            type="url"
+            type="text"
             id="channelYoutubeUrl"
             name="channelYoutubeUrl"
             value={formData.channelYoutubeUrl || ''}
@@ -374,11 +374,6 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
             onChange={handleImageUpload}
             className="file-input"
           />
-          {imagePreview && (
-            <div className="image-preview">
-              <img src={imagePreview} alt="Preview" />
-            </div>
-          )}
         </div>
       )
     }
@@ -405,7 +400,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
         <div className="form-field" key={fieldName}>
           <label htmlFor={inputName}>{platform.label}</label>
           <input
-            type="url"
+            type="text"
             id={inputName}
             name={inputName}
             value={value}
