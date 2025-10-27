@@ -237,13 +237,12 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
               <label htmlFor="videoUrl">YouTube Video URL</label>
               <p className="image-dimension-guide">Paste the YouTube embed URL (e.g., https://www.youtube.com/embed/VIDEO_ID)</p>
               <input
-                type="url"
+                type="text"
                 id="videoUrl"
                 name="videoUrl"
                 value={formData.videoUrl || ''}
                 onChange={handleChange}
                 placeholder="https://www.youtube.com/embed/VIDEO_ID"
-                required
               />
             </div>
 
@@ -274,7 +273,6 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
             value={formData.channelName || ''}
             onChange={handleChange}
             placeholder="e.g., SIDEMEN"
-            required
           />
         </div>
       )
@@ -324,7 +322,6 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
             name="name"
             value={formData.name || ''}
             onChange={handleChange}
-            required
           />
         </div>
       )
