@@ -159,6 +159,16 @@ export const DataProvider = ({ children }) => {
     }))
   }
 
+  const updateHero = (heroData) => {
+    setData(prev => ({
+      ...prev,
+      hero: {
+        ...prev.hero,
+        ...heroData
+      }
+    }))
+  }
+
   const updateCard = (section, cardId, updatedCard) => {
     setData(prev => {
       if (section === 'contentGrid') {
@@ -187,7 +197,7 @@ export const DataProvider = ({ children }) => {
   }
 
   return (
-    <DataContext.Provider value={{ data, updateData, updateCard }}>
+    <DataContext.Provider value={{ data, updateData, updateCard, updateHero }}>
       {children}
     </DataContext.Provider>
   )

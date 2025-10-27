@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import './EditCardModal.css'
 
-const EditCardModal = ({ isOpen, onClose, card, onSave }) => {
+const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     image: '',
+    tagline: '',
     socials: {
       youtube: '',
       instagram: '',
@@ -14,29 +15,54 @@ const EditCardModal = ({ isOpen, onClose, card, onSave }) => {
       twitch: '',
       snapchat: '',
       tiktok: ''
+    },
+    socialIcons: {
+      youtube: '',
+      instagram: '',
+      twitter: '',
+      facebook: '',
+      snapchat: '',
+      tiktok: ''
     }
   })
   const [imagePreview, setImagePreview] = useState('')
 
   useEffect(() => {
     if (isOpen && card) {
-      setFormData({
-        name: card.name || '',
-        description: card.description || '',
-        image: card.image || '',
-        socials: {
-          youtube: card.socials?.youtube || '',
-          instagram: card.socials?.instagram || '',
-          twitter: card.socials?.twitter || '',
-          facebook: card.socials?.facebook || '',
-          twitch: card.socials?.twitch || '',
-          snapchat: card.socials?.snapchat || '',
-          tiktok: card.socials?.tiktok || ''
-        }
-      })
-      setImagePreview(card.image || '')
+      if (isHeroSection) {
+        // Hero section has different structure
+        setFormData({
+          mainImage: card.mainImage || '',
+          tagline: card.tagline || '',
+          socialIcons: {
+            youtube: card.socialIcons?.youtube || '',
+            instagram: card.socialIcons?.instagram || '',
+            twitter: card.socialIcons?.twitter || '',
+            facebook: card.socialIcons?.facebook || '',
+            snapchat: card.socialIcons?.snapchat || '',
+            tiktok: card.socialIcons?.tiktok || ''
+          }
+        })
+        setImagePreview(card.mainImage || '')
+      } else {
+        setFormData({
+          name: card.name || '',
+          description: card.description || '',
+          image: card.image || '',
+          socials: {
+            youtube: card.socials?.youtube || '',
+            instagram: card.socials?.instagram || '',
+            twitter: card.socials?.twitter || '',
+            facebook: card.socials?.facebook || '',
+            twitch: card.socials?.twitch || '',
+            snapchat: card.socials?.snapchat || '',
+            tiktok: card.socials?.tiktok || ''
+          }
+        })
+        setImagePreview(card.image || '')
+      }
     }
-  }, [isOpen, card])
+  }, [isOpen, card, isHeroSection])
 
   useEffect(() => {
     if (isOpen) {
@@ -54,7 +80,16 @@ const EditCardModal = ({ isOpen, onClose, card, onSave }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    if (name.startsWith('social-')) {
+    if (name.startsWith('socialIcon-')) {
+      const socialName = name.replace('socialIcon-', '')
+      setFormData(prev => ({
+        ...prev,
+        socialIcons: {
+          ...prev.socialIcons,
+          [socialName]: value
+        }
+      }))
+    } else if (name.startsWith('social-')) {
       const socialName = name.replace('social-', '')
       setFormData(prev => ({
         ...prev,
@@ -77,10 +112,17 @@ const EditCardModal = ({ isOpen, onClose, card, onSave }) => {
       const reader = new FileReader()
       reader.onloadend = () => {
         const base64String = reader.result
-        setFormData(prev => ({
-          ...prev,
-          image: base64String
-        }))
+        if (isHeroSection) {
+          setFormData(prev => ({
+            ...prev,
+            mainImage: base64String
+          }))
+        } else {
+          setFormData(prev => ({
+            ...prev,
+            image: base64String
+          }))
+        }
         setImagePreview(base64String)
       }
       reader.readAsDataURL(file)
@@ -106,28 +148,46 @@ const EditCardModal = ({ isOpen, onClose, card, onSave }) => {
           <p>Update the card details below</p>
         </div>
         <form onSubmit={handleSubmit} className="edit-modal-form">
-          <div className="form-field">
-            <label htmlFor="name">Title/Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          {!isHeroSection && (
+            <>
+              <div className="form-field">
+                <label htmlFor="name">Title/Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name || ''}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          <div className="form-field">
-            <label htmlFor="description">Description</label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows="4"
-            />
-          </div>
+              <div className="form-field">
+                <label htmlFor="description">Description</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={formData.description || ''}
+                  onChange={handleChange}
+                  rows="4"
+                />
+              </div>
+            </>
+          )}
+
+          {isHeroSection && (
+            <div className="form-field">
+              <label htmlFor="tagline">Hero Tagline</label>
+              <textarea
+                id="tagline"
+                name="tagline"
+                value={formData.tagline || ''}
+                onChange={handleChange}
+                rows="3"
+                placeholder="A group of friends with a few videos online..."
+              />
+            </div>
+          )}
 
           <div className="form-field">
             <label htmlFor="image">Upload Image</label>
@@ -150,64 +210,94 @@ const EditCardModal = ({ isOpen, onClose, card, onSave }) => {
             <p className="social-hint">Leave blank to hide the icon</p>
 
             <div className="form-field">
-              <label htmlFor="social-youtube">YouTube URL</label>
+              <label htmlFor={isHeroSection ? "socialIcon-youtube" : "social-youtube"}>YouTube URL</label>
               <input
                 type="url"
-                id="social-youtube"
-                name="social-youtube"
-                value={formData.socials.youtube}
+                id={isHeroSection ? "socialIcon-youtube" : "social-youtube"}
+                name={isHeroSection ? "socialIcon-youtube" : "social-youtube"}
+                value={isHeroSection ? (formData.socialIcons?.youtube || '') : (formData.socials?.youtube || '')}
                 onChange={handleChange}
                 placeholder="https://youtube.com/@username"
               />
             </div>
 
             <div className="form-field">
-              <label htmlFor="social-instagram">Instagram URL</label>
+              <label htmlFor={isHeroSection ? "socialIcon-instagram" : "social-instagram"}>Instagram URL</label>
               <input
                 type="url"
-                id="social-instagram"
-                name="social-instagram"
-                value={formData.socials.instagram}
+                id={isHeroSection ? "socialIcon-instagram" : "social-instagram"}
+                name={isHeroSection ? "socialIcon-instagram" : "social-instagram"}
+                value={isHeroSection ? (formData.socialIcons?.instagram || '') : (formData.socials?.instagram || '')}
                 onChange={handleChange}
                 placeholder="https://instagram.com/username"
               />
             </div>
 
             <div className="form-field">
-              <label htmlFor="social-twitter">Twitter/X URL</label>
+              <label htmlFor={isHeroSection ? "socialIcon-twitter" : "social-twitter"}>Twitter/X URL</label>
               <input
                 type="url"
-                id="social-twitter"
-                name="social-twitter"
-                value={formData.socials.twitter}
+                id={isHeroSection ? "socialIcon-twitter" : "social-twitter"}
+                name={isHeroSection ? "socialIcon-twitter" : "social-twitter"}
+                value={isHeroSection ? (formData.socialIcons?.twitter || '') : (formData.socials?.twitter || '')}
                 onChange={handleChange}
                 placeholder="https://twitter.com/username"
               />
             </div>
 
             <div className="form-field">
-              <label htmlFor="social-facebook">Facebook URL</label>
+              <label htmlFor={isHeroSection ? "socialIcon-facebook" : "social-facebook"}>Facebook URL</label>
               <input
                 type="url"
-                id="social-facebook"
-                name="social-facebook"
-                value={formData.socials.facebook}
+                id={isHeroSection ? "socialIcon-facebook" : "social-facebook"}
+                name={isHeroSection ? "socialIcon-facebook" : "social-facebook"}
+                value={isHeroSection ? (formData.socialIcons?.facebook || '') : (formData.socials?.facebook || '')}
                 onChange={handleChange}
                 placeholder="https://facebook.com/username"
               />
             </div>
 
-            <div className="form-field">
-              <label htmlFor="social-twitch">Twitch URL</label>
-              <input
-                type="url"
-                id="social-twitch"
-                name="social-twitch"
-                value={formData.socials.twitch}
-                onChange={handleChange}
-                placeholder="https://twitch.tv/username"
-              />
-            </div>
+            {isHeroSection && (
+              <>
+                <div className="form-field">
+                  <label htmlFor="socialIcon-snapchat">Snapchat URL</label>
+                  <input
+                    type="url"
+                    id="socialIcon-snapchat"
+                    name="socialIcon-snapchat"
+                    value={formData.socialIcons?.snapchat || ''}
+                    onChange={handleChange}
+                    placeholder="https://snapchat.com/add/username"
+                  />
+                </div>
+
+                <div className="form-field">
+                  <label htmlFor="socialIcon-tiktok">TikTok URL</label>
+                  <input
+                    type="url"
+                    id="socialIcon-tiktok"
+                    name="socialIcon-tiktok"
+                    value={formData.socialIcons?.tiktok || ''}
+                    onChange={handleChange}
+                    placeholder="https://tiktok.com/@username"
+                  />
+                </div>
+              </>
+            )}
+
+            {!isHeroSection && (
+              <div className="form-field">
+                <label htmlFor="social-twitch">Twitch URL</label>
+                <input
+                  type="url"
+                  id="social-twitch"
+                  name="social-twitch"
+                  value={formData.socials?.twitch || ''}
+                  onChange={handleChange}
+                  placeholder="https://twitch.tv/username"
+                />
+              </div>
+            )}
           </div>
 
           <div className="edit-modal-actions">
