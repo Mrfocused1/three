@@ -40,6 +40,24 @@ const Footer = () => {
           </div>
 
           <div className="footer-column">
+            <h4 className="footer-heading">Contact</h4>
+            <ul className="footer-links">
+              <li>
+                <a href="mailto:info@thethreebuttons.co.uk">
+                  info@thethreebuttons.co.uk
+                </a>
+              </li>
+              <li>
+                <span style={{ color: '#999', cursor: 'default' }}>
+                  Lock Studios<br />
+                  7 Corsica Square<br />
+                  London, E3 3YD
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="footer-column">
             <h4 className="footer-heading">Legal</h4>
             <ul className="footer-links">
               <li><a href="#">Privacy Policy</a></li>
