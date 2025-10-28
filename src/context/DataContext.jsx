@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { db } from '../lib/firebase'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { supabase } from '../lib/supabase'
 
 const DataContext = createContext()
 
@@ -211,25 +210,30 @@ export const DataProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // Load data from Firebase on mount
+  // Load data from Supabase on mount
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Try to load from Firebase first
-        const docRef = doc(db, 'siteData', 'main')
-        const docSnap = await getDoc(docRef)
+        // Try to load from Supabase first
+        const { data: supabaseData, error: supabaseError } = await supabase
+          .from('site_data')
+          .select('data')
+          .eq('id', 'main')
+          .single()
 
-        if (docSnap.exists()) {
-          const firebaseData = docSnap.data()
+        if (supabaseError) throw supabaseError
+
+        if (supabaseData && supabaseData.data) {
+          const dbData = supabaseData.data
           setData({
             ...initialData,
-            ...firebaseData,
-            channels: firebaseData.channels || initialData.channels
+            ...dbData,
+            channels: dbData.channels || initialData.channels
           })
           // Also save to localStorage as backup
-          localStorage.setItem('siteData', JSON.stringify(firebaseData))
+          localStorage.setItem('siteData', JSON.stringify(dbData))
         } else {
-          // If no Firebase data, try localStorage
+          // If no Supabase data, try localStorage
           const saved = localStorage.getItem('siteData')
           if (saved) {
             const savedData = JSON.parse(saved)
@@ -238,15 +242,19 @@ export const DataProvider = ({ children }) => {
               ...savedData,
               channels: savedData.channels || initialData.channels
             })
-            // Save localStorage data to Firebase
-            await setDoc(docRef, savedData)
+            // Save localStorage data to Supabase
+            await supabase
+              .from('site_data')
+              .upsert({ id: 'main', data: savedData })
           } else {
-            // If neither exists, save initial data to Firebase
-            await setDoc(docRef, initialData)
+            // If neither exists, save initial data to Supabase
+            await supabase
+              .from('site_data')
+              .upsert({ id: 'main', data: initialData })
           }
         }
       } catch (err) {
-        console.error('Error loading data from Firebase:', err)
+        console.error('Error loading data from Supabase:', err)
         setError(err.message)
         // Fallback to localStorage
         const saved = localStorage.getItem('siteData')
@@ -266,18 +274,19 @@ export const DataProvider = ({ children }) => {
     loadData()
   }, [])
 
-  // Save data to Firebase whenever it changes
+  // Save data to Supabase whenever it changes
   useEffect(() => {
     if (!loading) {
       const saveData = async () => {
         try {
-          const docRef = doc(db, 'siteData', 'main')
-          await setDoc(docRef, data)
+          await supabase
+            .from('site_data')
+            .upsert({ id: 'main', data: data })
           // Also save to localStorage as backup
           localStorage.setItem('siteData', JSON.stringify(data))
         } catch (err) {
-          console.error('Error saving data to Firebase:', err)
-          // Still save to localStorage even if Firebase fails
+          console.error('Error saving data to Supabase:', err)
+          // Still save to localStorage even if Supabase fails
           localStorage.setItem('siteData', JSON.stringify(data))
         }
       }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import imageCompression from 'browser-image-compression'
+import { supabase } from '../lib/supabase'
 import './EditCardModal.css'
 
 const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
@@ -157,43 +157,50 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     const file = e.target.files[0]
     if (file) {
       try {
-        // Compression options - aggressive compression to stay under 1MB limit
-        const options = {
-          maxSizeMB: 0.15,          // Maximum file size in MB (150KB) - more aggressive
-          maxWidthOrHeight: 1280,   // Maximum width or height - smaller resolution
-          useWebWorker: true,       // Use web worker for better performance
-          fileType: 'image/jpeg',   // Convert to JPEG for better compression
-          initialQuality: 0.7       // Quality (0.7 = 70% quality)
+        // Generate unique filename
+        const fileExt = file.name.split('.').pop()
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
+        const filePath = `${fileName}`
+
+        console.log('Uploading image to Supabase Storage...')
+
+        // Upload image to Supabase Storage
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('images')
+          .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false
+          })
+
+        if (uploadError) {
+          throw uploadError
         }
 
-        console.log('Original file size:', (file.size / 1024 / 1024).toFixed(2), 'MB')
+        // Get public URL
+        const { data: publicUrlData } = supabase.storage
+          .from('images')
+          .getPublicUrl(filePath)
 
-        // Compress the image
-        const compressedFile = await imageCompression(file, options)
+        const publicUrl = publicUrlData.publicUrl
 
-        console.log('Compressed file size:', (compressedFile.size / 1024 / 1024).toFixed(2), 'MB')
+        console.log('Image uploaded successfully:', publicUrl)
 
-        // Convert compressed image to base64
-        const reader = new FileReader()
-        reader.onloadend = () => {
-          const base64String = reader.result
-          if (isHeroSection) {
-            setFormData(prev => ({
-              ...prev,
-              mainImage: base64String
-            }))
-          } else {
-            setFormData(prev => ({
-              ...prev,
-              image: base64String
-            }))
-          }
-          setImagePreview(base64String)
+        // Update form data with public URL
+        if (isHeroSection) {
+          setFormData(prev => ({
+            ...prev,
+            mainImage: publicUrl
+          }))
+        } else {
+          setFormData(prev => ({
+            ...prev,
+            image: publicUrl
+          }))
         }
-        reader.readAsDataURL(compressedFile)
+        setImagePreview(publicUrl)
       } catch (error) {
-        console.error('Error compressing image:', error)
-        alert('Error compressing image. Please try a smaller image.')
+        console.error('Error uploading image:', error)
+        alert('Error uploading image: ' + error.message)
       }
     }
   }
