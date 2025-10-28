@@ -274,13 +274,7 @@
   }
 
   .social-icons::before {
-    display: block;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    height: 100%;
-    width: 1px;
-    transform: translateX(-50%);
+    display: none;
   }
 
   .social-icon {
