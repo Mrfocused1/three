@@ -45,9 +45,9 @@ const initialData = {
     members: [
       {
         id: 1,
-        name: 'TOBI',
+        name: 'Zeze Millz',
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true',
-        description: 'Tobi is a member of the Sidemen, known for his energetic personality and gaming content. He creates videos across multiple channels with millions of subscribers.',
+        description: 'Content creator and influencer known for engaging content and unique personality.',
         socials: {
           youtube: '',
           instagram: '',
@@ -57,9 +57,9 @@ const initialData = {
       },
       {
         id: 2,
-        name: 'SIMON',
+        name: 'Rimzee',
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true',
-        description: 'Captain of Sidemen FC and \'What\'s Good\' co-host, Simon creates content across his 3 main channels, with over 3 billion views and over 15 million subs.',
+        description: 'Multi-talented artist bringing fresh energy to the creative scene.',
         socials: {
           youtube: '',
           instagram: '',
@@ -69,10 +69,10 @@ const initialData = {
       },
       {
         id: 3,
-        name: 'MEET VIK',
+        name: 'Layos Choice',
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true',
         special: true,
-        description: 'Vik is a founding member of the Sidemen, known for his FIFA and gaming content.',
+        description: 'Creative visionary pushing boundaries in content and entertainment.',
         socials: {
           youtube: '',
           instagram: ''
@@ -80,9 +80,9 @@ const initialData = {
       },
       {
         id: 4,
-        name: 'JOSH',
+        name: 'Maggie Mayhem',
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%204.jpg?raw=true',
-        description: 'Josh is the oldest member of the Sidemen and helps manage the group\'s business ventures.',
+        description: 'Dynamic personality known for authentic content and engaging storytelling.',
         socials: {
           youtube: '',
           instagram: '',
@@ -91,9 +91,9 @@ const initialData = {
       },
       {
         id: 5,
-        name: 'ETHAN',
+        name: 'Paul Bridges',
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/5.jpg?raw=true',
-        description: 'Ethan brings energy and humor to the Sidemen with his unique personality and content style.',
+        description: 'Creative professional bringing innovation and expertise to every project.',
         socials: {
           youtube: '',
           instagram: '',
@@ -102,13 +102,45 @@ const initialData = {
       },
       {
         id: 6,
-        name: 'MEET THE BOYS',
+        name: 'Bugzy Malone',
         image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/6.jpg?raw=true',
-        special: true,
-        description: 'Learn more about all the Sidemen members and their incredible journey together.',
+        description: 'Award-winning artist and influential voice in music and entertainment.',
         socials: {
           youtube: '',
           instagram: ''
+        }
+      },
+      {
+        id: 7,
+        name: 'Bernicia Boateng',
+        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true',
+        description: 'Creative talent known for impactful content and inspiring storytelling.',
+        socials: {
+          youtube: '',
+          instagram: '',
+          twitter: ''
+        }
+      },
+      {
+        id: 8,
+        name: 'JenyBSG',
+        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true',
+        description: 'Digital creator bringing fresh perspectives and engaging content.',
+        socials: {
+          youtube: '',
+          instagram: '',
+          twitter: ''
+        }
+      },
+      {
+        id: 9,
+        name: 'Breeny Lee',
+        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true',
+        description: 'Content creator and entertainer known for unique style and authenticity.',
+        socials: {
+          youtube: '',
+          instagram: '',
+          twitter: ''
         }
       }
     ]
