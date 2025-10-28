@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import imageCompression from 'browser-image-compression'
 import './EditCardModal.css'
 
 const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
@@ -152,26 +153,48 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     }
   }
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        const base64String = reader.result
-        if (isHeroSection) {
-          setFormData(prev => ({
-            ...prev,
-            mainImage: base64String
-          }))
-        } else {
-          setFormData(prev => ({
-            ...prev,
-            image: base64String
-          }))
+      try {
+        // Compression options
+        const options = {
+          maxSizeMB: 0.5,          // Maximum file size in MB (500KB)
+          maxWidthOrHeight: 1920,   // Maximum width or height
+          useWebWorker: true,       // Use web worker for better performance
+          fileType: 'image/jpeg',   // Convert to JPEG for better compression
+          initialQuality: 0.8       // Quality (0.8 = 80% quality)
         }
-        setImagePreview(base64String)
+
+        console.log('Original file size:', (file.size / 1024 / 1024).toFixed(2), 'MB')
+
+        // Compress the image
+        const compressedFile = await imageCompression(file, options)
+
+        console.log('Compressed file size:', (compressedFile.size / 1024 / 1024).toFixed(2), 'MB')
+
+        // Convert compressed image to base64
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          const base64String = reader.result
+          if (isHeroSection) {
+            setFormData(prev => ({
+              ...prev,
+              mainImage: base64String
+            }))
+          } else {
+            setFormData(prev => ({
+              ...prev,
+              image: base64String
+            }))
+          }
+          setImagePreview(base64String)
+        }
+        reader.readAsDataURL(compressedFile)
+      } catch (error) {
+        console.error('Error compressing image:', error)
+        alert('Error compressing image. Please try a smaller image.')
       }
-      reader.readAsDataURL(file)
     }
   }
 
