@@ -157,13 +157,13 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     const file = e.target.files[0]
     if (file) {
       try {
-        // Compression options
+        // Compression options - aggressive compression to stay under 1MB limit
         const options = {
-          maxSizeMB: 0.5,          // Maximum file size in MB (500KB)
-          maxWidthOrHeight: 1920,   // Maximum width or height
+          maxSizeMB: 0.15,          // Maximum file size in MB (150KB) - more aggressive
+          maxWidthOrHeight: 1280,   // Maximum width or height - smaller resolution
           useWebWorker: true,       // Use web worker for better performance
           fileType: 'image/jpeg',   // Convert to JPEG for better compression
-          initialQuality: 0.8       // Quality (0.8 = 80% quality)
+          initialQuality: 0.7       // Quality (0.7 = 70% quality)
         }
 
         console.log('Original file size:', (file.size / 1024 / 1024).toFixed(2), 'MB')
