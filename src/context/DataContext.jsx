@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import { db } from '../lib/firebase'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 const DataContext = createContext()
 
@@ -205,24 +207,83 @@ const initialData = {
 }
 
 export const DataProvider = ({ children }) => {
-  const [data, setData] = useState(() => {
-    const saved = localStorage.getItem('siteData')
-    if (saved) {
-      const savedData = JSON.parse(saved)
-      // Merge saved data with initialData to ensure new properties are added
-      return {
-        ...initialData,
-        ...savedData,
-        // Ensure channels array exists
-        channels: savedData.channels || initialData.channels
+  const [data, setData] = useState(initialData)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  // Load data from Firebase on mount
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Try to load from Firebase first
+        const docRef = doc(db, 'siteData', 'main')
+        const docSnap = await getDoc(docRef)
+
+        if (docSnap.exists()) {
+          const firebaseData = docSnap.data()
+          setData({
+            ...initialData,
+            ...firebaseData,
+            channels: firebaseData.channels || initialData.channels
+          })
+          // Also save to localStorage as backup
+          localStorage.setItem('siteData', JSON.stringify(firebaseData))
+        } else {
+          // If no Firebase data, try localStorage
+          const saved = localStorage.getItem('siteData')
+          if (saved) {
+            const savedData = JSON.parse(saved)
+            setData({
+              ...initialData,
+              ...savedData,
+              channels: savedData.channels || initialData.channels
+            })
+            // Save localStorage data to Firebase
+            await setDoc(docRef, savedData)
+          } else {
+            // If neither exists, save initial data to Firebase
+            await setDoc(docRef, initialData)
+          }
+        }
+      } catch (err) {
+        console.error('Error loading data from Firebase:', err)
+        setError(err.message)
+        // Fallback to localStorage
+        const saved = localStorage.getItem('siteData')
+        if (saved) {
+          const savedData = JSON.parse(saved)
+          setData({
+            ...initialData,
+            ...savedData,
+            channels: savedData.channels || initialData.channels
+          })
+        }
+      } finally {
+        setLoading(false)
       }
     }
-    return initialData
-  })
 
+    loadData()
+  }, [])
+
+  // Save data to Firebase whenever it changes
   useEffect(() => {
-    localStorage.setItem('siteData', JSON.stringify(data))
-  }, [data])
+    if (!loading) {
+      const saveData = async () => {
+        try {
+          const docRef = doc(db, 'siteData', 'main')
+          await setDoc(docRef, data)
+          // Also save to localStorage as backup
+          localStorage.setItem('siteData', JSON.stringify(data))
+        } catch (err) {
+          console.error('Error saving data to Firebase:', err)
+          // Still save to localStorage even if Firebase fails
+          localStorage.setItem('siteData', JSON.stringify(data))
+        }
+      }
+      saveData()
+    }
+  }, [data, loading])
 
   const updateData = (section, newData) => {
     setData(prev => ({
@@ -276,7 +337,7 @@ export const DataProvider = ({ children }) => {
   }
 
   return (
-    <DataContext.Provider value={{ data, updateData, updateCard, updateHero }}>
+    <DataContext.Provider value={{ data, updateData, updateCard, updateHero, loading, error }}>
       {children}
     </DataContext.Provider>
   )
