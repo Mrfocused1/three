@@ -15,7 +15,7 @@ export const useData = () => {
 const initialData = {
   hero: {
     mainImage: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/hero%20image.jpg?raw=true',
-    tagline: 'A group of friends with a few videos online, over 100 million fans and billions of views',
+    tagline: 'Premium production studio partnering with creators, influencers, and streamers to deliver exceptional live and pre-recorded content',
     socialIcons: {
       youtube: '',
       instagram: '',
