@@ -228,6 +228,17 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
+    // Check if editing video URL (bypass step logic)
+    const isEditingVideo = card?.videoUrl !== undefined && card?.subtitle === undefined
+
+    // If editing video, save directly without step checking
+    if (isEditingVideo) {
+      onSave(formData)
+      onClose()
+      setCurrentStep(0)
+      return
+    }
+
     // If not on last step, go to next step instead of submitting
     // This handles the case when user presses Enter in an input field
     if (!isLastStep) {
