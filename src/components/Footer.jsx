@@ -41,8 +41,7 @@ const Footer = () => {
           </div>
 
           <div className="footer-column">
-            <h4 className="footer-heading">Work With Us</h4>
-            <ul className="footer-links">
+            <ul className="footer-links footer-links-heading">
               <li><a href="#" onClick={(e) => { e.preventDefault(); openForm('work'); }}>Work With Us</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); openForm('contact'); }}>Get In Touch</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); openForm('studio'); }}>Book Our Studio</a></li>
