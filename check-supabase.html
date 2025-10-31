@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supabase Data Recovery</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        pre {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+        .success {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        .warning {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #222;
+            border-radius: 8px;
+        }
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Supabase Data Recovery Tool</h1>
+
+    <div class="section">
+        <h2>Step 1: Check Supabase Database</h2>
+        <p>This will check if your data is still stored in Supabase</p>
+        <button onclick="checkSupabase()">Check Supabase Data</button>
+    </div>
+
+    <div class="section">
+        <h2>Step 2: Restore Data</h2>
+        <p>If data is found in Supabase, restore it to localStorage</p>
+        <button onclick="restoreFromSupabase()">Restore from Supabase</button>
+    </div>
+
+    <div class="section">
+        <h2>Step 3: Manual Recovery</h2>
+        <p>If you have a backup file, upload it here</p>
+        <button onclick="uploadBackup()">Upload Backup File</button>
+    </div>
+
+    <div id="output"></div>
+
+    <script type="module">
+        // Import Supabase client
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const SUPABASE_URL = 'https://amiwavztjjldikakrzis.supabase.co'
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtaXdhdnp0ampsZGlrYWtyemlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1NjE0MDUsImV4cCI6MjA1MTEzNzQwNX0.fbnpZ2gGj5u8K-y5DBZU5p61BrBx5CRRVU0G3LyYB8U'
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+        window.checkSupabase = async function() {
+            const output = document.getElementById('output')
+            output.innerHTML = '<h2>Checking Supabase...</h2>'
+
+            try {
+                const { data, error } = await supabase
+                    .from('site_data')
+                    .select('*')
+                    .eq('id', 'main')
+                    .single()
+
+                if (error) {
+                    output.innerHTML += '<p class="error">❌ Error: ' + error.message + '</p>'
+                    output.innerHTML += '<p class="warning">⚠️ Your data might not be in Supabase.</p>'
+                    return
+                }
+
+                if (data && data.data) {
+                    output.innerHTML = '<h2 class="success">✓ Found data in Supabase!</h2>'
+                    output.innerHTML += '<p class="success">Your uploaded images and data are safe in the database!</p>'
+                    output.innerHTML += '<h3>Data Preview:</h3>'
+                    output.innerHTML += '<pre>' + JSON.stringify(data.data, null, 2) + '</pre>'
+
+                    // Store in window for restore function
+                    window.recoveredData = data.data
+                } else {
+                    output.innerHTML += '<p class="error">❌ No data found in Supabase</p>'
+                }
+            } catch (err) {
+                output.innerHTML += '<p class="error">❌ Error: ' + err.message + '</p>'
+                console.error('Supabase error:', err)
+            }
+        }
+
+        window.restoreFromSupabase = function() {
+            const output = document.getElementById('output')
+
+            if (!window.recoveredData) {
+                output.innerHTML = '<p class="error">❌ No data to restore. Please check Supabase first.</p>'
+                return
+            }
+
+            try {
+                // Save to localStorage
+                localStorage.setItem('siteData', JSON.stringify(window.recoveredData))
+
+                output.innerHTML = '<h2 class="success">✓ Data Restored Successfully!</h2>'
+                output.innerHTML += '<p class="success">Your data has been restored to localStorage.</p>'
+                output.innerHTML += '<p class="warning">⚠️ Now refresh your website to see your uploaded images!</p>'
+                output.innerHTML += '<button onclick="window.location.href=\'http://localhost:5173/admin\'">Go to Admin Page</button>'
+            } catch (err) {
+                output.innerHTML = '<p class="error">❌ Error restoring: ' + err.message + '</p>'
+            }
+        }
+
+        window.uploadBackup = function() {
+            const input = document.createElement('input')
+            input.type = 'file'
+            input.accept = 'application/json'
+
+            input.onchange = (e) => {
+                const file = e.target.files[0]
+                const reader = new FileReader()
+
+                reader.onload = async (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result)
+
+                        // Save to localStorage
+                        localStorage.setItem('siteData', JSON.stringify(data))
+
+                        // Also save to Supabase
+                        const { error } = await supabase
+                            .from('site_data')
+                            .upsert({ id: 'main', data: data })
+
+                        const output = document.getElementById('output')
+                        if (error) {
+                            output.innerHTML = '<p class="warning">⚠️ Saved to localStorage but Supabase failed: ' + error.message + '</p>'
+                        } else {
+                            output.innerHTML = '<h2 class="success">✓ Backup Restored!</h2>'
+                            output.innerHTML += '<p class="success">Data saved to both localStorage and Supabase.</p>'
+                            output.innerHTML += '<p class="warning">⚠️ Refresh your website to see the changes!</p>'
+                        }
+                    } catch (error) {
+                        document.getElementById('output').innerHTML = '<p class="error">❌ Error: ' + error.message + '</p>'
+                    }
+                }
+
+                reader.readAsText(file)
+            }
+
+            input.click()
+        }
+
+        // Auto-check on load
+        window.onload = () => {
+            checkSupabase()
+        }
+    </script>
+</body>
+</html>
