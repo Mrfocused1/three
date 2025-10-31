@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Recovery Tool</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        pre {
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #22c55e;
+        }
+        .error {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Recovery Tool</h1>
+    <p>This tool will help recover your uploaded data from localStorage.</p>
+
+    <div>
+        <button onclick="checkLocalStorage()">Check localStorage</button>
+        <button onclick="downloadBackup()">Download Backup</button>
+        <button onclick="restoreData()">Restore Data</button>
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+        function checkLocalStorage() {
+            const output = document.getElementById('output');
+            const siteData = localStorage.getItem('siteData');
+
+            if (siteData) {
+                output.innerHTML = '<h2 class="success">✓ Found data in localStorage!</h2>';
+                output.innerHTML += '<pre>' + JSON.stringify(JSON.parse(siteData), null, 2) + '</pre>';
+            } else {
+                output.innerHTML = '<h2 class="error">✗ No data found in localStorage</h2>';
+            }
+        }
+
+        function downloadBackup() {
+            const siteData = localStorage.getItem('siteData');
+
+            if (siteData) {
+                const blob = new Blob([siteData], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `backup-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                document.getElementById('output').innerHTML = '<h2 class="success">✓ Backup downloaded!</h2>';
+            } else {
+                document.getElementById('output').innerHTML = '<h2 class="error">✗ No data to backup</h2>';
+            }
+        }
+
+        function restoreData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        localStorage.setItem('siteData', JSON.stringify(data));
+                        document.getElementById('output').innerHTML = '<h2 class="success">✓ Data restored! Refresh the admin page.</h2>';
+                    } catch (error) {
+                        document.getElementById('output').innerHTML = '<h2 class="error">✗ Error: ' + error.message + '</h2>';
+                    }
+                };
+
+                reader.readAsText(file);
+            };
+
+            input.click();
+        }
+
+        // Auto-check on load
+        window.onload = checkLocalStorage;
+    </script>
+</body>
+</html>

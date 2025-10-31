@@ -29,19 +29,19 @@ const initialData = {
       id: 'work',
       title: 'WORK WITH US',
       type: 'work-card',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true'
+      image: ''
     },
     {
       id: 'contact',
       title: 'GET IN TOUCH',
       type: 'touch-card',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true'
+      image: ''
     },
     {
       id: 'studio',
       title: 'BOOK OUR STUDIO',
       type: 'clothing-card',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true'
+      image: ''
     }
   ],
   contentGrid: {
@@ -213,10 +213,28 @@ export const DataProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  // Deep merge function to preserve saved data
+  const deepMerge = (initial, saved) => {
+    const result = { ...initial }
+
+    for (const key in saved) {
+      if (saved[key] && typeof saved[key] === 'object' && !Array.isArray(saved[key])) {
+        result[key] = deepMerge(initial[key] || {}, saved[key])
+      } else {
+        // For arrays and primitives, prefer saved data
+        result[key] = saved[key]
+      }
+    }
+
+    return result
+  }
+
   // Load data from Supabase on mount
   useEffect(() => {
     const loadData = async () => {
       try {
+        console.log('=== LOADING DATA ===')
+
         // Try to load from Supabase first
         const { data: supabaseData, error: supabaseError } = await supabase
           .from('site_data')
@@ -228,11 +246,13 @@ export const DataProvider = ({ children }) => {
 
         if (supabaseData && supabaseData.data) {
           const dbData = supabaseData.data
-          setData({
-            ...initialData,
-            ...dbData,
-            channels: dbData.channels || initialData.channels
-          })
+          console.log('Loaded from Supabase:', dbData)
+
+          // Deep merge to preserve all saved data
+          const mergedData = deepMerge(initialData, dbData)
+          console.log('Merged data:', mergedData)
+
+          setData(mergedData)
           // Also save to localStorage as backup
           localStorage.setItem('siteData', JSON.stringify(dbData))
         } else {
@@ -240,16 +260,17 @@ export const DataProvider = ({ children }) => {
           const saved = localStorage.getItem('siteData')
           if (saved) {
             const savedData = JSON.parse(saved)
-            setData({
-              ...initialData,
-              ...savedData,
-              channels: savedData.channels || initialData.channels
-            })
+            console.log('Loaded from localStorage:', savedData)
+
+            const mergedData = deepMerge(initialData, savedData)
+            setData(mergedData)
+
             // Save localStorage data to Supabase
             await supabase
               .from('site_data')
               .upsert({ id: 'main', data: savedData })
           } else {
+            console.log('No saved data, using initialData')
             // If neither exists, save initial data to Supabase
             await supabase
               .from('site_data')
@@ -263,11 +284,9 @@ export const DataProvider = ({ children }) => {
         const saved = localStorage.getItem('siteData')
         if (saved) {
           const savedData = JSON.parse(saved)
-          setData({
-            ...initialData,
-            ...savedData,
-            channels: savedData.channels || initialData.channels
-          })
+          console.log('Error fallback - loaded from localStorage:', savedData)
+          const mergedData = deepMerge(initialData, savedData)
+          setData(mergedData)
         }
       } finally {
         setLoading(false)
