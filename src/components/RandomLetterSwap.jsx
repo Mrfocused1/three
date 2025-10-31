@@ -84,28 +84,53 @@ export function RandomLetterSwapPingPong({
 
   return (
     <motion.span
-      className={`flex justify-center items-center relative overflow-hidden ${className}`}
+      className={className}
       onHoverStart={hoverStart}
       onHoverEnd={hoverEnd}
       onClick={onClick}
       ref={scope}
+      style={{
+        display: 'inline-flex',
+        position: 'relative',
+        overflow: 'hidden',
+        height: '1.4em',
+        alignItems: 'center'
+      }}
       {...props}
     >
       <span className="sr-only">{label}</span>
 
       {label.split("").map((letter, i) => {
         return (
-          <span className="whitespace-pre relative flex overflow-hidden" style={{ height: '1.4em' }} key={i}>
+          <span
+            key={i}
+            style={{
+              position: 'relative',
+              display: 'inline-block',
+              overflow: 'hidden',
+              height: '1.4em',
+              whiteSpace: 'pre'
+            }}
+          >
             <motion.span
-              className={`relative pb-2 letter-${i}`}
-              style={{ top: 0 }}
+              className={`letter-${i}`}
+              style={{
+                position: 'relative',
+                display: 'inline-block',
+                top: 0
+              }}
             >
               {letter}
             </motion.span>
             <motion.span
-              className={`absolute letter-secondary-${i}`}
+              className={`letter-secondary-${i}`}
               aria-hidden={true}
-              style={{ top: reverse ? "-100%" : "100%" }}
+              style={{
+                position: 'absolute',
+                top: reverse ? "-100%" : "100%",
+                left: 0,
+                display: 'inline-block'
+              }}
             >
               {letter}
             </motion.span>
