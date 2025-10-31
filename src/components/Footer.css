@@ -142,7 +142,6 @@
 
 .cta-text .letter-swap-container {
   display: inline-flex !important;
-  overflow: hidden;
   height: 1.4em;
   align-items: flex-start;
 }
@@ -160,8 +159,10 @@
 }
 
 .cta-text .letter-swap-container > span:not(.sr-only) {
-  overflow: hidden;
+  overflow: hidden !important;
   height: 1.4em;
+  display: flex;
+  position: relative;
 }
 
 @media (max-width: 1024px) {
