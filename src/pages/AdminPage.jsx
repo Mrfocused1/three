@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useData } from '../context/DataContext'
 import LoadingScreen from '../components/LoadingScreen'
 import EditCardModal from '../components/EditCardModal'
+import Toast from '../components/Toast'
 import './AdminPage.css'
 
 const AdminPage = () => {
@@ -12,6 +13,7 @@ const AdminPage = () => {
   const [isHeroEdit, setIsHeroEdit] = useState(false)
   const [hoveredCard, setHoveredCard] = useState(null)
   const [expandedCard, setExpandedCard] = useState(null)
+  const [toast, setToast] = useState(null)
 
   useEffect(() => {
     // Collect all images from data
@@ -60,20 +62,38 @@ const AdminPage = () => {
   }
 
   const handleSaveCard = (updatedCard) => {
-    if (isHeroEdit) {
-      updateHero(updatedCard)
-    } else if (editingSection === 'videoUrl') {
-      // Update video URL
-      updateData('contentGrid', {
-        ...data.contentGrid,
-        videoUrl: updatedCard.videoUrl
-      })
-    } else if (editingSection && editingCard) {
-      updateCard(editingSection, editingCard.id, updatedCard)
+    try {
+      console.log('Saving card with data:', updatedCard)
+      console.log('Editing section:', editingSection)
+      console.log('Is hero edit:', isHeroEdit)
+
+      if (isHeroEdit) {
+        updateHero(updatedCard)
+        setToast({ message: 'Hero section updated successfully!', type: 'success' })
+      } else if (editingSection === 'videoUrl') {
+        // Update video URL
+        updateData('contentGrid', {
+          ...data.contentGrid,
+          videoUrl: updatedCard.videoUrl
+        })
+        setToast({ message: 'Video URL updated successfully!', type: 'success' })
+      } else if (editingSection && editingCard) {
+        updateCard(editingSection, editingCard.id, updatedCard)
+        setToast({ message: 'Card updated successfully!', type: 'success' })
+      }
+
+      setEditingCard(null)
+      setEditingSection(null)
+      setIsHeroEdit(false)
+
+      // Force a small delay to ensure data is updated
+      setTimeout(() => {
+        console.log('Updated data:', data)
+      }, 100)
+    } catch (error) {
+      console.error('Error saving card:', error)
+      setToast({ message: 'Error saving changes. Please try again.', type: 'error' })
     }
-    setEditingCard(null)
-    setEditingSection(null)
-    setIsHeroEdit(false)
   }
 
   if (loading) {
@@ -90,15 +110,15 @@ const AdminPage = () => {
 
       {/* Hero Section */}
       <section className="admin-hero">
-        <button className="edit-icon" onClick={handleEditHero}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-          </svg>
-        </button>
         <div className="hero-content">
           <div className="hero-left-section">
             <div className="logo-box">
+              <button className="edit-icon" onClick={handleEditHero}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
               <div className="logo">
                 <img src={data.hero.mainImage} alt="The Three Buttons" />
               </div>
@@ -422,6 +442,14 @@ const AdminPage = () => {
         onSave={handleSaveCard}
         isHeroSection={isHeroEdit}
       />
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   )
 }

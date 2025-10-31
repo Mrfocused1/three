@@ -177,15 +177,22 @@
   background: #1d4ed8;
 }
 
-.image-preview {
+.image-preview-container {
   margin-top: 1rem;
+}
+
+.image-preview-label {
+  font-size: 0.875rem;
+  color: #fff;
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.image-preview {
   border-radius: 8px;
   overflow: hidden;
   border: 2px solid #333;
-  max-width: 300px;
-}
-
-.image-preview img {
+  max-width: 100%;
   width: 100%;
   height: auto;
   display: block;

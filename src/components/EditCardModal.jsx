@@ -215,7 +215,9 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
         const filePath = `${fileName}`
 
-        console.log('Uploading image to Supabase Storage...')
+        console.log('Starting image upload...')
+        console.log('File:', file.name, 'Size:', file.size)
+        console.log('Generated filename:', fileName)
 
         // Upload image to Supabase Storage
         const { data: uploadData, error: uploadError } = await supabase.storage
@@ -226,8 +228,11 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
           })
 
         if (uploadError) {
+          console.error('Upload error:', uploadError)
           throw uploadError
         }
+
+        console.log('Upload successful:', uploadData)
 
         // Get public URL
         const { data: publicUrlData } = supabase.storage
@@ -236,21 +241,26 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
 
         const publicUrl = publicUrlData.publicUrl
 
-        console.log('Image uploaded successfully:', publicUrl)
+        console.log('Public URL generated:', publicUrl)
+        console.log('Is hero section:', isHeroSection)
+        console.log('Is editing hero card:', isEditingHeroCard)
 
         // Update form data with public URL
         if (isHeroSection) {
+          console.log('Setting mainImage in formData')
           setFormData(prev => ({
             ...prev,
             mainImage: publicUrl
           }))
         } else {
+          console.log('Setting image in formData')
           setFormData(prev => ({
             ...prev,
             image: publicUrl
           }))
         }
         setImagePreview(publicUrl)
+        console.log('Image preview updated')
       } catch (error) {
         console.error('Error uploading image:', error)
         alert('Error uploading image: ' + error.message)
@@ -281,11 +291,19 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
+    console.log('=== SUBMIT HANDLER ===')
+    console.log('Form data to save:', formData)
+    console.log('Is editing video:', card?.videoUrl !== undefined && card?.subtitle === undefined)
+    console.log('Is editing channel:', isEditingChannel)
+    console.log('Is editing hero card:', isEditingHeroCard)
+    console.log('Current step:', currentStep, 'Is last step:', isLastStep)
+
     // Check if editing video URL (bypass step logic)
     const isEditingVideo = card?.videoUrl !== undefined && card?.subtitle === undefined
 
     // If editing video, save directly without step checking
     if (isEditingVideo) {
+      console.log('Saving video URL...')
       onSave(formData)
       onClose()
       setCurrentStep(0)
@@ -295,6 +313,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     // If not on last step, go to next step instead of submitting
     // This handles the case when user presses Enter in an input field
     if (!isLastStep) {
+      console.log('Going to next step...')
       handleNext()
       return
     }
@@ -307,8 +326,10 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
         image: formData.image,
         youtubeUrl: formData.channelYoutubeUrl
       }
+      console.log('Saving channel data:', channelData)
       onSave(channelData)
     } else {
+      console.log('Saving form data:', formData)
       onSave(formData)
     }
 
@@ -489,6 +510,12 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
             onChange={handleImageUpload}
             className="file-input"
           />
+          {imagePreview && (
+            <div className="image-preview-container">
+              <p className="image-preview-label">Current Image:</p>
+              <img src={imagePreview} alt="Preview" className="image-preview" />
+            </div>
+          )}
         </div>
       )
     }
