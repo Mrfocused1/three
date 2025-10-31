@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import FormModal from './FormModal'
 import './Footer.css'
 
 const Footer = () => {
   const [activeForm, setActiveForm] = useState(null)
+  const ctaRef = useRef(null)
 
   const openForm = (formType) => {
     setActiveForm(formType)
@@ -12,6 +13,29 @@ const Footer = () => {
   const closeForm = () => {
     setActiveForm(null)
   }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+          }
+        })
+      },
+      { threshold: 0.3 }
+    )
+
+    if (ctaRef.current) {
+      observer.observe(ctaRef.current)
+    }
+
+    return () => {
+      if (ctaRef.current) {
+        observer.unobserve(ctaRef.current)
+      }
+    }
+  }, [])
 
   return (
     <footer className="footer">
@@ -22,7 +46,7 @@ const Footer = () => {
               <img src="https://github.com/Mrfocused1/trimline-barbershop/blob/main/t3b.jpg?raw=true" alt="The Three Buttons" />
             </div>
             <div className="footer-cta">
-              <p className="cta-text">
+              <p ref={ctaRef} className="cta-text">
                 Got a Project in mind?<br />
                 Let's Talk.
               </p>
