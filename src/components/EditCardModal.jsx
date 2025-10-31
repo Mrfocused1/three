@@ -125,6 +125,36 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     }
   }, [isOpen])
 
+  const convertYouTubeUrl = (url) => {
+    if (!url) return url
+
+    // Already an embed URL
+    if (url.includes('/embed/')) return url
+
+    // Extract video ID from various YouTube URL formats
+    let videoId = null
+
+    // Standard watch URL: https://www.youtube.com/watch?v=VIDEO_ID
+    const watchMatch = url.match(/[?&]v=([^&]+)/)
+    if (watchMatch) {
+      videoId = watchMatch[1]
+    }
+
+    // Short URL: https://youtu.be/VIDEO_ID
+    const shortMatch = url.match(/youtu\.be\/([^?]+)/)
+    if (shortMatch) {
+      videoId = shortMatch[1]
+    }
+
+    // If we found a video ID, convert to embed URL
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}`
+    }
+
+    // Return original URL if we couldn't convert
+    return url
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target
     if (name.startsWith('socialIcon-')) {
@@ -144,6 +174,13 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
           ...prev.socials,
           [socialName]: value
         }
+      }))
+    } else if (name === 'videoUrl') {
+      // Auto-convert YouTube URLs to embed format
+      const convertedUrl = convertYouTubeUrl(value)
+      setFormData(prev => ({
+        ...prev,
+        [name]: convertedUrl
       }))
     } else {
       setFormData(prev => ({
@@ -284,14 +321,14 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
           <form onSubmit={handleSubmit} className="edit-modal-form">
             <div className="form-field">
               <label htmlFor="videoUrl">YouTube Video URL</label>
-              <p className="image-dimension-guide">Paste the YouTube embed URL (e.g., https://www.youtube.com/embed/VIDEO_ID)</p>
+              <p className="image-dimension-guide">Paste any YouTube URL (will auto-convert to embed format)</p>
               <input
                 type="text"
                 id="videoUrl"
                 name="videoUrl"
                 value={formData.videoUrl || ''}
                 onChange={handleChange}
-                placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                placeholder="https://www.youtube.com/watch?v=VIDEO_ID or https://youtu.be/VIDEO_ID"
               />
             </div>
 
