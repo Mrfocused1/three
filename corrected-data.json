@@ -1,0 +1,196 @@
+{
+  "hero": {
+    "tagline": "Premium production studio partnering with creators, influencers, and streamers to deliver exceptional live and pre-recorded content",
+    "mainImage": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/hero%20image.jpg?raw=true",
+    "socialIcons": {
+      "tiktok": "",
+      "twitter": "",
+      "youtube": "",
+      "facebook": "",
+      "snapchat": "",
+      "instagram": ""
+    }
+  },
+  "heroCards": [
+    {
+      "id": "work",
+      "type": "work-card",
+      "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761911772237-lcg3g.png",
+      "title": "WORK WITH US"
+    },
+    {
+      "id": "contact",
+      "type": "touch-card",
+      "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761912173012-irbcq.png",
+      "title": "GET IN TOUCH"
+    },
+    {
+      "id": "studio",
+      "type": "clothing-card",
+      "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761912173012-irbcq.png",
+      "title": "BOOK OUR STUDIO"
+    }
+  ],
+  "contentGrid": {
+    "videoUrl": "https://www.youtube.com/embed/8oi2OcFeEew",
+    "members": [
+      {
+        "id": 1,
+        "name": "Zeze Millz",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618039352-mj6p29.jpeg",
+        "socials": {
+          "twitch": "",
+          "twitter": "",
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "Content creator and influencer known for engaging content and unique personality."
+      },
+      {
+        "id": 2,
+        "name": "Rimzee",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618051711-hhrw9p.jpeg",
+        "socials": {
+          "twitter": "",
+          "youtube": "",
+          "facebook": "",
+          "instagram": ""
+        },
+        "description": "Multi-talented artist bringing fresh energy to the creative scene."
+      },
+      {
+        "id": 3,
+        "name": "Layos Choice",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618062282-pyls2.jpeg",
+        "socials": {
+          "youtube": "",
+          "instagram": ""
+        },
+        "special": true,
+        "description": "Creative visionary pushing boundaries in content and entertainment."
+      },
+      {
+        "id": 4,
+        "name": "Maggie Mayhem",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618076115-r42t8r.jpeg",
+        "socials": {
+          "twitter": "",
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "Dynamic personality known for authentic content and engaging storytelling."
+      },
+      {
+        "id": 5,
+        "name": "Paul Bridges",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618156593-mytj1k.jpeg",
+        "socials": {
+          "twitter": "",
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "Creative professional bringing innovation and expertise to every project."
+      },
+      {
+        "id": 6,
+        "name": "Bugzy Malone",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618088901-b64cvq.jpeg",
+        "socials": {
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "Award-winning artist and influential voice in music and entertainment."
+      },
+      {
+        "id": 7,
+        "name": "Bernicia Boateng",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618101674-xzsot.jpeg",
+        "socials": {
+          "twitter": "",
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "Creative talent known for impactful content and inspiring storytelling."
+      },
+      {
+        "id": 8,
+        "name": "JenyBSG",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618110670-krdp6o.jpeg",
+        "socials": {
+          "twitter": "",
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "Digital creator bringing fresh perspectives and engaging content."
+      },
+      {
+        "id": 9,
+        "name": "Breeny Lee",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618123256-pq4z.jpeg",
+        "socials": {
+          "twitter": "",
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "Content creator and entertainer known for unique style and authenticity."
+      }
+    ]
+  },
+  "twoCardSection": {
+    "cards": [
+      {
+        "id": "card7",
+        "name": "HARRY",
+        "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-36.jpg?raw=true",
+        "socials": {
+          "twitter": "",
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "Harry brings humor and creativity to the Sidemen with his unique content style and entertaining videos."
+      },
+      {
+        "id": "card8",
+        "name": "JJ",
+        "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%208.jpg?raw=true",
+        "socials": {
+          "twitch": "",
+          "twitter": "",
+          "youtube": "",
+          "instagram": ""
+        },
+        "description": "JJ is a founding member of the Sidemen, known for his music career and entertaining content."
+      }
+    ]
+  },
+  "channels": [
+    {
+      "id": "channel1",
+      "name": "SIDEMEN",
+      "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true",
+      "subtitle": "XIX",
+      "youtubeUrl": ""
+    },
+    {
+      "id": "channel2",
+      "name": "SIDEMEN",
+      "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true",
+      "subtitle": "Reacts",
+      "youtubeUrl": ""
+    },
+    {
+      "id": "channel3",
+      "name": "More SIDEMEN",
+      "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true",
+      "subtitle": "XIX",
+      "youtubeUrl": ""
+    },
+    {
+      "id": "channel4",
+      "name": "SIDEMEN",
+      "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%204.jpg?raw=true",
+      "subtitle": "Shorts",
+      "youtubeUrl": ""
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fix Image URLs</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+            line-height: 1.6;
+        }
+        h1 { color: #2563eb; }
+        .step {
+            background: #222;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+        .button {
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .button:hover {
+            background: #1d4ed8;
+        }
+        .image-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .image-item {
+            background: #333;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .image-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .image-item input {
+            width: 100%;
+            padding: 8px;
+            background: #000;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        code {
+            background: #000;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #22c55e;
+            font-family: monospace;
+        }
+        .success {
+            background: #14532d;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #22c55e;
+        }
+        .warning {
+            background: #78350f;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Fix Image URLs</h1>
+
+    <div class="warning">
+        <strong>⚠️ The Problem:</strong><br>
+        Your uploaded images are in Supabase Storage, but the database has old GitHub URLs.
+        We need to replace them with your actual uploaded image URLs.
+    </div>
+
+    <div class="step">
+        <h2>Step 1: Get Your Supabase Image URLs</h2>
+        <p>For each of your 17 uploaded images in Supabase Storage:</p>
+        <ol>
+            <li>Go back to: <a href="https://supabase.com/dashboard/project/amiwavztjjldikakrzis/storage/buckets/images" target="_blank" style="color: #2563eb;">Supabase Storage</a></li>
+            <li>Click on an image file</li>
+            <li>Click "Copy URL" button</li>
+            <li>The URL should look like: <code>https://amiwavztjjldikakrzis.supabase.co/storage/v1/object/public/images/FILENAME.jpg</code></li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h2>Step 2: Replace URLs in Your Data</h2>
+        <p>Copy the data below, replace the GitHub URLs with your Supabase URLs, then paste it in the text area:</p>
+
+        <textarea id="dataInput" style="width: 100%; height: 400px; background: #000; color: #22c55e; padding: 15px; border-radius: 4px; font-family: monospace; border: 1px solid #333; font-size: 12px;">
+{
+  "hero": {
+    "tagline": "Premium production studio partnering with creators, influencers, and streamers to deliver exceptional live and pre-recorded content",
+    "mainImage": "REPLACE_WITH_YOUR_MAIN_LOGO_IMAGE_URL",
+    "socialIcons": {
+      "tiktok": "",
+      "twitter": "",
+      "youtube": "",
+      "facebook": "",
+      "snapchat": "",
+      "instagram": ""
+    }
+  },
+  "heroCards": [
+    {
+      "id": "work",
+      "type": "work-card",
+      "image": "REPLACE_WITH_WORK_WITH_US_IMAGE_URL",
+      "title": "WORK WITH US"
+    },
+    {
+      "id": "contact",
+      "type": "touch-card",
+      "image": "REPLACE_WITH_GET_IN_TOUCH_IMAGE_URL",
+      "title": "GET IN TOUCH"
+    },
+    {
+      "id": "studio",
+      "type": "clothing-card",
+      "image": "REPLACE_WITH_BOOK_OUR_STUDIO_IMAGE_URL",
+      "title": "BOOK OUR STUDIO"
+    }
+  ],
+  "contentGrid": {
+    "videoUrl": "https://www.youtube.com/embed/8oi2OcFeEew",
+    "members": [
+      {"id": 1, "name": "Zeze Millz", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitch": "", "twitter": "", "youtube": "", "instagram": ""}, "description": "Content creator and influencer known for engaging content and unique personality."},
+      {"id": 2, "name": "Rimzee", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitter": "", "youtube": "", "facebook": "", "instagram": ""}, "description": "Multi-talented artist bringing fresh energy to the creative scene."},
+      {"id": 3, "name": "Layos Choice", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"youtube": "", "instagram": ""}, "special": true, "description": "Creative visionary pushing boundaries in content and entertainment."},
+      {"id": 4, "name": "Maggie Mayhem", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitter": "", "youtube": "", "instagram": ""}, "description": "Dynamic personality known for authentic content and engaging storytelling."},
+      {"id": 5, "name": "Paul Bridges", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitter": "", "youtube": "", "instagram": ""}, "description": "Creative professional bringing innovation and expertise to every project."},
+      {"id": 6, "name": "Bugzy Malone", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"youtube": "", "instagram": ""}, "description": "Award-winning artist and influential voice in music and entertainment."},
+      {"id": 7, "name": "Bernicia Boateng", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitter": "", "youtube": "", "instagram": ""}, "description": "Creative talent known for impactful content and inspiring storytelling."},
+      {"id": 8, "name": "JenyBSG", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitter": "", "youtube": "", "instagram": ""}, "description": "Digital creator bringing fresh perspectives and engaging content."},
+      {"id": 9, "name": "Breeny Lee", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitter": "", "youtube": "", "instagram": ""}, "description": "Content creator and entertainer known for unique style and authenticity."}
+    ]
+  },
+  "twoCardSection": {
+    "cards": [
+      {"id": "card7", "name": "HARRY", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitter": "", "youtube": "", "instagram": ""}, "description": "Harry brings humor and creativity to the Sidemen with his unique content style and entertaining videos."},
+      {"id": "card8", "name": "JJ", "image": "REPLACE_WITH_IMAGE_URL", "socials": {"twitch": "", "twitter": "", "youtube": "", "instagram": ""}, "description": "JJ is a founding member of the Sidemen, known for his music career and entertaining content."}
+    ]
+  },
+  "channels": [
+    {"id": "channel1", "name": "SIDEMEN", "image": "REPLACE_WITH_IMAGE_URL", "subtitle": "XIX", "youtubeUrl": ""},
+    {"id": "channel2", "name": "SIDEMEN", "image": "REPLACE_WITH_IMAGE_URL", "subtitle": "Reacts", "youtubeUrl": ""},
+    {"id": "channel3", "name": "More SIDEMEN", "image": "REPLACE_WITH_IMAGE_URL", "subtitle": "XIX", "youtubeUrl": ""},
+    {"id": "channel4", "name": "SIDEMEN", "image": "REPLACE_WITH_IMAGE_URL", "subtitle": "Shorts", "youtubeUrl": ""}
+  ]
+}
+        </textarea>
+
+        <button class="button" onclick="saveData()">Save Corrected Data</button>
+
+        <div id="result"></div>
+    </div>
+
+    <div class="step">
+        <h2>Alternative: Quick Fix</h2>
+        <p>If you just want to test with one or two images first:</p>
+        <ol>
+            <li>Just replace the URLs for the hero section images</li>
+            <li>Click Save</li>
+            <li>Refresh your website</li>
+            <li>If it works, come back and fix the rest</li>
+        </ol>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const SUPABASE_URL = 'https://amiwavztjjldikakrzis.supabase.co'
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtaXdhdnp0ampsZGlrYWtyemlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1NjE0MDUsImV4cCI6MjA1MTEzNzQwNX0.fbnpZ2gGj5u8K-y5DBZU5p61BrBx5CRRVU0G3LyYB8U'
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+        window.saveData = async function() {
+            const input = document.getElementById('dataInput').value.trim();
+            const result = document.getElementById('result');
+
+            try {
+                const data = JSON.parse(input);
+
+                // Save to localStorage
+                localStorage.setItem('siteData', JSON.stringify(data));
+
+                // Save to Supabase
+                const { error } = await supabase
+                    .from('site_data')
+                    .upsert({ id: 'main', data: data })
+
+                if (error) {
+                    result.innerHTML = '<div class="warning">⚠️ Saved to localStorage but Supabase failed: ' + error.message + '</div>';
+                } else {
+                    result.innerHTML = '<div class="success"><strong>✓ Success!</strong><br>Data saved to both localStorage and Supabase.<br><br><a href="http://localhost:5173" class="button">Refresh Your Website</a></div>';
+                }
+
+            } catch (err) {
+                result.innerHTML = '<div class="warning">✗ Error: ' + err.message + '<br>Make sure all URLs are correctly replaced.</div>';
+            }
+        }
+    </script>
+</body>
+</html>
