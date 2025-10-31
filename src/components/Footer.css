@@ -140,6 +140,30 @@
   height: 24px;
 }
 
+.cta-text .letter-swap-container {
+  display: inline-flex !important;
+  overflow: hidden;
+  height: 1.4em;
+  align-items: flex-start;
+}
+
+.cta-text .letter-swap-container .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.cta-text .letter-swap-container > span:not(.sr-only) {
+  overflow: hidden;
+  height: 1.4em;
+}
+
 @media (max-width: 1024px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;

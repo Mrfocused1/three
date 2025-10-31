@@ -49,9 +49,9 @@ const Footer = () => {
             <div className="footer-cta">
               <p ref={ctaRef} className="cta-text">
                 Got a Project in mind?<br />
-                <RandomLetterSwapPingPong
+<RandomLetterSwapPingPong
                   label="Let's Talk."
-                  className="inline-flex"
+                  className="letter-swap-container"
                   style={{
                     fontSize: 'inherit',
                     fontWeight: 'inherit',
