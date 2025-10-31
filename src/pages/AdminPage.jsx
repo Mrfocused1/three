@@ -5,7 +5,7 @@ import EditCardModal from '../components/EditCardModal'
 import './AdminPage.css'
 
 const AdminPage = () => {
-  const { data, updateCard, updateHero } = useData()
+  const { data, updateCard, updateHero, updateData } = useData()
   const [loading, setLoading] = useState(true)
   const [editingCard, setEditingCard] = useState(null)
   const [editingSection, setEditingSection] = useState(null)
