@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manual Recovery Steps</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+            line-height: 1.6;
+        }
+        .step {
+            background: #222;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+        h1 {
+            color: #2563eb;
+        }
+        h2 {
+            color: #fff;
+            margin-top: 0;
+        }
+        .button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .button:hover {
+            background: #1d4ed8;
+        }
+        code {
+            background: #000;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #22c55e;
+        }
+        .warning {
+            background: #78350f;
+            border-left-color: #f59e0b;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #14532d;
+            border-left-color: #22c55e;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        ol {
+            padding-left: 25px;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Manual Data Recovery Guide</h1>
+
+    <div class="warning">
+        <strong>⚠️ Important:</strong> The automatic recovery tool failed due to a module loading issue.
+        Follow these manual steps to check if your data is still in Supabase.
+    </div>
+
+    <div class="step">
+        <h2>Step 1: Check Supabase Database</h2>
+        <ol>
+            <li>Click this link to open your Supabase dashboard:
+                <br><a href="https://supabase.com/dashboard/project/amiwavztjjldikakrzis/editor" target="_blank" class="button">
+                    Open Supabase Dashboard
+                </a>
+            </li>
+            <li>Log in if needed</li>
+            <li>Click on <strong>"Table Editor"</strong> in the left sidebar</li>
+            <li>Select the <code>site_data</code> table</li>
+            <li>Look for a row where <code>id = "main"</code></li>
+            <li>Click on that row to see the full <code>data</code> column</li>
+        </ol>
+
+        <div class="success">
+            <strong>✓ What you're looking for:</strong><br>
+            If you see JSON data with image URLs starting with:<br>
+            <code>https://amiwavztjjldikakrzis.supabase.co/storage/v1/object/public/images/...</code><br>
+            <strong>Your data is still there!</strong>
+        </div>
+    </div>
+
+    <div class="step">
+        <h2>Step 2: Check Uploaded Images</h2>
+        <ol>
+            <li>Click this link to open your Storage bucket:
+                <br><a href="https://supabase.com/dashboard/project/amiwavztjjldikakrzis/storage/buckets/images" target="_blank" class="button">
+                    Open Storage Bucket
+                </a>
+            </li>
+            <li>You should see files with timestamps in their names (e.g., <code>1730000000-abc123.jpg</code>)</li>
+            <li>These are your uploaded images - they're safe!</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h2>Step 3: Restore Data (If Found)</h2>
+        <p>If you found data in Step 1, copy the JSON data and paste it below:</p>
+
+        <textarea id="dataInput" style="width: 100%; height: 200px; background: #000; color: #22c55e; padding: 15px; border-radius: 4px; font-family: monospace; border: 1px solid #333;">
+Paste your JSON data here from Supabase...
+        </textarea>
+
+        <button onclick="restoreData()" class="button">Restore This Data</button>
+
+        <div id="result"></div>
+    </div>
+
+    <div class="step">
+        <h2>Step 4: Alternative - Re-upload Images</h2>
+        <p>If the database data is gone but images are still in Storage:</p>
+        <ol>
+            <li>Go to the admin page of your site</li>
+            <li>For each card, click the edit button</li>
+            <li>Go to Storage bucket (link above) and copy each image URL</li>
+            <li>Manually paste the URLs into the edit form</li>
+            <li>Or re-upload the images</li>
+        </ol>
+    </div>
+
+    <script>
+        function restoreData() {
+            const input = document.getElementById('dataInput').value.trim();
+            const result = document.getElementById('result');
+
+            try {
+                // Parse the JSON
+                const data = JSON.parse(input);
+
+                // Save to localStorage
+                localStorage.setItem('siteData', JSON.stringify(data));
+
+                result.innerHTML = '<div class="success"><strong>✓ Success!</strong><br>Data has been restored to localStorage.<br><br><a href="http://localhost:5173" class="button">Refresh Your Website</a></div>';
+
+            } catch (err) {
+                result.innerHTML = '<div class="warning"><strong>✗ Error:</strong> ' + err.message + '<br>Make sure you copied valid JSON data.</div>';
+            }
+        }
+    </script>
+
+    <div class="step">
+        <h2>Need Help?</h2>
+        <p>Take screenshots of:</p>
+        <ul>
+            <li>The site_data table in Supabase</li>
+            <li>The Storage bucket showing your image files</li>
+            <li>Any error messages</li>
+        </ul>
+        <p>And share them so I can help you recover the data manually.</p>
+    </div>
+</body>
+</html>
