@@ -28,17 +28,20 @@ const initialData = {
     {
       id: 'work',
       title: 'WORK WITH US',
-      type: 'work-card'
+      type: 'work-card',
+      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true'
     },
     {
       id: 'contact',
       title: 'GET IN TOUCH',
-      type: 'touch-card'
+      type: 'touch-card',
+      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true'
     },
     {
       id: 'studio',
       title: 'BOOK OUR STUDIO',
-      type: 'clothing-card'
+      type: 'clothing-card',
+      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true'
     }
   ],
   contentGrid: {
@@ -338,6 +341,13 @@ export const DataProvider = ({ children }) => {
           ...prev,
           channels: prev.channels.map(channel =>
             channel.id === cardId ? { ...channel, ...updatedCard } : channel
+          )
+        }
+      } else if (section === 'heroCards') {
+        return {
+          ...prev,
+          heroCards: prev.heroCards.map(card =>
+            card.id === cardId ? { ...card, ...updatedCard } : card
           )
         }
       }

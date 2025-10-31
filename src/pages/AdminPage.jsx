@@ -17,6 +17,7 @@ const AdminPage = () => {
     // Collect all images from data
     const imageUrls = [
       data.hero.mainImage,
+      ...data.heroCards.map(c => c.image).filter(Boolean),
       ...data.contentGrid.members.map(m => m.image).filter(Boolean),
       ...data.twoCardSection.cards.map(c => c.image).filter(Boolean)
     ]
@@ -154,21 +155,39 @@ const AdminPage = () => {
           </div>
           <div className="hero-right">
             <div className="featured-grid">
-              <div className="featured-card work-card">
-                <div className="card-overlay">
-                  <h3>{data.heroCards[0].title}</h3>
+              {data.heroCards.map((card, index) => (
+                <div
+                  key={card.id}
+                  className={`featured-card ${card.type} ${index === 2 ? 'full-width' : ''}`}
+                  style={{
+                    backgroundImage: card.image ? `url(${card.image})` : 'none',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
+                  <button
+                    className="edit-icon"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleEditClick(card, 'heroCards')
+                    }}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                  {index === 2 ? (
+                    <div className="card-label">
+                      <span>{card.title}</span>
+                    </div>
+                  ) : (
+                    <div className="card-overlay">
+                      <h3>{card.title}</h3>
+                    </div>
+                  )}
                 </div>
-              </div>
-              <div className="featured-card touch-card">
-                <div className="card-overlay">
-                  <h3>{data.heroCards[1].title}</h3>
-                </div>
-              </div>
-              <div className="featured-card clothing-card full-width">
-                <div className="card-label">
-                  <span>{data.heroCards[2].title}</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

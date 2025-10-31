@@ -92,21 +92,28 @@ const Hero = () => {
         </div>
         <div className="hero-right">
           <div className="featured-grid">
-            <div className="featured-card work-card" onClick={() => openForm('work')}>
-              <div className="card-overlay">
-                <h3>WORK WITH US</h3>
+            {data.heroCards && data.heroCards.map((card, index) => (
+              <div
+                key={card.id}
+                className={`featured-card ${card.type} ${index === 2 ? 'full-width' : ''}`}
+                onClick={() => openForm(card.id)}
+                style={{
+                  backgroundImage: card.image ? `url(${card.image})` : 'none',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              >
+                {index === 2 ? (
+                  <div className="card-label">
+                    <span>{card.title}</span>
+                  </div>
+                ) : (
+                  <div className="card-overlay">
+                    <h3>{card.title}</h3>
+                  </div>
+                )}
               </div>
-            </div>
-            <div className="featured-card touch-card" onClick={() => openForm('contact')}>
-              <div className="card-overlay">
-                <h3>GET IN TOUCH</h3>
-              </div>
-            </div>
-            <div className="featured-card clothing-card full-width" onClick={() => openForm('studio')}>
-              <div className="card-label">
-                <span>BOOK OUR STUDIO</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

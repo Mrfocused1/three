@@ -32,6 +32,15 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
   // Check if editing a channel
   const isEditingChannel = card?.subtitle !== undefined && card?.youtubeUrl !== undefined
 
+  // Check if editing a hero card (work with us, get in touch, book our studio)
+  const isEditingHeroCard = card?.type !== undefined && (card?.type === 'work-card' || card?.type === 'touch-card' || card?.type === 'clothing-card')
+
+  // Define steps for hero cards
+  const heroCardSteps = [
+    { title: 'Card Info', fields: ['title'] },
+    { title: 'Upload Image', fields: ['image'] }
+  ]
+
   // Define steps for channels
   const channelSteps = [
     { title: 'Channel Info', fields: ['channelName', 'channelSubtitle'] },
@@ -55,7 +64,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
     { title: 'Social Media (2/2)', fields: ['snapchat', 'tiktok'] }
   ]
 
-  const steps = isEditingChannel ? channelSteps : (isHeroSection ? heroSteps : nonHeroSteps)
+  const steps = isEditingHeroCard ? heroCardSteps : (isEditingChannel ? channelSteps : (isHeroSection ? heroSteps : nonHeroSteps))
   const totalSteps = steps.length
   const isFirstStep = currentStep === 0
   const isLastStep = currentStep === totalSteps - 1
@@ -68,6 +77,13 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
         setFormData({
           videoUrl: card.videoUrl || ''
         })
+      } else if (isEditingHeroCard) {
+        // Editing a hero card (work with us, get in touch, book our studio)
+        setFormData({
+          title: card.title || '',
+          image: card.image || ''
+        })
+        setImagePreview(card.image || '')
       } else if (isEditingChannel) {
         // Editing a channel
         setFormData({
@@ -109,7 +125,7 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
         setImagePreview(card.image || '')
       }
     }
-  }, [isOpen, card, isHeroSection, isEditingChannel])
+  }, [isOpen, card, isHeroSection, isEditingChannel, isEditingHeroCard])
 
   useEffect(() => {
     if (isOpen) {
@@ -439,6 +455,22 @@ const EditCardModal = ({ isOpen, onClose, card, onSave, isHeroSection }) => {
             onChange={handleChange}
             rows="4"
             placeholder="A group of friends with a few videos online..."
+          />
+        </div>
+      )
+    }
+
+    if (fieldName === 'title') {
+      return (
+        <div className="form-field" key="title">
+          <label htmlFor="title">Card Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title || ''}
+            onChange={handleChange}
+            placeholder="e.g., WORK WITH US"
           />
         </div>
       )
