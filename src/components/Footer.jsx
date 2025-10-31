@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import FormModal from './FormModal'
+import { RandomLetterSwapPingPong } from './RandomLetterSwap'
 import './Footer.css'
 
 const Footer = () => {
@@ -48,7 +49,16 @@ const Footer = () => {
             <div className="footer-cta">
               <p ref={ctaRef} className="cta-text">
                 Got a Project in mind?<br />
-                Let's Talk.
+                <RandomLetterSwapPingPong
+                  label="Let's Talk."
+                  className="inline-flex"
+                  style={{
+                    fontSize: 'inherit',
+                    fontWeight: 'inherit',
+                    color: 'inherit',
+                    lineHeight: 'inherit'
+                  }}
+                />
               </p>
               <a
                 href="https://instagram.com/thethreebuttons"
