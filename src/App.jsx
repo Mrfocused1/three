@@ -5,7 +5,6 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import ContentGrid from './components/ContentGrid'
 import TwoCardSection from './components/TwoCardSection'
-import ChannelBadges from './components/ChannelBadges'
 import Footer from './components/Footer'
 import AdminPage from './pages/AdminPage'
 import './App.css'
@@ -72,7 +71,6 @@ function HomePage() {
           <Hero />
           <ContentGrid />
           <TwoCardSection />
-          <ChannelBadges />
           <Footer />
         </div>
       )}
