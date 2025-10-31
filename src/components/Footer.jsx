@@ -43,15 +43,15 @@ const Footer = () => {
             <h4 className="footer-heading">Contact</h4>
             <ul className="footer-links">
               <li>
-                <a href="mailto:info@thethreebuttons.co.uk">
-                  info@thethreebuttons.co.uk
+                <a href="mailto:hello@thethreebuttons.co.uk">
+                  hello@thethreebuttons.co.uk
                 </a>
               </li>
               <li>
                 <span style={{ color: '#999', cursor: 'default' }}>
-                  Lock Studios<br />
-                  7 Corsica Square<br />
-                  London, E3 3YD
+                  128 City Road<br />
+                  London, United Kingdom<br />
+                  EC1V 2NX
                 </span>
               </li>
             </ul>
