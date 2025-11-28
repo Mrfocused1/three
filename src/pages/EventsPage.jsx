@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './PortfolioPage.css'
 
-const ContentCreationPage = () => {
+const EventsPage = () => {
   const [portfolioItems, setPortfolioItems] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('https://api.pexels.com/v1/search?query=social media content creator&per_page=8', {
+        const response = await fetch('https://api.pexels.com/v1/search?query=event photography concert&per_page=8', {
           headers: {
             Authorization: '8sLoMXg5fX4DKdmX8sSFxebcYNbdcwU6VizqTp4YRdrJ7a3MVlwc9qpp'
           }
@@ -18,10 +18,10 @@ const ContentCreationPage = () => {
 
         const items = data.photos.map((photo, index) => ({
           id: photo.id,
-          title: `Content Project ${index + 1}`,
-          description: photo.alt || 'Creative content creation and digital strategy',
+          title: `Event Coverage ${index + 1}`,
+          description: photo.alt || 'Professional event photography and coverage',
           image: photo.src.large,
-          category: 'Content Creation',
+          category: 'Events',
           photographer: photo.photographer
         }))
 
@@ -40,8 +40,8 @@ const ContentCreationPage = () => {
     <div className="portfolio-page">
       <div className="portfolio-header">
         <Link to="/" className="back-link">← Back to Home</Link>
-        <h1>Content Creation</h1>
-        <p className="portfolio-subtitle">Engaging content for digital platforms</p>
+        <h1>Events</h1>
+        <p className="portfolio-subtitle">Capturing the energy and excitement of live events</p>
       </div>
 
       {loading ? (
@@ -68,4 +68,4 @@ const ContentCreationPage = () => {
   )
 }
 
-export default ContentCreationPage
+export default EventsPage

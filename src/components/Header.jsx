@@ -57,8 +57,9 @@ const Header = () => {
             </a>
             <div className={`submenu ${workSubmenuOpen ? 'open' : ''}`}>
               <Link to="/work/production" onClick={toggleMenu}>Production</Link>
+              <Link to="/work/headshots" onClick={toggleMenu}>Taking Headshots</Link>
               <Link to="/work/content-creation" onClick={toggleMenu}>Content Creation</Link>
-              <Link to="/work/photography" onClick={toggleMenu}>Photography</Link>
+              <Link to="/work/events" onClick={toggleMenu}>Events</Link>
             </div>
           </div>
           <a href="#" onClick={toggleMenu}>Work With Us</a>
