@@ -7,6 +7,7 @@ import ContentGrid from './components/ContentGrid'
 import TwoCardSection from './components/TwoCardSection'
 import Footer from './components/Footer'
 import AdminPage from './pages/AdminPage'
+import RestorePage from './pages/RestorePage'
 import './App.css'
 
 function HomePage() {
@@ -83,6 +84,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="/restore" element={<RestorePage />} />
     </Routes>
   )
 }
