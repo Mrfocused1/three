@@ -208,6 +208,41 @@ const initialData = {
   ]
 }
 
+// Validation: Ensure initialData doesn't have placeholder URLs in user-editable fields
+const validateInitialData = () => {
+  const errors = []
+
+  // Check heroCards - these should NEVER have image URLs in initialData
+  if (initialData.heroCards) {
+    initialData.heroCards.forEach((card, index) => {
+      if (card.image && card.image.trim() !== '') {
+        errors.push(`⚠️ CRITICAL: heroCards[${index}].image has placeholder URL "${card.image}". This should be empty!`)
+      }
+    })
+  }
+
+  // Check contentGrid members - only warn if they have non-standard URLs
+  if (initialData.contentGrid?.members) {
+    initialData.contentGrid.members.forEach((member, index) => {
+      if (member.image && !member.image.includes('github.com') && !member.image.includes('supabase.co')) {
+        errors.push(`⚠️ WARNING: contentGrid.members[${index}].image has unexpected URL pattern`)
+      }
+    })
+  }
+
+  if (errors.length > 0) {
+    console.error('❌ INITIAL DATA VALIDATION FAILED:')
+    errors.forEach(err => console.error(err))
+    console.error('🛡️ This prevents the image upload bug! Fix initialData in DataContext.jsx')
+    throw new Error('initialData validation failed - placeholder URLs detected in user-editable fields')
+  }
+
+  console.log('✅ initialData validation passed - no placeholder URLs in user-editable fields')
+}
+
+// Run validation immediately when module loads
+validateInitialData()
+
 export const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialData)
   const [loading, setLoading] = useState(true)
