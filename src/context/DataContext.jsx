@@ -113,39 +113,6 @@ const initialData = {
           youtube: '',
           instagram: ''
         }
-      },
-      {
-        id: 7,
-        name: 'Bernicia Boateng',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true',
-        description: 'Creative talent known for impactful content and inspiring storytelling.',
-        socials: {
-          youtube: '',
-          instagram: '',
-          twitter: ''
-        }
-      },
-      {
-        id: 8,
-        name: 'JenyBSG',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true',
-        description: 'Digital creator bringing fresh perspectives and engaging content.',
-        socials: {
-          youtube: '',
-          instagram: '',
-          twitter: ''
-        }
-      },
-      {
-        id: 9,
-        name: 'Breeny Lee',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true',
-        description: 'Content creator and entertainer known for unique style and authenticity.',
-        socials: {
-          youtube: '',
-          instagram: '',
-          twitter: ''
-        }
       }
     ]
   },
