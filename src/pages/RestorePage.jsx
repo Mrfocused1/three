@@ -83,27 +83,6 @@ const RestorePage = () => {
           "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618088901-b64cvq.jpeg",
           "socials": {"youtube": "", "instagram": ""},
           "description": "Award-winning artist and influential voice in music and entertainment."
-        },
-        {
-          "id": 7,
-          "name": "Bernicia Boateng",
-          "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618101674-xzsot.jpeg",
-          "socials": {"twitter": "", "youtube": "", "instagram": ""},
-          "description": "Creative talent known for impactful content and inspiring storytelling."
-        },
-        {
-          "id": 8,
-          "name": "JenyBSG",
-          "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618110670-krdp6o.jpeg",
-          "socials": {"twitter": "", "youtube": "", "instagram": ""},
-          "description": "Digital creator bringing fresh perspectives and engaging content."
-        },
-        {
-          "id": 9,
-          "name": "Breeny Lee",
-          "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618123256-pq4z.jpeg",
-          "socials": {"twitter": "", "youtube": "", "instagram": ""},
-          "description": "Content creator and entertainer known for unique style and authenticity."
         }
       ]
     },
@@ -151,7 +130,7 @@ const RestorePage = () => {
         setMessage(`Saved to localStorage! (Supabase warning: ${error.message})`)
       } else {
         setStatus('success')
-        setMessage('Success! All 12 images have been restored to both localStorage and Supabase!')
+        setMessage('Success! All 9 images have been restored to both localStorage and Supabase!')
       }
     } catch (error) {
       setStatus('error')
@@ -171,11 +150,11 @@ const RestorePage = () => {
             <div style={styles.statLabel}>Hero Cards</div>
           </div>
           <div style={styles.stat}>
-            <div style={styles.statNumber}>9</div>
+            <div style={styles.statNumber}>6</div>
             <div style={styles.statLabel}>Team Members</div>
           </div>
           <div style={styles.stat}>
-            <div style={styles.statNumber}>12</div>
+            <div style={styles.statNumber}>9</div>
             <div style={styles.statLabel}>Total Images</div>
           </div>
         </div>
