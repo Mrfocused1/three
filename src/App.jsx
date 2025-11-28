@@ -11,6 +11,8 @@ import RestorePage from './pages/RestorePage'
 import ProductionPage from './pages/ProductionPage'
 import ContentCreationPage from './pages/ContentCreationPage'
 import PhotographyPage from './pages/PhotographyPage'
+import HeadshotsPage from './pages/HeadshotsPage'
+import EventsPage from './pages/EventsPage'
 import './App.css'
 
 function HomePage() {
@@ -89,7 +91,9 @@ function App() {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/restore" element={<RestorePage />} />
       <Route path="/work/production" element={<ProductionPage />} />
+      <Route path="/work/headshots" element={<HeadshotsPage />} />
       <Route path="/work/content-creation" element={<ContentCreationPage />} />
+      <Route path="/work/events" element={<EventsPage />} />
       <Route path="/work/photography" element={<PhotographyPage />} />
     </Routes>
   )

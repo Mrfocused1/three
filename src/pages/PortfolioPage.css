@@ -5,6 +5,13 @@
   padding: 100px 20px 60px;
 }
 
+.loading-spinner {
+  text-align: center;
+  padding: 100px 20px;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .portfolio-header {
   max-width: 1400px;
   margin: 0 auto 60px;

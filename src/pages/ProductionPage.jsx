@@ -1,39 +1,40 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './PortfolioPage.css'
 
 const ProductionPage = () => {
-  // Sample portfolio items - you can replace with real data
-  const portfolioItems = [
-    {
-      id: 1,
-      title: 'Project Title 1',
-      description: 'Description of the production project',
-      image: 'https://via.placeholder.com/600x400',
-      category: 'Production'
-    },
-    {
-      id: 2,
-      title: 'Project Title 2',
-      description: 'Description of the production project',
-      image: 'https://via.placeholder.com/600x400',
-      category: 'Production'
-    },
-    {
-      id: 3,
-      title: 'Project Title 3',
-      description: 'Description of the production project',
-      image: 'https://via.placeholder.com/600x400',
-      category: 'Production'
-    },
-    {
-      id: 4,
-      title: 'Project Title 4',
-      description: 'Description of the production project',
-      image: 'https://via.placeholder.com/600x400',
-      category: 'Production'
+  const [portfolioItems, setPortfolioItems] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await fetch('https://api.pexels.com/v1/search?query=video production studio&per_page=8', {
+          headers: {
+            Authorization: '8sLoMXg5fX4DKdmX8sSFxebcYNbdcwU6VizqTp4YRdrJ7a3MVlwc9qpp'
+          }
+        })
+        const data = await response.json()
+
+        const items = data.photos.map((photo, index) => ({
+          id: photo.id,
+          title: `Production Project ${index + 1}`,
+          description: photo.alt || 'Professional video production and creative content',
+          image: photo.src.large,
+          category: 'Production',
+          photographer: photo.photographer
+        }))
+
+        setPortfolioItems(items)
+        setLoading(false)
+      } catch (error) {
+        console.error('Error fetching images:', error)
+        setLoading(false)
+      }
     }
-  ]
+
+    fetchImages()
+  }, [])
 
   return (
     <div className="portfolio-page">
@@ -43,22 +44,26 @@ const ProductionPage = () => {
         <p className="portfolio-subtitle">Professional production work and projects</p>
       </div>
 
-      <div className="portfolio-grid">
-        {portfolioItems.map(item => (
-          <div key={item.id} className="portfolio-item">
-            <div className="portfolio-image">
-              <img src={item.image} alt={item.title} />
-              <div className="portfolio-overlay">
-                <span className="category-tag">{item.category}</span>
+      {loading ? (
+        <div className="loading-spinner">Loading portfolio...</div>
+      ) : (
+        <div className="portfolio-grid">
+          {portfolioItems.map(item => (
+            <div key={item.id} className="portfolio-item">
+              <div className="portfolio-image">
+                <img src={item.image} alt={item.title} />
+                <div className="portfolio-overlay">
+                  <span className="category-tag">{item.category}</span>
+                </div>
+              </div>
+              <div className="portfolio-info">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
               </div>
             </div>
-            <div className="portfolio-info">
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
