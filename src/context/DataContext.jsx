@@ -50,7 +50,7 @@ const initialData = {
       {
         id: 1,
         name: 'Zeze Millz',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true',
+        image: '',
         description: 'Content creator and influencer known for engaging content and unique personality.',
         socials: {
           youtube: '',
@@ -62,7 +62,7 @@ const initialData = {
       {
         id: 2,
         name: 'Rimzee',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true',
+        image: '',
         description: 'Multi-talented artist bringing fresh energy to the creative scene.',
         socials: {
           youtube: '',
@@ -74,7 +74,7 @@ const initialData = {
       {
         id: 3,
         name: 'Layos Choice',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true',
+        image: '',
         special: true,
         description: 'Creative visionary pushing boundaries in content and entertainment.',
         socials: {
@@ -85,7 +85,7 @@ const initialData = {
       {
         id: 4,
         name: 'Maggie Mayhem',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%204.jpg?raw=true',
+        image: '',
         description: 'Dynamic personality known for authentic content and engaging storytelling.',
         socials: {
           youtube: '',
@@ -96,7 +96,7 @@ const initialData = {
       {
         id: 5,
         name: 'Paul Bridges',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/5.jpg?raw=true',
+        image: '',
         description: 'Creative professional bringing innovation and expertise to every project.',
         socials: {
           youtube: '',
@@ -107,7 +107,7 @@ const initialData = {
       {
         id: 6,
         name: 'Bugzy Malone',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/6.jpg?raw=true',
+        image: '',
         description: 'Award-winning artist and influential voice in music and entertainment.',
         socials: {
           youtube: '',
@@ -117,7 +117,7 @@ const initialData = {
       {
         id: 7,
         name: 'Bernicia Boateng',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true',
+        image: '',
         description: 'Creative talent known for impactful content and inspiring storytelling.',
         socials: {
           youtube: '',
@@ -128,7 +128,7 @@ const initialData = {
       {
         id: 8,
         name: 'JenyBSG',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true',
+        image: '',
         description: 'Digital creator bringing fresh perspectives and engaging content.',
         socials: {
           youtube: '',
@@ -139,7 +139,7 @@ const initialData = {
       {
         id: 9,
         name: 'Breeny Lee',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true',
+        image: '',
         description: 'Content creator and entertainer known for unique style and authenticity.',
         socials: {
           youtube: '',
@@ -154,7 +154,7 @@ const initialData = {
       {
         id: 'card7',
         name: 'HARRY',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-36.jpg?raw=true',
+        image: '',
         description: 'Harry brings humor and creativity to the Sidemen with his unique content style and entertaining videos.',
         socials: {
           youtube: '',
@@ -165,7 +165,7 @@ const initialData = {
       {
         id: 'card8',
         name: 'JJ',
-        image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%208.jpg?raw=true',
+        image: '',
         description: 'JJ is a founding member of the Sidemen, known for his music career and entertaining content.',
         socials: {
           youtube: '',
@@ -181,28 +181,28 @@ const initialData = {
       id: 'channel1',
       name: 'SIDEMEN',
       subtitle: 'XIX',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true',
+      image: '',
       youtubeUrl: ''
     },
     {
       id: 'channel2',
       name: 'SIDEMEN',
       subtitle: 'Reacts',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true',
+      image: '',
       youtubeUrl: ''
     },
     {
       id: 'channel3',
       name: 'More SIDEMEN',
       subtitle: 'XIX',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true',
+      image: '',
       youtubeUrl: ''
     },
     {
       id: 'channel4',
       name: 'SIDEMEN',
       subtitle: 'Shorts',
-      image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%204.jpg?raw=true',
+      image: '',
       youtubeUrl: ''
     }
   ]
@@ -221,11 +221,29 @@ const validateInitialData = () => {
     })
   }
 
-  // Check contentGrid members - only warn if they have non-standard URLs
+  // Check contentGrid members - should NEVER have image URLs in initialData
   if (initialData.contentGrid?.members) {
     initialData.contentGrid.members.forEach((member, index) => {
-      if (member.image && !member.image.includes('github.com') && !member.image.includes('supabase.co')) {
-        errors.push(`⚠️ WARNING: contentGrid.members[${index}].image has unexpected URL pattern`)
+      if (member.image && member.image.trim() !== '') {
+        errors.push(`⚠️ CRITICAL: contentGrid.members[${index}].image has placeholder URL "${member.image}". This should be empty!`)
+      }
+    })
+  }
+
+  // Check twoCardSection cards - should NEVER have image URLs in initialData
+  if (initialData.twoCardSection?.cards) {
+    initialData.twoCardSection.cards.forEach((card, index) => {
+      if (card.image && card.image.trim() !== '') {
+        errors.push(`⚠️ CRITICAL: twoCardSection.cards[${index}].image has placeholder URL "${card.image}". This should be empty!`)
+      }
+    })
+  }
+
+  // Check channels - should NEVER have image URLs in initialData
+  if (initialData.channels) {
+    initialData.channels.forEach((channel, index) => {
+      if (channel.image && channel.image.trim() !== '') {
+        errors.push(`⚠️ CRITICAL: channels[${index}].image has placeholder URL "${channel.image}". This should be empty!`)
       }
     })
   }
@@ -234,10 +252,15 @@ const validateInitialData = () => {
     console.error('❌ INITIAL DATA VALIDATION FAILED:')
     errors.forEach(err => console.error(err))
     console.error('🛡️ This prevents the image upload bug! Fix initialData in DataContext.jsx')
+    console.error('🔒 ALL user-editable image fields in initialData MUST be empty strings')
     throw new Error('initialData validation failed - placeholder URLs detected in user-editable fields')
   }
 
   console.log('✅ initialData validation passed - no placeholder URLs in user-editable fields')
+  console.log('   ✓ heroCards: all images empty')
+  console.log('   ✓ contentGrid.members: all images empty')
+  console.log('   ✓ twoCardSection.cards: all images empty')
+  console.log('   ✓ channels: all images empty')
 }
 
 // Run validation immediately when module loads
