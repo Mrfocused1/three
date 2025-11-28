@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "restore": "node restore-data.js"
+    "restore": "node restore-data.js",
+    "restore-now": "node open-restore.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.76.1",
@@ -18,7 +19,9 @@
     "react-router-dom": "^7.9.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "playwright": "^1.57.0",
     "vite": "^5.0.8"
   }
 }
