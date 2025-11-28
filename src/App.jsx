@@ -8,6 +8,9 @@ import TwoCardSection from './components/TwoCardSection'
 import Footer from './components/Footer'
 import AdminPage from './pages/AdminPage'
 import RestorePage from './pages/RestorePage'
+import ProductionPage from './pages/ProductionPage'
+import ContentCreationPage from './pages/ContentCreationPage'
+import PhotographyPage from './pages/PhotographyPage'
 import './App.css'
 
 function HomePage() {
@@ -85,6 +88,9 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/restore" element={<RestorePage />} />
+      <Route path="/work/production" element={<ProductionPage />} />
+      <Route path="/work/content-creation" element={<ContentCreationPage />} />
+      <Route path="/work/photography" element={<PhotographyPage />} />
     </Routes>
   )
 }
