@@ -88,27 +88,6 @@
           "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618088901-b64cvq.jpeg",
           "socials": {"youtube": "", "instagram": ""},
           "description": "Award-winning artist and influential voice in music and entertainment."
-        },
-        {
-          "id": 7,
-          "name": "Bernicia Boateng",
-          "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618101674-xzsot.jpeg",
-          "socials": {"twitter": "", "youtube": "", "instagram": ""},
-          "description": "Creative talent known for impactful content and inspiring storytelling."
-        },
-        {
-          "id": 8,
-          "name": "JenyBSG",
-          "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618110670-krdp6o.jpeg",
-          "socials": {"twitter": "", "youtube": "", "instagram": ""},
-          "description": "Digital creator bringing fresh perspectives and engaging content."
-        },
-        {
-          "id": 9,
-          "name": "Breeny Lee",
-          "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618123256-pq4z.jpeg",
-          "socials": {"twitter": "", "youtube": "", "instagram": ""},
-          "description": "Content creator and entertainer known for unique style and authenticity."
         }
       ]
     },
