@@ -34,7 +34,7 @@ body.modal-open .header {
 }
 
 .menu-toggle {
-  display: none;
+  display: flex;
   background: none;
   border: none;
   cursor: pointer;
@@ -211,10 +211,6 @@ body.modal-open .header {
 
   .header-logo h1 {
     font-size: 1.25rem;
-  }
-
-  .menu-toggle {
-    display: flex;
   }
 
   .mobile-nav a {
