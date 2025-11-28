@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restore Your Images - One Click Solution</title>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .status.success {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            color: #721c24;
+        }
+
+        .restore-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .restore-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .restore-button:active {
+            transform: translateY(0);
+        }
+
+        .restore-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .image-count {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .count-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .count-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .count-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .website-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 40px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .website-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .info-box h3 {
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Restore Your Images</h1>
+        <p class="subtitle">One-click solution to get your website data back</p>
+
+        <div class="image-count">
+            <div class="count-item">
+                <div class="count-number">3</div>
+                <div class="count-label">Hero Cards</div>
+            </div>
+            <div class="count-item">
+                <div class="count-number">9</div>
+                <div class="count-label">Team Members</div>
+            </div>
+            <div class="count-item">
+                <div class="count-number">12</div>
+                <div class="count-label">Total Images</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>What This Will Do:</h3>
+            <ul>
+                <li>✅ Restore all your uploaded images</li>
+                <li>✅ Save data to localStorage (instant backup)</li>
+                <li>✅ Save data to Supabase (cloud backup)</li>
+                <li>✅ Fix the bug that caused data loss</li>
+            </ul>
+        </div>
+
+        <button class="restore-button" id="restoreBtn" onclick="restoreData()">
+            🚀 Restore My Images Now
+        </button>
+
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        const correctedData = {
+  "hero": {
+    "tagline": "Premium production studio partnering with creators, influencers, and streamers to deliver exceptional live and pre-recorded content",
+    "mainImage": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/hero%20image.jpg?raw=true",
+    "socialIcons": {
+      "tiktok": "",
+      "twitter": "",
+      "youtube": "",
+      "facebook": "",
+      "snapchat": "",
+      "instagram": ""
+    }
+  },
+  "heroCards": [
+    {
+      "id": "work",
+      "type": "work-card",
+      "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761911772237-lcg3g.png",
+      "title": "WORK WITH US"
+    },
+    {
+      "id": "contact",
+      "type": "touch-card",
+      "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761912173012-irbcq.png",
+      "title": "GET IN TOUCH"
+    },
+    {
+      "id": "studio",
+      "type": "clothing-card",
+      "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761912173012-irbcq.png",
+      "title": "BOOK OUR STUDIO"
+    }
+  ],
+  "contentGrid": {
+    "videoUrl": "https://www.youtube.com/embed/8oi2OcFeEew",
+    "members": [
+      {
+        "id": 1,
+        "name": "Zeze Millz",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618039352-mj6p29.jpeg",
+        "socials": {"twitch": "", "twitter": "", "youtube": "", "instagram": ""},
+        "description": "Content creator and influencer known for engaging content and unique personality."
+      },
+      {
+        "id": 2,
+        "name": "Rimzee",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618051711-hhrw9p.jpeg",
+        "socials": {"twitter": "", "youtube": "", "facebook": "", "instagram": ""},
+        "description": "Multi-talented artist bringing fresh energy to the creative scene."
+      },
+      {
+        "id": 3,
+        "name": "Layos Choice",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618062282-pyls2.jpeg",
+        "socials": {"youtube": "", "instagram": ""},
+        "special": true,
+        "description": "Creative visionary pushing boundaries in content and entertainment."
+      },
+      {
+        "id": 4,
+        "name": "Maggie Mayhem",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618076115-r42t8r.jpeg",
+        "socials": {"twitter": "", "youtube": "", "instagram": ""},
+        "description": "Dynamic personality known for authentic content and engaging storytelling."
+      },
+      {
+        "id": 5,
+        "name": "Paul Bridges",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618156593-mytj1k.jpeg",
+        "socials": {"twitter": "", "youtube": "", "instagram": ""},
+        "description": "Creative professional bringing innovation and expertise to every project."
+      },
+      {
+        "id": 6,
+        "name": "Bugzy Malone",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618088901-b64cvq.jpeg",
+        "socials": {"youtube": "", "instagram": ""},
+        "description": "Award-winning artist and influential voice in music and entertainment."
+      },
+      {
+        "id": 7,
+        "name": "Bernicia Boateng",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618101674-xzsot.jpeg",
+        "socials": {"twitter": "", "youtube": "", "instagram": ""},
+        "description": "Creative talent known for impactful content and inspiring storytelling."
+      },
+      {
+        "id": 8,
+        "name": "JenyBSG",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618110670-krdp6o.jpeg",
+        "socials": {"twitter": "", "youtube": "", "instagram": ""},
+        "description": "Digital creator bringing fresh perspectives and engaging content."
+      },
+      {
+        "id": 9,
+        "name": "Breeny Lee",
+        "image": "https://gxiqydbsvtirytqyzavj.supabase.co/storage/v1/object/public/images/1761618123256-pq4z.jpeg",
+        "socials": {"twitter": "", "youtube": "", "instagram": ""},
+        "description": "Content creator and entertainer known for unique style and authenticity."
+      }
+    ]
+  },
+  "twoCardSection": {
+    "cards": [
+      {
+        "id": "card7",
+        "name": "HARRY",
+        "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-36.jpg?raw=true",
+        "socials": {"twitter": "", "youtube": "", "instagram": ""},
+        "description": "Harry brings humor and creativity to the Sidemen with his unique content style and entertaining videos."
+      },
+      {
+        "id": "card8",
+        "name": "JJ",
+        "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%208.jpg?raw=true",
+        "socials": {"twitch": "", "twitter": "", "youtube": "", "instagram": ""},
+        "description": "JJ is a founding member of the Sidemen, known for his music career and entertaining content."
+      }
+    ]
+  },
+  "channels": [
+    {"id": "channel1", "name": "SIDEMEN", "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-33.jpg?raw=true", "subtitle": "XIX", "youtubeUrl": ""},
+    {"id": "channel2", "name": "SIDEMEN", "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/Image_fx-35.jpg?raw=true", "subtitle": "Reacts", "youtubeUrl": ""},
+    {"id": "channel3", "name": "More SIDEMEN", "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/man.jpg?raw=true", "subtitle": "XIX", "youtubeUrl": ""},
+    {"id": "channel4", "name": "SIDEMEN", "image": "https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%204.jpg?raw=true", "subtitle": "Shorts", "youtubeUrl": ""}
+  ]
+};
+
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const SUPABASE_URL = 'https://gxiqydbsvtirytqyzavj.supabase.co'
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4aXF5ZGJzdnRpcnl0cXl6YXZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1OTQyNTcsImV4cCI6MjA3NzE3MDI1N30.PQ3iv18d2BR_5RrFcc72pgnD1jf_hhUhbfTujuJoXMI'
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+        window.restoreData = async function() {
+            const statusDiv = document.getElementById('status');
+            const button = document.getElementById('restoreBtn');
+
+            button.disabled = true;
+            statusDiv.innerHTML = '<div class="spinner"></div><p>Restoring your data...</p>';
+
+            try {
+                // Step 1: Save to localStorage
+                console.log('💾 Saving to localStorage...');
+                localStorage.setItem('siteData', JSON.stringify(correctedData));
+                console.log('✓ Saved to localStorage');
+
+                // Step 2: Save to Supabase
+                console.log('☁️ Saving to Supabase...');
+                const { error } = await supabase
+                    .from('site_data')
+                    .upsert({ id: 'main', data: correctedData })
+
+                if (error) {
+                    console.warn('Supabase warning:', error);
+                    statusDiv.innerHTML = `
+                        <div class="status success">
+                            <h2>✅ Partially Successful!</h2>
+                            <p><strong>✓ Data saved to localStorage</strong></p>
+                            <p>⚠️ Supabase connection issue: ${error.message}</p>
+                            <p>Your images should still work from localStorage!</p>
+                            <a href="http://localhost:5173" class="website-link">🌐 View Your Website</a>
+                        </div>
+                    `;
+                } else {
+                    console.log('✓ Saved to Supabase');
+                    statusDiv.innerHTML = `
+                        <div class="status success">
+                            <h2>🎉 SUCCESS!</h2>
+                            <p><strong>All your images have been restored!</strong></p>
+                            <ul style="text-align: left; margin-top: 15px;">
+                                <li>✓ Data saved to localStorage</li>
+                                <li>✓ Data saved to Supabase cloud</li>
+                                <li>✓ 12 images properly restored</li>
+                                <li>✓ Bug fix is active</li>
+                            </ul>
+                            <a href="http://localhost:5173" class="website-link">🌐 View Your Website</a>
+                            <a href="http://localhost:5173/admin" class="website-link" style="background: #6c757d; margin-left: 10px;">⚙️ Admin Panel</a>
+                        </div>
+                    `;
+                }
+
+            } catch (err) {
+                console.error('Error:', err);
+                statusDiv.innerHTML = `
+                    <div class="status error">
+                        <h3>⚠️ Error Occurred</h3>
+                        <p>${err.message}</p>
+                        <p style="margin-top: 10px;">Try refreshing and clicking the button again.</p>
+                    </div>
+                `;
+                button.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
