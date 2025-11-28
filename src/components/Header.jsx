@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './Header.css'
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [workSubmenuOpen, setWorkSubmenuOpen] = useState(false)
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
+    setWorkSubmenuOpen(false)
+  }
+
+  const toggleWorkSubmenu = (e) => {
+    e.preventDefault()
+    setWorkSubmenuOpen(!workSubmenuOpen)
   }
 
   useEffect(() => {
@@ -24,7 +32,9 @@ const Header = () => {
       <header className="header">
         <div className="header-content">
           <div className="header-logo">
-            <img src="https://github.com/Mrfocused1/trimline-barbershop/blob/main/t3b.jpg?raw=true" alt="The Three Buttons" />
+            <Link to="/">
+              <img src="https://github.com/Mrfocused1/trimline-barbershop/blob/main/t3b.jpg?raw=true" alt="The Three Buttons" />
+            </Link>
           </div>
           <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle menu">
             <span className="hamburger"></span>
@@ -40,6 +50,17 @@ const Header = () => {
           ×
         </button>
         <nav className="mobile-nav">
+          <div className="menu-item-with-submenu">
+            <a href="#" onClick={toggleWorkSubmenu} className={`menu-item ${workSubmenuOpen ? 'active' : ''}`}>
+              Work
+              <span className={`arrow ${workSubmenuOpen ? 'open' : ''}`}>›</span>
+            </a>
+            <div className={`submenu ${workSubmenuOpen ? 'open' : ''}`}>
+              <Link to="/work/production" onClick={toggleMenu}>Production</Link>
+              <Link to="/work/content-creation" onClick={toggleMenu}>Content Creation</Link>
+              <Link to="/work/photography" onClick={toggleMenu}>Photography</Link>
+            </div>
+          </div>
           <a href="#" onClick={toggleMenu}>Work With Us</a>
           <a href="#" onClick={toggleMenu}>Get In Touch</a>
           <a href="#" onClick={toggleMenu}>Book Our Studio</a>
