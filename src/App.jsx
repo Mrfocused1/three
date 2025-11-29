@@ -4,6 +4,7 @@ import LoadingScreen from './components/LoadingScreen'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import ContentGrid from './components/ContentGrid'
+import ExpandOnHover from './components/ExpandOnHover'
 import TwoCardSection from './components/TwoCardSection'
 import Footer from './components/Footer'
 import AdminPage from './pages/AdminPage'
@@ -76,6 +77,7 @@ function HomePage() {
           <Header />
           <Hero />
           <ContentGrid />
+          <ExpandOnHover />
           <TwoCardSection />
           <Footer />
         </div>
