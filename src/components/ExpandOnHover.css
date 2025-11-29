@@ -100,22 +100,22 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 2rem;
-  background-color: #f5f4f3;
-  color: #1a1a1a;
+  background-color: #2a2a2a;
+  color: #f5f4f3;
   text-decoration: none;
   border-radius: 0.75rem;
   font-size: 1.125rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 2px solid #3a3a3a;
 }
 
 .work-button:hover {
-  background-color: transparent;
-  color: #f5f4f3;
+  background-color: #3a3a3a;
+  color: #ffffff;
   border-color: #f5f4f3;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
 }
 
 .work-button-arrow {
