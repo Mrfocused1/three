@@ -155,6 +155,7 @@ body.modal-open .header {
   color: rgba(204, 204, 204, 0.8);
   font-size: 1.1rem;
   padding-left: 20px;
+  white-space: nowrap;
 }
 
 .submenu a:hover {
@@ -222,6 +223,7 @@ body.modal-open .header {
   .submenu a {
     font-size: 0.95rem;
     padding-left: 15px;
+    white-space: nowrap;
   }
 
   .submenu a:hover {
