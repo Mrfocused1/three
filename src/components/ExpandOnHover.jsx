@@ -3,25 +3,6 @@ import { Link } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import "./ExpandOnHover.css";
 
-const workCategories = [
-  {
-    title: "Production",
-    path: "/work/production"
-  },
-  {
-    title: "Taking Headshots",
-    path: "/work/headshots"
-  },
-  {
-    title: "Content Creation",
-    path: "/work/content-creation"
-  },
-  {
-    title: "Events",
-    path: "/work/events"
-  },
-];
-
 const ExpandOnHover = () => {
   const { data, loading } = useData();
   const [expandedImage, setExpandedImage] = useState(3);
@@ -29,8 +10,11 @@ const ExpandOnHover = () => {
   const exploreData = data.exploreWork || {
     title: 'Explore Our Work',
     subtitle: 'Discover our portfolio across different creative services',
-    images: []
+    images: [],
+    categories: []
   };
+
+  const workCategories = exploreData.categories || [];
 
   // Filter out empty images
   const images = exploreData.images.filter(img => img && img.trim() !== '');

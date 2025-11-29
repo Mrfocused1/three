@@ -5,18 +5,21 @@ import Toast from './Toast'
 import './ExploreWorkAdmin.css'
 
 const ExploreWorkAdmin = () => {
-  const { data, updateExploreWork, updateExploreWorkImage } = useData()
+  const { data, updateExploreWork, updateExploreWorkImage, updateWorkCategory } = useData()
   const [toast, setToast] = useState(null)
   const [editingMetadata, setEditingMetadata] = useState(false)
   const [metadataForm, setMetadataForm] = useState({
     title: '',
     subtitle: ''
   })
+  const [editingCategory, setEditingCategory] = useState(null)
+  const [categoryTitle, setCategoryTitle] = useState('')
 
   const exploreData = data.exploreWork || {
     title: 'Explore Our Work',
     subtitle: 'Discover our portfolio across different creative services',
-    images: Array(9).fill('')
+    images: Array(9).fill(''),
+    categories: []
   }
 
   const handleEditMetadata = () => {
@@ -36,6 +39,25 @@ const ExploreWorkAdmin = () => {
   const handleImageChange = (index, url) => {
     updateExploreWorkImage(index, url)
     setToast({ message: `Image ${index + 1} updated!`, type: 'success' })
+  }
+
+  const handleEditCategory = (category) => {
+    setEditingCategory(category.id)
+    setCategoryTitle(category.title)
+  }
+
+  const handleSaveCategory = () => {
+    if (categoryTitle.trim()) {
+      updateWorkCategory(editingCategory, categoryTitle.trim())
+      setEditingCategory(null)
+      setCategoryTitle('')
+      setToast({ message: 'Category button updated!', type: 'success' })
+    }
+  }
+
+  const handleCancelCategory = () => {
+    setEditingCategory(null)
+    setCategoryTitle('')
   }
 
   return (
@@ -83,6 +105,44 @@ const ExploreWorkAdmin = () => {
             </button>
           </div>
         )}
+      </div>
+
+      {/* Work Category Buttons */}
+      <div className="categories-section">
+        <h3>Work Category Buttons</h3>
+        <p className="hint-text">Edit the button titles that appear below the gallery</p>
+
+        <div className="categories-list">
+          {exploreData.categories && exploreData.categories.map((category) => (
+            <div key={category.id} className="category-item">
+              {editingCategory === category.id ? (
+                <div className="category-edit">
+                  <input
+                    type="text"
+                    value={categoryTitle}
+                    onChange={(e) => setCategoryTitle(e.target.value)}
+                    className="category-input"
+                    autoFocus
+                  />
+                  <div className="category-actions">
+                    <button className="cancel-btn-small" onClick={handleCancelCategory}>Cancel</button>
+                    <button className="save-btn-small" onClick={handleSaveCategory}>Save</button>
+                  </div>
+                </div>
+              ) : (
+                <div className="category-view">
+                  <div className="category-info">
+                    <span className="category-title">{category.title}</span>
+                    <span className="category-path">{category.path}</span>
+                  </div>
+                  <button className="edit-btn-small" onClick={() => handleEditCategory(category)}>
+                    Edit
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Images Grid */}

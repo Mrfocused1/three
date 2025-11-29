@@ -221,6 +221,12 @@ const initialData = {
       'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/7991676/pexels-photo-7991676.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    categories: [
+      { id: 'production', title: 'Production', path: '/work/production' },
+      { id: 'headshots', title: 'Taking Headshots', path: '/work/headshots' },
+      { id: 'content-creation', title: 'Content Creation', path: '/work/content-creation' },
+      { id: 'events', title: 'Events', path: '/work/events' }
     ]
   },
   contactInfo: {
@@ -533,6 +539,18 @@ export const DataProvider = ({ children }) => {
     }))
   }
 
+  const updateWorkCategory = (categoryId, newTitle) => {
+    setData(prev => ({
+      ...prev,
+      exploreWork: {
+        ...prev.exploreWork,
+        categories: prev.exploreWork.categories.map(cat =>
+          cat.id === categoryId ? { ...cat, title: newTitle } : cat
+        )
+      }
+    }))
+  }
+
   return (
     <DataContext.Provider value={{
       data,
@@ -547,6 +565,7 @@ export const DataProvider = ({ children }) => {
       updateExploreWorkImage,
       updateMenuItem,
       updateContactInfo,
+      updateWorkCategory,
       loading,
       error
     }}>

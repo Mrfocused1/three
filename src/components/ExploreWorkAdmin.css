@@ -135,6 +135,122 @@
   background: #e5e5e5;
 }
 
+.categories-section {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.categories-section h3 {
+  color: #fff;
+  font-size: 20px;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.category-item {
+  background: #2a2a2a;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #333;
+}
+
+.category-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.category-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.category-path {
+  color: #999;
+  font-size: 13px;
+}
+
+.category-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.category-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.category-input:focus {
+  outline: none;
+  border-color: #fff;
+}
+
+.category-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.edit-btn-small,
+.cancel-btn-small,
+.save-btn-small {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-btn-small {
+  background: #333;
+  color: #fff;
+}
+
+.edit-btn-small:hover {
+  background: #444;
+}
+
+.cancel-btn-small {
+  background: #333;
+  color: #fff;
+}
+
+.cancel-btn-small:hover {
+  background: #444;
+}
+
+.save-btn-small {
+  background: #fff;
+  color: #000;
+}
+
+.save-btn-small:hover {
+  background: #e5e5e5;
+}
+
 .images-grid-section {
   background: #1a1a1a;
   border-radius: 12px;
