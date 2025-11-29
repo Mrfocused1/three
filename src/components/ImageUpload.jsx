@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react'
-import { supabase } from '../lib/supabase'
 import './ImageUpload.css'
 
 const ImageUpload = ({ value, onChange, label = "Image", accept = "image/*,video/*" }) => {
   const [uploading, setUploading] = useState(false)
-  const [uploadMode, setUploadMode] = useState('url') // 'url' or 'upload'
+  const [uploadMode, setUploadMode] = useState('upload') // 'url' or 'upload' - default to upload since it works now!
   const [urlInput, setUrlInput] = useState(value || '')
   const fileInputRef = useRef(null)
 
@@ -14,57 +13,42 @@ const ImageUpload = ({ value, onChange, label = "Image", accept = "image/*,video
       const file = event.target.files?.[0]
       if (!file) return
 
-      // Check file size (max 50MB)
-      const maxSize = 50 * 1024 * 1024 // 50MB
+      // Check file size - smaller limit for base64 storage (5MB recommended)
+      const maxSize = 5 * 1024 * 1024 // 5MB for base64 encoding
       if (file.size > maxSize) {
-        alert('File size too large. Maximum size is 50MB.')
+        alert('File size too large. Maximum size is 5MB.\n\nFor larger files, please:\n1. Upload to Imgur (supports up to 20MB)\n2. Use the URL tab to paste the link')
         setUploading(false)
-        return
-      }
-
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
-      const filePath = `uploads/${fileName}`
-      const bucketName = 'media'
-
-      // Attempt upload directly - simpler approach
-      const { error: uploadError, data } = await supabase.storage
-        .from(bucketName)
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        })
-
-      if (uploadError) {
-        console.error('Upload error:', uploadError)
-
-        // If bucket doesn't exist, show helpful message
-        if (uploadError.message.includes('Bucket not found') || uploadError.message.includes('bucket')) {
-          alert('File upload is not configured yet.\n\nPlease use the URL tab instead:\n1. Upload your image/video to Imgur, Cloudinary, or GitHub\n2. Copy the direct URL\n3. Click the "URL" tab above\n4. Paste the URL and click Apply')
-          // Auto-switch to URL mode
-          setUploadMode('url')
-        } else {
-          alert(`Upload failed: ${uploadError.message}\n\nPlease use the URL tab instead.`)
-          setUploadMode('url')
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
         }
-        setUploading(false)
         return
       }
 
-      const { data: { publicUrl } } = supabase.storage
-        .from(bucketName)
-        .getPublicUrl(filePath)
+      // Convert file to base64 data URL (no backend needed!)
+      const reader = new FileReader()
 
-      onChange(publicUrl)
-      setUrlInput(publicUrl)
-      alert('File uploaded successfully!')
+      reader.onload = (e) => {
+        const dataUrl = e.target.result
+        onChange(dataUrl)
+        setUrlInput(dataUrl)
+        setUploading(false)
+        alert('File uploaded successfully! Saved to browser storage.')
+      }
+
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error)
+        alert('Error reading file. Please try again or use the URL tab.')
+        setUploading(false)
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
+        }
+      }
+
+      reader.readAsDataURL(file)
     } catch (error) {
       console.error('Error uploading file:', error)
-      alert(`Upload error. Please use the URL tab instead.\n\nHow to use URL tab:\n1. Upload to Imgur or similar service\n2. Copy the direct image/video URL\n3. Switch to URL tab\n4. Paste and click Apply`)
-      setUploadMode('url')
-    } finally {
+      alert('Error uploading file. Please try again or use the URL tab.')
       setUploading(false)
-      // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
       }
@@ -145,8 +129,11 @@ const ImageUpload = ({ value, onChange, label = "Image", accept = "image/*,video
             id={`file-upload-${label}`}
           />
           <label htmlFor={`file-upload-${label}`} className="file-upload-label">
-            {uploading ? 'Uploading...' : 'Choose File'}
+            {uploading ? 'Processing...' : '📁 Choose File from Device'}
           </label>
+          <div className="upload-hint">
+            Max size: 5MB. Supports images and videos.
+          </div>
         </div>
       )}
 

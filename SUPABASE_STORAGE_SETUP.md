@@ -1,6 +1,28 @@
-# Supabase Storage Setup Guide
+# Image/Video Upload Guide
 
-To enable file uploads (images and videos) in the admin panel, you need to create a storage bucket in your Supabase project.
+## ✨ No Setup Required!
+
+The admin panel now supports **direct device uploads** without any backend configuration!
+
+Files are converted to base64 and stored directly in your browser's local storage along with your other site data. No Supabase storage bucket needed!
+
+## How It Works
+
+1. **Upload File Tab** (Default) - Upload directly from your device
+   - Max size: 5MB
+   - Supports: Images (JPG, PNG, GIF, WebP) and Videos (MP4, WebM)
+   - Files are converted to base64 and saved with your site data
+   - ✅ No permissions needed
+   - ✅ No backend setup required
+
+2. **URL Tab** - Paste external URLs
+   - For files larger than 5MB
+   - Use free hosting: Imgur, Cloudinary, GitHub
+   - Supports any publicly accessible image/video URL
+
+## Optional: Supabase Storage (Advanced)
+
+If you need to handle larger files (>5MB) or prefer cloud storage, you can optionally set up Supabase Storage:
 
 ## Steps to Create the Storage Bucket
 
