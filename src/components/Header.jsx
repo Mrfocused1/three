@@ -12,6 +12,7 @@ const Header = () => {
   const [formType, setFormType] = useState('')
 
   const menuItems = data.menuItems || {
+    workTitle: 'Work',
     workSubmenu: [
       { id: 'production', title: 'Production', path: '/work/production' },
       { id: 'headshots', title: 'Taking Headshots', path: '/work/headshots' },
@@ -82,7 +83,7 @@ const Header = () => {
         <nav className="mobile-nav">
           <div className="menu-item-with-submenu">
             <a href="#" onClick={toggleWorkSubmenu} className={`menu-item ${workSubmenuOpen ? 'active' : ''}`}>
-              Work
+              {menuItems.workTitle}
               <span className={`arrow ${workSubmenuOpen ? 'open' : ''}`}>›</span>
             </a>
             <div className={`submenu ${workSubmenuOpen ? 'open' : ''}`}>

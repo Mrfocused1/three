@@ -4,12 +4,15 @@ import Toast from './Toast'
 import './MenuItemsAdmin.css'
 
 const MenuItemsAdmin = () => {
-  const { data, updateMenuItem } = useData()
+  const { data, updateMenuItem, updateWorkTitle } = useData()
   const [toast, setToast] = useState(null)
   const [editingItem, setEditingItem] = useState(null)
   const [editValue, setEditValue] = useState('')
+  const [editingWorkTitle, setEditingWorkTitle] = useState(false)
+  const [workTitleValue, setWorkTitleValue] = useState('')
 
   const menuItems = data.menuItems || {
+    workTitle: 'Work',
     workSubmenu: [],
     otherItems: []
   }
@@ -33,11 +36,69 @@ const MenuItemsAdmin = () => {
     setEditValue('')
   }
 
+  const handleStartEditWorkTitle = () => {
+    setEditingWorkTitle(true)
+    setWorkTitleValue(menuItems.workTitle)
+  }
+
+  const handleSaveWorkTitle = () => {
+    if (workTitleValue.trim()) {
+      updateWorkTitle(workTitleValue.trim())
+      setToast({ message: 'Work menu title updated successfully!', type: 'success' })
+      setEditingWorkTitle(false)
+      setWorkTitleValue('')
+    }
+  }
+
+  const handleCancelWorkTitle = () => {
+    setEditingWorkTitle(false)
+    setWorkTitleValue('')
+  }
+
   return (
     <div className="menu-items-admin">
       <div className="section-header-menu">
         <h2>Menu Items Management</h2>
         <p>Edit the titles of menu items that appear in the navigation</p>
+      </div>
+
+      {/* Work Menu Title */}
+      <div className="menu-section">
+        <h3>Work Menu Title</h3>
+        <p className="section-desc">The main "Work" dropdown title in the menu</p>
+
+        <div className="menu-items-list">
+          <div className="menu-item-card">
+            {editingWorkTitle ? (
+              <div className="edit-mode">
+                <input
+                  type="text"
+                  value={workTitleValue}
+                  onChange={(e) => setWorkTitleValue(e.target.value)}
+                  className="edit-input"
+                  autoFocus
+                />
+                <div className="edit-actions">
+                  <button className="cancel-btn-small" onClick={handleCancelWorkTitle}>Cancel</button>
+                  <button className="save-btn-small" onClick={handleSaveWorkTitle}>Save</button>
+                </div>
+              </div>
+            ) : (
+              <div className="view-mode">
+                <div className="item-info">
+                  <span className="item-title">{menuItems.workTitle}</span>
+                  <span className="item-type">Main menu dropdown</span>
+                </div>
+                <button
+                  className="edit-btn"
+                  onClick={handleStartEditWorkTitle}
+                >
+                  Edit
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Work Submenu */}

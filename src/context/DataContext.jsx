@@ -174,6 +174,7 @@ const initialData = {
     }
   ],
   menuItems: {
+    workTitle: 'Work',
     workSubmenu: [
       { id: 'production', title: 'Production', path: '/work/production' },
       { id: 'headshots', title: 'Taking Headshots', path: '/work/headshots' },
@@ -529,6 +530,16 @@ export const DataProvider = ({ children }) => {
     }))
   }
 
+  const updateWorkTitle = (newTitle) => {
+    setData(prev => ({
+      ...prev,
+      menuItems: {
+        ...prev.menuItems,
+        workTitle: newTitle
+      }
+    }))
+  }
+
   const updateContactInfo = (updates) => {
     setData(prev => ({
       ...prev,
@@ -564,6 +575,7 @@ export const DataProvider = ({ children }) => {
       updateExploreWork,
       updateExploreWorkImage,
       updateMenuItem,
+      updateWorkTitle,
       updateContactInfo,
       updateWorkCategory,
       loading,
