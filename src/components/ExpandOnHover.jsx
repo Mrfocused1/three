@@ -1,31 +1,86 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./ExpandOnHover.css";
 
-const images = [
-  "https://pbs.twimg.com/media/G6dpB9JaAAA2wDS?format=png&name=360x360",
-  "https://pbs.twimg.com/media/G6dpEiebIAEHrOS?format=jpg&name=360x360",
-  "https://pbs.twimg.com/media/G6dpGJZbsAEg1tp?format=png&name=360x360",
-  "https://pbs.twimg.com/media/G6dpHzVbkAERJI3?format=png&name=360x360",
-  "https://pbs.twimg.com/media/G6dpKpcbgAAj7ce?format=png&name=360x360",
-  "https://pbs.twimg.com/media/G6dpNYzawAAniIt?format=png&name=360x360",
-  "https://pbs.twimg.com/media/G6dpPilbcAAH3jU?format=jpg&name=360x360",
-  "https://pbs.twimg.com/media/G6dpRFBbsAEvquO?format=jpg&name=360x360",
-  "https://pbs.twimg.com/media/G6dpUL-aUAAUqGZ?format=png&name=small",
-];
+const PEXELS_API_KEY = '8sLoMXg5fX4DKdmX8sSFxebcYNbdcwU6VizqTp4YRdrJ7a3MVlwc9qpp';
 
 const workCategories = [
-  { title: "Production", path: "/work/production" },
-  { title: "Taking Headshots", path: "/work/headshots" },
-  { title: "Content Creation", path: "/work/content-creation" },
-  { title: "Events", path: "/work/events" },
+  {
+    title: "Production",
+    path: "/work/production",
+    query: "video production studio"
+  },
+  {
+    title: "Taking Headshots",
+    path: "/work/headshots",
+    query: "professional headshot portrait"
+  },
+  {
+    title: "Content Creation",
+    path: "/work/content-creation",
+    query: "social media content creator"
+  },
+  {
+    title: "Events",
+    path: "/work/events",
+    query: "event photography concert"
+  },
 ];
 
 const ExpandOnHover = () => {
   const [expandedImage, setExpandedImage] = useState(3);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        // Fetch 3 images from each category (3 x 4 = 12 total, we'll use 9)
+        const allImages = [];
+
+        for (const category of workCategories) {
+          const response = await fetch(
+            `https://api.pexels.com/v1/search?query=${encodeURIComponent(category.query)}&per_page=3`,
+            {
+              headers: {
+                Authorization: PEXELS_API_KEY
+              }
+            }
+          );
+          const data = await response.json();
+
+          if (data.photos && data.photos.length > 0) {
+            allImages.push(...data.photos.map(photo => photo.src.large));
+          }
+        }
+
+        // Take first 9 images
+        setImages(allImages.slice(0, 9));
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching images from Pexels:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   const getImageWidth = (index) =>
     index === expandedImage ? "24rem" : "5rem";
+
+  if (loading) {
+    return (
+      <div className="expand-on-hover-wrapper">
+        <div className="expand-on-hover-container">
+          <div className="cta-header">
+            <h2 className="cta-title">Explore Our Work</h2>
+            <p className="cta-subtitle">Loading our portfolio...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="expand-on-hover-wrapper">
@@ -52,7 +107,7 @@ const ExpandOnHover = () => {
                   <img
                     className="expand-on-hover-image"
                     src={src}
-                    alt={`Image ${idx + 1}`}
+                    alt={`Portfolio image ${idx + 1}`}
                   />
                 </div>
               ))}
