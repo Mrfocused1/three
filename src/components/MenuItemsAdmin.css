@@ -1,0 +1,171 @@
+.menu-items-admin {
+  padding: 40px;
+  background: #0a0a0a;
+  min-height: 100vh;
+}
+
+.section-header-menu {
+  margin-bottom: 32px;
+}
+
+.section-header-menu h2 {
+  color: #fff;
+  font-size: 32px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.section-header-menu p {
+  color: #999;
+  font-size: 16px;
+  margin: 0;
+}
+
+.menu-section {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.menu-section h3 {
+  color: #fff;
+  font-size: 20px;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.section-desc {
+  color: #999;
+  font-size: 14px;
+  margin: 0 0 20px 0;
+}
+
+.menu-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-item-card {
+  background: #2a2a2a;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #333;
+}
+
+.view-mode {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.item-path,
+.item-type {
+  color: #999;
+  font-size: 13px;
+}
+
+.edit-btn {
+  padding: 8px 16px;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.edit-btn:hover {
+  background: #444;
+}
+
+.edit-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #fff;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.cancel-btn-small,
+.save-btn-small {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-btn-small {
+  background: #333;
+  color: #fff;
+}
+
+.cancel-btn-small:hover {
+  background: #444;
+}
+
+.save-btn-small {
+  background: #fff;
+  color: #000;
+}
+
+.save-btn-small:hover {
+  background: #e5e5e5;
+}
+
+@media (max-width: 768px) {
+  .menu-items-admin {
+    padding: 20px;
+  }
+
+  .section-header-menu h2 {
+    font-size: 24px;
+  }
+
+  .view-mode {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .edit-btn {
+    width: 100%;
+  }
+}

@@ -5,6 +5,7 @@ import EditCardModal from '../components/EditCardModal'
 import Toast from '../components/Toast'
 import WorkPagesAdmin from '../components/WorkPagesAdmin'
 import ExploreWorkAdmin from '../components/ExploreWorkAdmin'
+import MenuItemsAdmin from '../components/MenuItemsAdmin'
 import './AdminPage.css'
 
 const AdminPage = () => {
@@ -126,6 +127,12 @@ const AdminPage = () => {
           >
             Work Pages
           </button>
+          <button
+            className={`admin-tab ${activeTab === 'menu' ? 'active' : ''}`}
+            onClick={() => setActiveTab('menu')}
+          >
+            Menu Items
+          </button>
         </div>
         <a href="/" className="back-to-site">← Back to Site</a>
       </div>
@@ -134,6 +141,8 @@ const AdminPage = () => {
         <WorkPagesAdmin />
       ) : activeTab === 'explorework' ? (
         <ExploreWorkAdmin />
+      ) : activeTab === 'menu' ? (
+        <MenuItemsAdmin />
       ) : (
         <>
           <p className="admin-description">Click the edit icon on any card to update its content</p>

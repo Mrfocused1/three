@@ -173,6 +173,19 @@ const initialData = {
       youtubeUrl: ''
     }
   ],
+  menuItems: {
+    workSubmenu: [
+      { id: 'production', title: 'Production', path: '/work/production' },
+      { id: 'headshots', title: 'Taking Headshots', path: '/work/headshots' },
+      { id: 'content-creation', title: 'Content Creation', path: '/work/content-creation' },
+      { id: 'events', title: 'Events', path: '/work/events' }
+    ],
+    otherItems: [
+      { id: 'work-with-us', title: 'Work With Us', type: 'form' },
+      { id: 'contact', title: 'Get In Touch', type: 'form' },
+      { id: 'book-studio', title: 'Book Our Studio', type: 'form' }
+    ]
+  },
   workPages: {
     production: {
       title: 'Production',
@@ -491,6 +504,18 @@ export const DataProvider = ({ children }) => {
     })
   }
 
+  const updateMenuItem = (category, itemId, newTitle) => {
+    setData(prev => ({
+      ...prev,
+      menuItems: {
+        ...prev.menuItems,
+        [category]: prev.menuItems[category].map(item =>
+          item.id === itemId ? { ...item, title: newTitle } : item
+        )
+      }
+    }))
+  }
+
   return (
     <DataContext.Provider value={{
       data,
@@ -503,6 +528,7 @@ export const DataProvider = ({ children }) => {
       deleteWorkPageItem,
       updateExploreWork,
       updateExploreWorkImage,
+      updateMenuItem,
       loading,
       error
     }}>
