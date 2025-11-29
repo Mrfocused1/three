@@ -18,37 +18,16 @@ const ImageUpload = ({ value, onChange, label = "Image", accept = "image/*,video
       const maxSize = 50 * 1024 * 1024 // 50MB
       if (file.size > maxSize) {
         alert('File size too large. Maximum size is 50MB.')
+        setUploading(false)
         return
       }
 
       const fileExt = file.name.split('.').pop()
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
       const filePath = `uploads/${fileName}`
-
-      // Try to create bucket if it doesn't exist
       const bucketName = 'media'
 
-      // First, check if bucket exists by trying to get it
-      const { data: buckets, error: listError } = await supabase.storage.listBuckets()
-
-      if (!listError && buckets) {
-        const bucketExists = buckets.some(b => b.name === bucketName)
-
-        if (!bucketExists) {
-          // Try to create the bucket
-          const { error: createError } = await supabase.storage.createBucket(bucketName, {
-            public: true,
-            fileSizeLimit: 52428800 // 50MB
-          })
-
-          if (createError) {
-            console.error('Error creating bucket:', createError)
-            alert('Storage bucket not configured. Please contact administrator or use URL input instead.')
-            return
-          }
-        }
-      }
-
+      // Attempt upload directly - simpler approach
       const { error: uploadError, data } = await supabase.storage
         .from(bucketName)
         .upload(filePath, file, {
@@ -57,7 +36,19 @@ const ImageUpload = ({ value, onChange, label = "Image", accept = "image/*,video
         })
 
       if (uploadError) {
-        throw uploadError
+        console.error('Upload error:', uploadError)
+
+        // If bucket doesn't exist, show helpful message
+        if (uploadError.message.includes('Bucket not found') || uploadError.message.includes('bucket')) {
+          alert('File upload is not configured yet.\n\nPlease use the URL tab instead:\n1. Upload your image/video to Imgur, Cloudinary, or GitHub\n2. Copy the direct URL\n3. Click the "URL" tab above\n4. Paste the URL and click Apply')
+          // Auto-switch to URL mode
+          setUploadMode('url')
+        } else {
+          alert(`Upload failed: ${uploadError.message}\n\nPlease use the URL tab instead.`)
+          setUploadMode('url')
+        }
+        setUploading(false)
+        return
       }
 
       const { data: { publicUrl } } = supabase.storage
@@ -66,9 +57,11 @@ const ImageUpload = ({ value, onChange, label = "Image", accept = "image/*,video
 
       onChange(publicUrl)
       setUrlInput(publicUrl)
+      alert('File uploaded successfully!')
     } catch (error) {
       console.error('Error uploading file:', error)
-      alert(`Error uploading file: ${error.message}\n\nPlease use the URL tab to paste an image/video URL instead.`)
+      alert(`Upload error. Please use the URL tab instead.\n\nHow to use URL tab:\n1. Upload to Imgur or similar service\n2. Copy the direct image/video URL\n3. Switch to URL tab\n4. Paste and click Apply`)
+      setUploadMode('url')
     } finally {
       setUploading(false)
       // Reset file input
@@ -78,8 +71,20 @@ const ImageUpload = ({ value, onChange, label = "Image", accept = "image/*,video
     }
   }
 
+  const handleUrlChange = (e) => {
+    const newUrl = e.target.value
+    setUrlInput(newUrl)
+    // Auto-apply URL as user types (with debounce effect via onChange)
+    if (newUrl.trim()) {
+      onChange(newUrl)
+    }
+  }
+
   const handleUrlSubmit = () => {
-    onChange(urlInput)
+    if (urlInput.trim()) {
+      onChange(urlInput)
+      alert('URL applied successfully!')
+    }
   }
 
   const isVideo = accept.includes('video')
@@ -108,20 +113,26 @@ const ImageUpload = ({ value, onChange, label = "Image", accept = "image/*,video
 
       {uploadMode === 'url' ? (
         <div className="url-input-section">
-          <input
-            type="url"
-            value={urlInput}
-            onChange={(e) => setUrlInput(e.target.value)}
-            placeholder="Enter image URL"
-            className="url-input"
-          />
-          <button
-            type="button"
-            onClick={handleUrlSubmit}
-            className="url-submit-btn"
-          >
-            Apply
-          </button>
+          <div>
+            <input
+              type="url"
+              value={urlInput}
+              onChange={handleUrlChange}
+              onBlur={handleUrlSubmit}
+              placeholder="Paste image or video URL here"
+              className="url-input"
+            />
+            <button
+              type="button"
+              onClick={handleUrlSubmit}
+              className="url-submit-btn"
+            >
+              Apply
+            </button>
+          </div>
+          <div className="upload-hint">
+            Need hosting? Upload to: <a href="https://imgur.com/upload" target="_blank" rel="noopener noreferrer">Imgur</a> · <a href="https://cloudinary.com/users/register_free" target="_blank" rel="noopener noreferrer">Cloudinary</a> · <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
         </div>
       ) : (
         <div className="file-upload-section">
