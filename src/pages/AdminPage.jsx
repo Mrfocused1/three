@@ -4,6 +4,7 @@ import LoadingScreen from '../components/LoadingScreen'
 import EditCardModal from '../components/EditCardModal'
 import Toast from '../components/Toast'
 import WorkPagesAdmin from '../components/WorkPagesAdmin'
+import ExploreWorkAdmin from '../components/ExploreWorkAdmin'
 import './AdminPage.css'
 
 const AdminPage = () => {
@@ -114,6 +115,12 @@ const AdminPage = () => {
             Homepage
           </button>
           <button
+            className={`admin-tab ${activeTab === 'explorework' ? 'active' : ''}`}
+            onClick={() => setActiveTab('explorework')}
+          >
+            Explore Work
+          </button>
+          <button
             className={`admin-tab ${activeTab === 'workpages' ? 'active' : ''}`}
             onClick={() => setActiveTab('workpages')}
           >
@@ -125,6 +132,8 @@ const AdminPage = () => {
 
       {activeTab === 'workpages' ? (
         <WorkPagesAdmin />
+      ) : activeTab === 'explorework' ? (
+        <ExploreWorkAdmin />
       ) : (
         <>
           <p className="admin-description">Click the edit icon on any card to update its content</p>

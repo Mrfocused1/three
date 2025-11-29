@@ -1,70 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useData } from "../context/DataContext";
 import "./ExpandOnHover.css";
-
-const PEXELS_API_KEY = '8sLoMXg5fX4DKdmX8sSFxebcYNbdcwU6VizqTp4YRdrJ7a3MVlwc9qpp';
 
 const workCategories = [
   {
     title: "Production",
-    path: "/work/production",
-    query: "video production studio"
+    path: "/work/production"
   },
   {
     title: "Taking Headshots",
-    path: "/work/headshots",
-    query: "professional headshot portrait"
+    path: "/work/headshots"
   },
   {
     title: "Content Creation",
-    path: "/work/content-creation",
-    query: "social media content creator"
+    path: "/work/content-creation"
   },
   {
     title: "Events",
-    path: "/work/events",
-    query: "event photography concert"
+    path: "/work/events"
   },
 ];
 
 const ExpandOnHover = () => {
+  const { data, loading } = useData();
   const [expandedImage, setExpandedImage] = useState(3);
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        // Fetch 3 images from each category (3 x 4 = 12 total, we'll use 9)
-        const allImages = [];
+  const exploreData = data.exploreWork || {
+    title: 'Explore Our Work',
+    subtitle: 'Discover our portfolio across different creative services',
+    images: []
+  };
 
-        for (const category of workCategories) {
-          const response = await fetch(
-            `https://api.pexels.com/v1/search?query=${encodeURIComponent(category.query)}&per_page=3`,
-            {
-              headers: {
-                Authorization: PEXELS_API_KEY
-              }
-            }
-          );
-          const data = await response.json();
-
-          if (data.photos && data.photos.length > 0) {
-            allImages.push(...data.photos.map(photo => photo.src.large));
-          }
-        }
-
-        // Take first 9 images
-        setImages(allImages.slice(0, 9));
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching images from Pexels:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchImages();
-  }, []);
+  // Filter out empty images
+  const images = exploreData.images.filter(img => img && img.trim() !== '');
 
   const getImageWidth = (index) =>
     index === expandedImage ? "24rem" : "5rem";
@@ -74,8 +43,8 @@ const ExpandOnHover = () => {
       <div className="expand-on-hover-wrapper">
         <div className="expand-on-hover-container">
           <div className="cta-header">
-            <h2 className="cta-title">Explore Our Work</h2>
-            <p className="cta-subtitle">Loading our portfolio...</p>
+            <h2 className="cta-title">{exploreData.title}</h2>
+            <p className="cta-subtitle">Loading...</p>
           </div>
         </div>
       </div>
@@ -87,33 +56,39 @@ const ExpandOnHover = () => {
       <div className="expand-on-hover-container">
         {/* Call to Action Header */}
         <div className="cta-header">
-          <h2 className="cta-title">Explore Our Work</h2>
-          <p className="cta-subtitle">Discover our portfolio across different creative services</p>
+          <h2 className="cta-title">{exploreData.title}</h2>
+          <p className="cta-subtitle">{exploreData.subtitle}</p>
         </div>
 
-        <div className="expand-on-hover-inner">
-          <div className="expand-on-hover-content">
-            <div className="expand-on-hover-images">
-              {images.map((src, idx) => (
-                <div
-                  key={idx}
-                  className="expand-on-hover-image-wrapper"
-                  style={{
-                    width: getImageWidth(idx + 1),
-                    height: "24rem",
-                  }}
-                  onMouseEnter={() => setExpandedImage(idx + 1)}
-                >
-                  <img
-                    className="expand-on-hover-image"
-                    src={src}
-                    alt={`Portfolio image ${idx + 1}`}
-                  />
-                </div>
-              ))}
+        {images.length > 0 ? (
+          <div className="expand-on-hover-inner">
+            <div className="expand-on-hover-content">
+              <div className="expand-on-hover-images">
+                {images.map((src, idx) => (
+                  <div
+                    key={idx}
+                    className="expand-on-hover-image-wrapper"
+                    style={{
+                      width: getImageWidth(idx + 1),
+                      height: "24rem",
+                    }}
+                    onMouseEnter={() => setExpandedImage(idx + 1)}
+                  >
+                    <img
+                      className="expand-on-hover-image"
+                      src={src}
+                      alt={`Portfolio image ${idx + 1}`}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="cta-header">
+            <p className="cta-subtitle">No images yet. Add them in the admin panel.</p>
+          </div>
+        )}
 
         {/* Work Category Buttons */}
         <div className="work-buttons-container">

@@ -194,6 +194,21 @@ const initialData = {
       subtitle: 'Event coverage and live production',
       items: []
     }
+  },
+  exploreWork: {
+    title: 'Explore Our Work',
+    subtitle: 'Discover our portfolio across different creative services',
+    images: [
+      'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/7991676/pexels-photo-7991676.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ]
   }
 }
 
@@ -452,6 +467,30 @@ export const DataProvider = ({ children }) => {
     }))
   }
 
+  const updateExploreWork = (updates) => {
+    setData(prev => ({
+      ...prev,
+      exploreWork: {
+        ...prev.exploreWork,
+        ...updates
+      }
+    }))
+  }
+
+  const updateExploreWorkImage = (index, imageUrl) => {
+    setData(prev => {
+      const newImages = [...prev.exploreWork.images]
+      newImages[index] = imageUrl
+      return {
+        ...prev,
+        exploreWork: {
+          ...prev.exploreWork,
+          images: newImages
+        }
+      }
+    })
+  }
+
   return (
     <DataContext.Provider value={{
       data,
@@ -462,6 +501,8 @@ export const DataProvider = ({ children }) => {
       addWorkPageItem,
       updateWorkPageItem,
       deleteWorkPageItem,
+      updateExploreWork,
+      updateExploreWorkImage,
       loading,
       error
     }}>
