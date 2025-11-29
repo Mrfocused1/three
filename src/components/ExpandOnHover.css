@@ -5,24 +5,41 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
+  padding: 4rem 0;
 }
 
 .expand-on-hover-container {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
   transition: all 0.3s ease-in-out;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-@media (min-width: 1024px) {
-  .expand-on-hover-container {
-    display: flex;
-  }
+/* Call to Action Header */
+.cta-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+.cta-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.cta-subtitle {
+  font-size: 1.25rem;
+  color: #666;
+  font-weight: 400;
 }
 
 .expand-on-hover-inner {
@@ -67,11 +84,62 @@
   object-fit: cover;
 }
 
+/* Work Buttons */
+.work-buttons-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 1rem;
+}
+
+.work-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background-color: #1a1a1a;
+  color: #f5f4f3;
+  text-decoration: none;
+  border-radius: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.work-button:hover {
+  background-color: #f5f4f3;
+  color: #1a1a1a;
+  border-color: #1a1a1a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.work-button-arrow {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.work-button:hover .work-button-arrow {
+  transform: translateX(4px);
+}
+
 /* Mobile responsiveness */
 @media (max-width: 1024px) {
   .expand-on-hover-wrapper {
     min-height: auto;
-    padding: 1rem 0;
+    padding: 3rem 0;
+  }
+
+  .cta-title {
+    font-size: 2rem;
+  }
+
+  .cta-subtitle {
+    font-size: 1rem;
   }
 
   .expand-on-hover-images {
@@ -82,5 +150,28 @@
   .expand-on-hover-image-wrapper {
     width: 100% !important;
     height: 12rem !important;
+  }
+
+  .work-buttons-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .work-button {
+    padding: 1.25rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .work-buttons-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .work-buttons-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

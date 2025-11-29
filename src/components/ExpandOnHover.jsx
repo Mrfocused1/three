@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./ExpandOnHover.css";
 
 const images = [
@@ -13,6 +14,13 @@ const images = [
   "https://pbs.twimg.com/media/G6dpUL-aUAAUqGZ?format=png&name=small",
 ];
 
+const workCategories = [
+  { title: "Production", path: "/work/production" },
+  { title: "Taking Headshots", path: "/work/headshots" },
+  { title: "Content Creation", path: "/work/content-creation" },
+  { title: "Events", path: "/work/events" },
+];
+
 const ExpandOnHover = () => {
   const [expandedImage, setExpandedImage] = useState(3);
 
@@ -22,6 +30,12 @@ const ExpandOnHover = () => {
   return (
     <div className="expand-on-hover-wrapper">
       <div className="expand-on-hover-container">
+        {/* Call to Action Header */}
+        <div className="cta-header">
+          <h2 className="cta-title">Explore Our Work</h2>
+          <p className="cta-subtitle">Discover our portfolio across different creative services</p>
+        </div>
+
         <div className="expand-on-hover-inner">
           <div className="expand-on-hover-content">
             <div className="expand-on-hover-images">
@@ -44,6 +58,20 @@ const ExpandOnHover = () => {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Work Category Buttons */}
+        <div className="work-buttons-container">
+          {workCategories.map((category, idx) => (
+            <Link
+              key={idx}
+              to={category.path}
+              className="work-button"
+            >
+              {category.title}
+              <span className="work-button-arrow">→</span>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
