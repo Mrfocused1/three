@@ -222,6 +222,13 @@ const initialData = {
       'https://images.pexels.com/photos/7991676/pexels-photo-7991676.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=800'
     ]
+  },
+  contactInfo: {
+    email: 'hello@thethreebuttons.co.uk',
+    addressLine1: '128 City Road',
+    addressLine2: 'London, United Kingdom',
+    postalCode: 'EC1V 2NX',
+    instagram: 'https://instagram.com/thethreebuttons'
   }
 }
 
@@ -516,6 +523,16 @@ export const DataProvider = ({ children }) => {
     }))
   }
 
+  const updateContactInfo = (updates) => {
+    setData(prev => ({
+      ...prev,
+      contactInfo: {
+        ...prev.contactInfo,
+        ...updates
+      }
+    }))
+  }
+
   return (
     <DataContext.Provider value={{
       data,
@@ -529,6 +546,7 @@ export const DataProvider = ({ children }) => {
       updateExploreWork,
       updateExploreWorkImage,
       updateMenuItem,
+      updateContactInfo,
       loading,
       error
     }}>

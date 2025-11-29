@@ -6,6 +6,7 @@ import Toast from '../components/Toast'
 import WorkPagesAdmin from '../components/WorkPagesAdmin'
 import ExploreWorkAdmin from '../components/ExploreWorkAdmin'
 import MenuItemsAdmin from '../components/MenuItemsAdmin'
+import ContactInfoAdmin from '../components/ContactInfoAdmin'
 import './AdminPage.css'
 
 const AdminPage = () => {
@@ -133,6 +134,12 @@ const AdminPage = () => {
           >
             Menu Items
           </button>
+          <button
+            className={`admin-tab ${activeTab === 'contact' ? 'active' : ''}`}
+            onClick={() => setActiveTab('contact')}
+          >
+            Contact Info
+          </button>
         </div>
         <a href="/" className="back-to-site">← Back to Site</a>
       </div>
@@ -143,6 +150,8 @@ const AdminPage = () => {
         <ExploreWorkAdmin />
       ) : activeTab === 'menu' ? (
         <MenuItemsAdmin />
+      ) : activeTab === 'contact' ? (
+        <ContactInfoAdmin />
       ) : (
         <>
           <p className="admin-description">Click the edit icon on any card to update its content</p>
