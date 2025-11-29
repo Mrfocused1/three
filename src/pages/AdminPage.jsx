@@ -3,6 +3,7 @@ import { useData } from '../context/DataContext'
 import LoadingScreen from '../components/LoadingScreen'
 import EditCardModal from '../components/EditCardModal'
 import Toast from '../components/Toast'
+import WorkPagesAdmin from '../components/WorkPagesAdmin'
 import './AdminPage.css'
 
 const AdminPage = () => {
@@ -14,6 +15,7 @@ const AdminPage = () => {
   const [hoveredCard, setHoveredCard] = useState(null)
   const [expandedCard, setExpandedCard] = useState(null)
   const [toast, setToast] = useState(null)
+  const [activeTab, setActiveTab] = useState('homepage')
 
   useEffect(() => {
     // Collect all images from data
@@ -104,9 +106,28 @@ const AdminPage = () => {
     <div className="admin-page">
       <div className="admin-header">
         <h1>Admin Panel</h1>
-        <p>Click the edit icon on any card to update its content</p>
+        <div className="admin-tabs">
+          <button
+            className={`admin-tab ${activeTab === 'homepage' ? 'active' : ''}`}
+            onClick={() => setActiveTab('homepage')}
+          >
+            Homepage
+          </button>
+          <button
+            className={`admin-tab ${activeTab === 'workpages' ? 'active' : ''}`}
+            onClick={() => setActiveTab('workpages')}
+          >
+            Work Pages
+          </button>
+        </div>
         <a href="/" className="back-to-site">← Back to Site</a>
       </div>
+
+      {activeTab === 'workpages' ? (
+        <WorkPagesAdmin />
+      ) : (
+        <>
+          <p className="admin-description">Click the edit icon on any card to update its content</p>
 
       {/* Hero Section */}
       <section className="admin-hero">
@@ -398,6 +419,9 @@ const AdminPage = () => {
           </div>
         </div>
       </section>
+
+        </>
+      )}
 
       <EditCardModal
         isOpen={editingCard !== null}

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
+import ContactForm from './ContactForm'
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [workSubmenuOpen, setWorkSubmenuOpen] = useState(false)
+  const [formOpen, setFormOpen] = useState(false)
+  const [formType, setFormType] = useState('')
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -14,6 +17,17 @@ const Header = () => {
   const toggleWorkSubmenu = (e) => {
     e.preventDefault()
     setWorkSubmenuOpen(!workSubmenuOpen)
+  }
+
+  const openForm = (type) => {
+    setFormType(type)
+    setFormOpen(true)
+    setMenuOpen(false)
+  }
+
+  const closeForm = () => {
+    setFormOpen(false)
+    setFormType('')
   }
 
   useEffect(() => {
@@ -62,11 +76,12 @@ const Header = () => {
               <Link to="/work/events" onClick={toggleMenu}>Events</Link>
             </div>
           </div>
-          <Link to="/work-with-us" className="menu-item" onClick={toggleMenu}>Work With Us</Link>
-          <Link to="/contact" className="menu-item" onClick={toggleMenu}>Get In Touch</Link>
-          <Link to="/book-studio" className="menu-item" onClick={toggleMenu}>Book Our Studio</Link>
+          <a href="#" className="menu-item" onClick={(e) => { e.preventDefault(); openForm('work-with-us'); }}>Work With Us</a>
+          <a href="#" className="menu-item" onClick={(e) => { e.preventDefault(); openForm('contact'); }}>Get In Touch</a>
+          <a href="#" className="menu-item" onClick={(e) => { e.preventDefault(); openForm('book-studio'); }}>Book Our Studio</a>
         </nav>
       </div>
+      <ContactForm isOpen={formOpen} onClose={closeForm} formType={formType} />
     </>
   )
 }

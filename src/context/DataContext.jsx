@@ -172,7 +172,29 @@ const initialData = {
       image: 'https://github.com/Mrfocused1/trimline-barbershop/blob/main/card%204.jpg?raw=true',
       youtubeUrl: ''
     }
-  ]
+  ],
+  workPages: {
+    production: {
+      title: 'Production',
+      subtitle: 'Professional production work and projects',
+      items: []
+    },
+    headshots: {
+      title: 'Taking Headshots',
+      subtitle: 'Professional headshot photography for your brand',
+      items: []
+    },
+    contentCreation: {
+      title: 'Content Creation',
+      subtitle: 'Creative content and digital media production',
+      items: []
+    },
+    events: {
+      title: 'Events',
+      subtitle: 'Event coverage and live production',
+      items: []
+    }
+  }
 }
 
 // Validation: Ensure initialData doesn't have placeholder URLs in user-editable fields
@@ -376,8 +398,73 @@ export const DataProvider = ({ children }) => {
     })
   }
 
+  const updateWorkPageMetadata = (pageKey, metadata) => {
+    setData(prev => ({
+      ...prev,
+      workPages: {
+        ...prev.workPages,
+        [pageKey]: {
+          ...prev.workPages[pageKey],
+          ...metadata
+        }
+      }
+    }))
+  }
+
+  const addWorkPageItem = (pageKey, item) => {
+    setData(prev => ({
+      ...prev,
+      workPages: {
+        ...prev.workPages,
+        [pageKey]: {
+          ...prev.workPages[pageKey],
+          items: [...(prev.workPages[pageKey].items || []), item]
+        }
+      }
+    }))
+  }
+
+  const updateWorkPageItem = (pageKey, itemId, updatedItem) => {
+    setData(prev => ({
+      ...prev,
+      workPages: {
+        ...prev.workPages,
+        [pageKey]: {
+          ...prev.workPages[pageKey],
+          items: prev.workPages[pageKey].items.map(item =>
+            item.id === itemId ? { ...item, ...updatedItem } : item
+          )
+        }
+      }
+    }))
+  }
+
+  const deleteWorkPageItem = (pageKey, itemId) => {
+    setData(prev => ({
+      ...prev,
+      workPages: {
+        ...prev.workPages,
+        [pageKey]: {
+          ...prev.workPages[pageKey],
+          items: prev.workPages[pageKey].items.filter(item => item.id !== itemId)
+        }
+      }
+    }))
+  }
+
   return (
-    <DataContext.Provider value={{ data, updateData, updateCard, updateHero, loading, error }}>
+    <DataContext.Provider value={{
+      data,
+      updateData,
+      updateCard,
+      updateHero,
+      updateWorkPageMetadata,
+      addWorkPageItem,
+      updateWorkPageItem,
+      deleteWorkPageItem,
+      loading,
+      error
+    }}>
       {children}
     </DataContext.Provider>
   )

@@ -204,6 +204,39 @@ body.modal-open .header {
   }
 }
 
+/* Desktop styles for more compact menu */
+@media (min-width: 1024px) {
+  .mobile-nav {
+    gap: 0.75rem;
+  }
+
+  .mobile-nav a {
+    font-size: 1rem;
+    padding: 0.35rem 0;
+  }
+
+  .submenu {
+    gap: 0.5rem;
+  }
+
+  .submenu a {
+    font-size: 0.95rem;
+    padding-left: 15px;
+  }
+
+  .submenu a:hover {
+    padding-left: 18px;
+  }
+
+  .submenu.open {
+    margin-top: 0.75rem;
+  }
+
+  .arrow {
+    font-size: 1.25rem;
+  }
+}
+
 @media (max-width: 768px) {
   .header {
     padding: 1.5rem;

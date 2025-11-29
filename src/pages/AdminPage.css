@@ -29,9 +29,38 @@
   color: #fff;
 }
 
-.admin-header p {
+.admin-tabs {
+  display: flex;
+  gap: 12px;
+  margin: 1rem 0;
+}
+
+.admin-tab {
+  padding: 10px 24px;
+  background: #1a1a1a;
   color: #999;
-  margin: 0 0 1rem;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.admin-tab:hover {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+.admin-tab.active {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.admin-description {
+  color: #999;
+  margin: 2rem 3rem 1rem;
   font-size: 0.875rem;
 }
 
@@ -42,6 +71,7 @@
   font-weight: 600;
   font-size: 0.875rem;
   transition: color 0.3s ease;
+  margin-top: 1rem;
 }
 
 .back-to-site:hover {

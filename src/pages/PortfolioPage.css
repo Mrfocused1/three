@@ -12,6 +12,19 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+.empty-portfolio {
+  text-align: center;
+  padding: 100px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-portfolio p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+}
+
 .portfolio-header {
   max-width: 1400px;
   margin: 0 auto 60px;
