@@ -106,11 +106,18 @@ const Hero = () => {
               <div
                 key={card.id}
                 className={`featured-card ${card.type} ${index === 2 ? 'full-width' : ''}`}
-                onClick={() => openForm(card.id)}
+                onClick={() => {
+                  if (card.id === 'studio') {
+                    window.open('https://www.eastdockstudios.co.uk', '_blank', 'noopener,noreferrer')
+                  } else {
+                    openForm(card.id)
+                  }
+                }}
                 style={{
                   backgroundImage: card.image ? `url(${card.image})` : 'none',
                   backgroundSize: 'cover',
-                  backgroundPosition: 'center'
+                  backgroundPosition: 'center',
+                  cursor: 'pointer'
                 }}
               >
                 {index === 2 ? (
