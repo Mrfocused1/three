@@ -92,16 +92,32 @@ const Header = () => {
               ))}
             </div>
           </div>
-          {menuItems.otherItems.map(item => (
-            <a
-              key={item.id}
-              href="#"
-              className="menu-item"
-              onClick={(e) => { e.preventDefault(); openForm(item.id); }}
-            >
-              {item.title}
-            </a>
-          ))}
+          {menuItems.otherItems.map(item => {
+            const isExternal = item.id === 'work-with-us' || item.id === 'book-studio';
+            const externalUrl = item.id === 'work-with-us'
+              ? 'http://www.calendly.com/hello-thethreebuttons'
+              : 'https://www.eastdockstudios.co.uk';
+
+            return (
+              <a
+                key={item.id}
+                href={isExternal ? externalUrl : '#'}
+                target={isExternal ? '_blank' : undefined}
+                rel={isExternal ? 'noopener noreferrer' : undefined}
+                className="menu-item"
+                onClick={(e) => {
+                  if (isExternal) {
+                    setMenuOpen(false);
+                  } else {
+                    e.preventDefault();
+                    openForm(item.id);
+                  }
+                }}
+              >
+                {item.title}
+              </a>
+            );
+          })}
         </nav>
       </div>
       <ContactForm isOpen={formOpen} onClose={closeForm} formType={formType} />
