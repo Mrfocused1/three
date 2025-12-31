@@ -109,8 +109,6 @@ const Hero = () => {
                 onClick={() => {
                   if (card.id === 'studio') {
                     window.open('https://www.eastdockstudios.co.uk', '_blank', 'noopener,noreferrer')
-                  } else if (card.id === 'work') {
-                    window.open('http://www.calendly.com/hello-thethreebuttons', '_blank', 'noopener,noreferrer')
                   } else {
                     openForm(card.id)
                   }
